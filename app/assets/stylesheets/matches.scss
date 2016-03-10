@@ -1,0 +1,36 @@
+// Place all the styles related to the Matches controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+ul.horizontal {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+ul.horizontal li {
+  display: inline-block;
+}
+
+.radiant-highlighted {
+  border: 2px solid chartreuse;
+}
+
+.dire-highlighted {
+  border: 2px solid red;
+}
+
+.unhighlighted {
+  border: 2px solid white;
+}
+
+.subtext {
+  font-size: 12px;
+}
+
+.duration-bar {
+  fill: steelblue;
+}
+
+.navbar-default li {
+  padding: 10px;
+}
