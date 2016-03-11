@@ -1,6 +1,9 @@
 var React = require('react'),
     FilterActions = require('../../actions/filter_actions.js'),
-    HeroDropdown = require('./hero_dropdown.jsx');
+    FilterStore = require('../../stores/filter_store.js'),
+    HeroStore = require('../../stores/hero_store.js'),
+    HeroDropdown = require('./hero_dropdown.jsx'),
+    Button = require('react-bootstrap').Button;
 
 var HeroFilter = React.createClass({
   resetAllFilters: function () {
@@ -17,13 +20,14 @@ var HeroFilter = React.createClass({
         <ul className="horizontal">
           {
             slots.map(function(slot, idx) {
+              var hero = HeroStore.findById(that.props.filters[slot]) || {name: "All"};
               return (
-                <li key={idx}><HeroDropdown filter="heroes" slot={slot} heroes={heroes}/></li>
+                <li key={idx}><HeroDropdown filter="heroes" slot={slot} heroes={heroes} hero={hero}/></li>
               )
             })
           }
         </ul>
-        <span onClick={this.resetAllFilters}>reset all</span>
+        <Button onClick={this.resetAllFilters} bsSize="xsmall">reset all</Button>
       </div>
     )
   }

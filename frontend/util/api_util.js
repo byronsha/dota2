@@ -1,11 +1,12 @@
 var ApiActions = require('../actions/api_actions.js');
 
 var ApiUtil = {
-  fetchAllMatches: function (callback, filters) {
+  fetchAllMatches: function (callback, filters, spinnerCallback) {
     $.ajax({
       url: 'api/matches',
       data: { filters: filters },
       success: function (matches) {
+        spinnerCallback();
         callback(matches);
       }
     })

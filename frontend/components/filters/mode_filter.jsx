@@ -1,29 +1,28 @@
 var React = require('react'),
     FilterStore = require('../../stores/filter_store.js'),
     FilterActions = require('../../actions/filter_actions.js'),
-    GameModes = require('../../constants/game_modes.js');
+    GameModes = require('../../constants/game_modes.js'),
+    SplitButton = require('react-bootstrap').SplitButton,
+    MenuItem = require('react-bootstrap').MenuItem;
 
-var Filters = React.createClass({
-  selectMode: function (e) {
-    var filterParams = { filter: "mode", value: e.target.value }
+var ModeFilter = React.createClass({
+  selectMode: function (e, mode) {
+    var filterParams = { filter: "mode", value: mode }
     FilterActions.setModeFilter(filterParams);
   },
   render: function () {
     var that = this;
 
     return (
-      <div>
-        <select onChange={this.selectMode}>
-          <option value="0">All</option>
+      <SplitButton onSelect={this.selectMode} bsStyle="danger" title={GameModes[this.props.mode]} id="input-dropdown-addon">
           {
             Object.keys(GameModes).map(function (modeId, idx) {
-              return (<option key={idx} value={modeId}>{GameModes[modeId]}</option>)
+              return (<MenuItem key={idx} eventKey={modeId}>{GameModes[modeId]}</MenuItem>)
             })
           }
-        </select>
-      </div>
+      </SplitButton>
     )
   }
 });
 
-module.exports = Filters;
+module.exports = ModeFilter;

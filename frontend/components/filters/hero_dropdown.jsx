@@ -1,34 +1,33 @@
 var React = require('react'),
     FilterStore = require('../../stores/filter_store.js'),
-    FilterActions = require('../../actions/filter_actions.js');
+    FilterActions = require('../../actions/filter_actions.js'),
+    SplitButton = require('react-bootstrap').SplitButton,
+    MenuItem = require('react-bootstrap').MenuItem;
 
 var HeroDropdown = React.createClass({
-  selectHero: function (e) {
+  selectHero: function (e, hero) {
     var filterParams = {
       filter: this.props.filter,
       slot: this.props.slot,
-      value: e.target.value
-    }
+      value: hero
+    };
+
     FilterActions.setHeroFilter(filterParams);
   },
 
   render: function () {
-    var that = this;
-
     return (
-      <div>
-        <select onChange={this.selectHero}>
-          <option value="0">All</option>
+      <SplitButton onSelect={this.selectHero} bsStyle="info" title={this.props.hero.name} id="hero-dropdown">
+        <MenuItem eventKey="0">All</MenuItem>
           {
             this.props.heroes.map(function (hero, idx) {
               return (
-                <option key={idx} value={hero.id}>{hero.name}</option>
+                <MenuItem key={idx} eventKey={hero.id}>{hero.name}</MenuItem>
               )
             })
           }
-        </select>
-      </div>
-    )
+      </SplitButton>
+    );
   }
 });
 

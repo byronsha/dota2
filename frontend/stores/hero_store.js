@@ -13,6 +13,14 @@ HeroStore.all = function () {
   return _heroes.slice();
 };
 
+HeroStore.findById = function (id) {
+  for (var i = 0; i < _heroes.length; i++) {
+    if (_heroes[i].id == id) {
+      return _heroes[i];
+    }
+  }
+};
+
 HeroStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case Constants.ALL_HEROES_RECEIVED:

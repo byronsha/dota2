@@ -5,8 +5,8 @@ var Dispatcher = require('../dispatcher/dispatcher.js'),
 var ApiActions = {
   // Requests
 
-  fetchAllMatches: function (filters) {
-    ApiUtil.fetchAllMatches(ApiActions.receiveAllMatches, filters);
+  fetchAllMatches: function (filters, spinnerCallback) {
+    ApiUtil.fetchAllMatches(ApiActions.receiveAllMatches, filters, spinnerCallback);
   },
   fetchAllHeroes: function () {
     ApiUtil.fetchAllHeroes(ApiActions.receiveAllHeroes);

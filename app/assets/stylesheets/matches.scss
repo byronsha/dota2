@@ -5,6 +5,7 @@
 ul.horizontal {
   list-style-type: none;
   padding-left: 0px;
+  margin-bottom: 0px;
 }
 
 ul.horizontal li {
@@ -33,4 +34,13 @@ ul.horizontal li {
 
 .navbar-default li {
   padding: 10px;
+}
+
+ul.dropdown-menu {
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+ul.dropdown-menu li {
+  display: block;
 }
