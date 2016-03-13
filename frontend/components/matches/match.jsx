@@ -43,27 +43,27 @@ var Match = React.createClass({
     var heroes = this.heroes();
 
     return (
-      <Row>
-        <Col md={4}>
-          <Col md={4}>
+      <Row className={this.props.even ? "even-row" : "odd-row"}>
+        <Col className="match-stats" md={5}>
+          <Col md={3}>
             <span>{match.steam_match_id}</span><br/>
             <span className="subtext">{TimeUtil.timeAgo(match.start_time)}</span>
           </Col>
 
-          <Col md={4}>
+          <Col id="match-mode" md={3}>
             <span>{match.mode}</span><br/>
             <span className="subtext">{match.match_type === "Public Matchmaking" ? "Normal" : match.match_type}</span>
           </Col>
 
-          <Col md={4}>
+          <Col md={3}>
             <span>{this.winner() + " victory"}</span><br/>
             <span className="subtext">{Clusters[match.cluster]}</span>
           </Col>
-        </Col>
 
-        <Col md={1}>
-          <span>{TimeUtil.format(match.duration)}</span>
-          <DurationBar duration={match.duration} xScale={this.props.xScale}/>
+          <Col id="match-duration" md={3}>
+            <span>{TimeUtil.format(match.duration)}</span>
+            <DurationBar duration={match.duration} xScale={this.props.xScale}/>
+          </Col>
         </Col>
 
         <Col md={7}>

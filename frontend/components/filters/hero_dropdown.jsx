@@ -1,7 +1,7 @@
 var React = require('react'),
     FilterStore = require('../../stores/filter_store.js'),
     FilterActions = require('../../actions/filter_actions.js'),
-    SplitButton = require('react-bootstrap').SplitButton,
+    DropdownButton = require('react-bootstrap').DropdownButton,
     MenuItem = require('react-bootstrap').MenuItem;
 
 var HeroDropdown = React.createClass({
@@ -17,16 +17,19 @@ var HeroDropdown = React.createClass({
 
   render: function () {
     return (
-      <SplitButton onSelect={this.selectHero} bsStyle="info" title={this.props.hero.name} id="hero-dropdown">
-        <MenuItem eventKey="0">All</MenuItem>
-          {
-            this.props.heroes.map(function (hero, idx) {
-              return (
-                <MenuItem key={idx} eventKey={hero.id}>{hero.name}</MenuItem>
-              )
-            })
-          }
-      </SplitButton>
+      <DropdownButton
+        onSelect={this.selectHero}
+        bsStyle="success"
+        title={this.props.hero.name}
+        id="hero-dropdown">
+        {
+          this.props.heroes.map(function (hero, idx) {
+            return (
+              <MenuItem key={idx} eventKey={hero.id}>{hero.name}</MenuItem>
+            )
+          })
+        }
+      </DropdownButton>
     );
   }
 });

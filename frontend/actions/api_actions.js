@@ -14,6 +14,9 @@ var ApiActions = {
   fetchAllItems: function () {
     ApiUtil.fetchAllItems(ApiActions.receiveAllItems);
   },
+  fetchHeroStats: function (heroId, callback) {
+    ApiUtil.fetchHeroStats(heroId, callback);
+  },
 
   // Responses
 

@@ -24738,9 +24738,13 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'container' },
+	      null,
 	      React.createElement(Navbar, null),
-	      this.props.children
+	      React.createElement(
+	        'div',
+	        { className: 'container' },
+	        this.props.children
+	      )
 	    );
 	  }
 	});
@@ -34319,35 +34323,39 @@
 	  render: function () {
 	    return React.createElement(
 	      "div",
-	      { className: "navbar-default" },
+	      { className: "navbar-default", id: "navbar" },
 	      React.createElement(
-	        "ul",
-	        { className: "horizontal" },
+	        "div",
+	        { className: "container", id: "navbar-container" },
 	        React.createElement(
-	          "li",
-	          null,
+	          "ul",
+	          { className: "horizontal" },
 	          React.createElement(
-	            Link,
-	            { to: '/' },
-	            "home"
-	          )
-	        ),
-	        React.createElement(
-	          "li",
-	          null,
+	            "li",
+	            null,
+	            React.createElement(
+	              Link,
+	              { to: '/' },
+	              "home"
+	            )
+	          ),
 	          React.createElement(
-	            Link,
-	            { to: '/matches' },
-	            "matches"
-	          )
-	        ),
-	        React.createElement(
-	          "li",
-	          null,
+	            "li",
+	            null,
+	            React.createElement(
+	              Link,
+	              { to: '/matches' },
+	              "matches"
+	            )
+	          ),
 	          React.createElement(
-	            Link,
-	            { to: '/heroes' },
-	            "heroes"
+	            "li",
+	            null,
+	            React.createElement(
+	              Link,
+	              { to: '/heroes' },
+	              "heroes"
+	            )
 	          )
 	        )
 	      )
@@ -34387,10 +34395,12 @@
 	    FilterStore = __webpack_require__(245),
 	    ApiActions = __webpack_require__(246),
 	    FilterActions = __webpack_require__(248),
-	    HeroFilter = __webpack_require__(249),
 	    ModeFilter = __webpack_require__(493),
+	    HeroFilter = __webpack_require__(249),
+	    MatchListHeader = __webpack_require__(500),
 	    MatchList = __webpack_require__(495),
-	    Spinner = __webpack_require__(501);
+	    Spinner = __webpack_require__(501),
+	    HeroChart = __webpack_require__(505);
 
 	var Matches = React.createClass({
 	  displayName: 'Matches',
@@ -34444,17 +34454,24 @@
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement('br', null),
 	      React.createElement(ModeFilter, { mode: this.state.filters.mode }),
-	      React.createElement(HeroFilter, { heroes: this.state.heroes, filters: this.state.filters.heroes }),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(HeroFilter, { heroes: this.state.heroes, filters: this.state.filters.heroes, match: this.state.matches[0] }),
+	      React.createElement('br', null),
 	      this.state.matches.length,
 	      ' results',
 	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(MatchListHeader, null),
 	      this.renderMatchList()
 	    );
 	  }
 	});
 
 	module.exports = Matches;
+	// <HeroChart heroes={this.state.heroes}/><br/>
 
 /***/ },
 /* 221 */
@@ -41311,7 +41328,7 @@
 	    FilterStore = new Store(Dispatcher);
 
 	var _filters = {
-	  "mode": "0",
+	  "mode": "22",
 	  "heroes": {
 	    "first": "0",
 	    "second": "0",
@@ -41337,7 +41354,7 @@
 
 	var resetAllFilters = function () {
 	  _filters = {
-	    "mode": "0",
+	    "mode": "22",
 	    "heroes": { "first": "0", "second": "0", "third": "0", "fourth": "0", "fifth": "0" },
 	    "radiant": { "first": "0", "second": "0", "third": "0", "fourth": "0", "fifth": "0" },
 	    "dire": { "first": "0", "second": "0", "third": "0", "fourth": "0", "fifth": "0" }
@@ -41395,6 +41412,9 @@
 	  fetchAllItems: function () {
 	    ApiUtil.fetchAllItems(ApiActions.receiveAllItems);
 	  },
+	  fetchHeroStats: function (heroId, callback) {
+	    ApiUtil.fetchHeroStats(heroId, callback);
+	  },
 
 	  // Responses
 
@@ -41437,6 +41457,7 @@
 	      }
 	    });
 	  },
+
 	  fetchAllHeroes: function (callback) {
 	    $.ajax({
 	      url: 'api/heroes',
@@ -41445,11 +41466,21 @@
 	      }
 	    });
 	  },
+
 	  fetchAllItems: function (callback) {
 	    $.ajax({
 	      url: 'api/items',
 	      success: function (items) {
 	        callback(items);
+	      }
+	    });
+	  },
+
+	  fetchHeroStats: function (heroId, callback) {
+	    $.ajax({
+	      url: 'api/heroes/' + heroId,
+	      success: function (hero) {
+	        callback(hero);
 	      }
 	    });
 	  }
@@ -41492,9 +41523,13 @@
 
 	var React = __webpack_require__(1),
 	    FilterActions = __webpack_require__(248),
-	    FilterStore = __webpack_require__(245),
 	    HeroStore = __webpack_require__(244),
-	    HeroDropdown = __webpack_require__(250),
+	    FilterStore = __webpack_require__(245),
+	    HeroDropdowns = __webpack_require__(506),
+	    SelectedHeroes = __webpack_require__(503),
+	    SelectedHeroStats = __webpack_require__(507),
+	    Row = __webpack_require__(251).Row,
+	    Col = __webpack_require__(251).Col,
 	    Button = __webpack_require__(251).Button;
 
 	var HeroFilter = React.createClass({
@@ -41504,29 +41539,74 @@
 	    FilterActions.resetAllFilters();
 	  },
 
+	  filterHeroIds: function () {
+	    var ids = [];
+	    for (var slot in this.props.filters) {
+	      ids.push(this.props.filters[slot]);
+	    };
+	    return ids;
+	  },
+
+	  getSelectedHeroId: function () {
+	    for (var slot in this.props.filters) {
+	      if (this.props.filters[slot] != 0) {
+	        return this.props.filters[slot];
+	      }
+	    };
+	  },
+
+	  getHeroPlayer: function () {
+	    if (this.props.match) {
+	      var id = this.getSelectedHeroId();
+	      var players = this.props.match.radiant.concat(this.props.match.dire);
+
+	      for (var i = 0; i < players.length; i++) {
+	        if (players[i].hero_id == id) {
+	          return players[i];
+	        }
+	      }
+	    }
+	  },
+
+	  renderSelectedHeroStats: function () {
+	    var player = this.getHeroPlayer();
+
+	    if (typeof player == "undefined") {
+	      return React.createElement('div', null);
+	    } else {
+	      var hero = HeroStore.findById(player.hero_id);
+	      return React.createElement(SelectedHeroStats, { hero: hero, player: player, match: this.props.match });
+	    }
+	  },
+
 	  render: function () {
 	    var that = this;
-	    var heroes = this.props.heroes;
-	    var slots = Object.keys(this.props.filters);
 
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement(
-	        'ul',
-	        { className: 'horizontal' },
-	        slots.map(function (slot, idx) {
-	          var hero = HeroStore.findById(that.props.filters[slot]) || { name: "All" };
-	          return React.createElement(
-	            'li',
-	            { key: idx },
-	            React.createElement(HeroDropdown, { filter: 'heroes', slot: slot, heroes: heroes, hero: hero })
-	          );
-	        })
+	        Row,
+	        { className: 'hero-dropdowns' },
+	        React.createElement(
+	          Col,
+	          { md: 6 },
+	          React.createElement(SelectedHeroes, { heroes: this.filterHeroIds() }),
+	          React.createElement(HeroDropdowns, { heroes: this.props.heroes, filters: this.props.filters })
+	        ),
+	        React.createElement(
+	          Col,
+	          { md: 6 },
+	          this.renderSelectedHeroStats()
+	        )
 	      ),
+	      React.createElement('br', null),
 	      React.createElement(
 	        Button,
-	        { onClick: this.resetAllFilters, bsSize: 'xsmall' },
+	        {
+	          onClick: this.resetAllFilters,
+	          bsStyle: 'danger',
+	          bsSize: 'xsmall' },
 	        'reset all'
 	      )
 	    );
@@ -41542,7 +41622,7 @@
 	var React = __webpack_require__(1),
 	    FilterStore = __webpack_require__(245),
 	    FilterActions = __webpack_require__(248),
-	    SplitButton = __webpack_require__(251).SplitButton,
+	    DropdownButton = __webpack_require__(251).DropdownButton,
 	    MenuItem = __webpack_require__(251).MenuItem;
 
 	var HeroDropdown = React.createClass({
@@ -41560,13 +41640,12 @@
 
 	  render: function () {
 	    return React.createElement(
-	      SplitButton,
-	      { onSelect: this.selectHero, bsStyle: 'info', title: this.props.hero.name, id: 'hero-dropdown' },
-	      React.createElement(
-	        MenuItem,
-	        { eventKey: '0' },
-	        'All'
-	      ),
+	      DropdownButton,
+	      {
+	        onSelect: this.selectHero,
+	        bsStyle: 'success',
+	        title: this.props.hero.name,
+	        id: 'hero-dropdown' },
 	      this.props.heroes.map(function (hero, idx) {
 	        return React.createElement(
 	          MenuItem,
@@ -58536,7 +58615,7 @@
 	    FilterStore = __webpack_require__(245),
 	    FilterActions = __webpack_require__(248),
 	    GameModes = __webpack_require__(494),
-	    SplitButton = __webpack_require__(251).SplitButton,
+	    DropdownButton = __webpack_require__(251).DropdownButton,
 	    MenuItem = __webpack_require__(251).MenuItem;
 
 	var ModeFilter = React.createClass({
@@ -58550,7 +58629,7 @@
 	    var that = this;
 
 	    return React.createElement(
-	      SplitButton,
+	      DropdownButton,
 	      { onSelect: this.selectMode, bsStyle: 'danger', title: GameModes[this.props.mode], id: 'input-dropdown-addon' },
 	      Object.keys(GameModes).map(function (modeId, idx) {
 	        return React.createElement(
@@ -58600,26 +58679,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    Match = __webpack_require__(496),
-	    MatchListHeader = __webpack_require__(500);
+	    Match = __webpack_require__(496);
 
 	var MatchList = React.createClass({
 	  displayName: 'MatchList',
-
-	  render: function () {
-	    var props = this.props;
-	    var filters = props.filters;
-	    var xScale = this.getXScale(props);
-
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(MatchListHeader, null),
-	      this.props.matches.map(function (match, idx) {
-	        return React.createElement(Match, { key: idx, match: match, filters: filters, xScale: xScale });
-	      })
-	    );
-	  },
 
 	  getXScale: function (props) {
 	    matches = props.matches;
@@ -58628,7 +58691,21 @@
 	      return match.duration;
 	    });
 
-	    return d3.scale.linear().domain([0, xMax]).range([0, 100]);
+	    return d3.scale.linear().domain([0, xMax]).range([0, 98]);
+	  },
+
+	  render: function () {
+	    var props = this.props;
+	    var filters = props.filters;
+	    var xScale = this.getXScale(props);
+
+	    return React.createElement(
+	      'div',
+	      { className: 'match-list' },
+	      this.props.matches.map(function (match, idx) {
+	        return React.createElement(Match, { even: idx % 2 === 0, key: idx, match: match, filters: filters, xScale: xScale });
+	      })
+	    );
 	  }
 	});
 
@@ -58686,13 +58763,13 @@
 
 	    return React.createElement(
 	      Row,
-	      null,
+	      { className: this.props.even ? "even-row" : "odd-row" },
 	      React.createElement(
 	        Col,
-	        { md: 4 },
+	        { className: 'match-stats', md: 5 },
 	        React.createElement(
 	          Col,
-	          { md: 4 },
+	          { md: 3 },
 	          React.createElement(
 	            'span',
 	            null,
@@ -58707,7 +58784,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 4 },
+	          { id: 'match-mode', md: 3 },
 	          React.createElement(
 	            'span',
 	            null,
@@ -58722,7 +58799,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 4 },
+	          { md: 3 },
 	          React.createElement(
 	            'span',
 	            null,
@@ -58734,17 +58811,17 @@
 	            { className: 'subtext' },
 	            Clusters[match.cluster]
 	          )
-	        )
-	      ),
-	      React.createElement(
-	        Col,
-	        { md: 1 },
-	        React.createElement(
-	          'span',
-	          null,
-	          TimeUtil.format(match.duration)
 	        ),
-	        React.createElement(DurationBar, { duration: match.duration, xScale: this.props.xScale })
+	        React.createElement(
+	          Col,
+	          { id: 'match-duration', md: 3 },
+	          React.createElement(
+	            'span',
+	            null,
+	            TimeUtil.format(match.duration)
+	          ),
+	          React.createElement(DurationBar, { duration: match.duration, xScale: this.props.xScale })
+	        )
 	      ),
 	      React.createElement(
 	        Col,
@@ -58873,12 +58950,12 @@
 	  142: "South Korea",
 	  143: "South Korea",
 	  145: "South Korea",
-	  151: "Southeast Asia",
-	  152: "Southeast Asia",
-	  153: "Southeast Asia",
-	  154: "Southeast Asia",
-	  155: "Southeast Asia",
-	  156: "Southeast Asia",
+	  151: "SE Asia",
+	  152: "SE Asia",
+	  153: "SE Asia",
+	  154: "SE Asia",
+	  155: "SE Asia",
+	  156: "SE Asia",
 	  161: "China",
 	  163: "China",
 	  171: "Australia",
@@ -58917,11 +58994,11 @@
 	  render: function () {
 	    return React.createElement(
 	      'svg',
-	      { width: '100', height: '10' },
+	      { width: 98, height: 8 },
 	      React.createElement(
 	        'g',
 	        null,
-	        React.createElement('rect', { className: 'duration-bar', width: this.props.xScale(this.props.duration), height: '10' })
+	        React.createElement('rect', { className: 'duration-bar', width: this.props.xScale(this.props.duration), height: 8 })
 	      )
 	    );
 	  }
@@ -58943,13 +59020,13 @@
 	  render: function () {
 	    return React.createElement(
 	      Row,
-	      null,
+	      { className: 'match-list-header' },
 	      React.createElement(
 	        Col,
-	        { md: 4 },
+	        { md: 5 },
 	        React.createElement(
 	          Col,
-	          { md: 4 },
+	          { md: 3 },
 	          React.createElement(
 	            'h5',
 	            null,
@@ -58958,7 +59035,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 4 },
+	          { md: 3 },
 	          React.createElement(
 	            'h5',
 	            null,
@@ -58967,21 +59044,21 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 4 },
+	          { md: 3 },
 	          React.createElement(
 	            'h5',
 	            null,
 	            'Result'
 	          )
-	        )
-	      ),
-	      React.createElement(
-	        Col,
-	        { md: 1 },
+	        ),
 	        React.createElement(
-	          'h5',
-	          null,
-	          'Duration'
+	          Col,
+	          { md: 3 },
+	          React.createElement(
+	            'h5',
+	            null,
+	            'Duration'
+	          )
 	        )
 	      ),
 	      React.createElement(
@@ -59028,7 +59105,7 @@
 	      { width: "1000", height: "1000", viewBox: "0 0 1000 1000" },
 	      React.createElement(
 	        "g",
-	        { transform: "translate(500,250)" },
+	        { transform: "translate(500,300)" },
 	        React.createElement("rect", { className: "rotate-45 rotate-back", x: "-5", y: "-5", width: "10", height: "10", stroke: "black", strokeWidth: "20", fill: "none" }),
 	        React.createElement("rect", { className: "rotate-45 rotate", x: "-50", y: "-50", width: "100", height: "100", stroke: "black", strokeWidth: "20", strokeLinejoin: "bevel", fill: "none" }),
 	        React.createElement(
@@ -59044,7 +59121,7 @@
 	        React.createElement(
 	          "text",
 	          { y: "-140", textAnchor: "middle", fontWeight: "bold", fontSize: "3em", fontFamily: "sans-serif" },
-	          "loading..."
+	          "fetching matches..."
 	        )
 	      )
 	    );
@@ -59059,7 +59136,10 @@
 
 	var React = __webpack_require__(1),
 	    HeroStore = __webpack_require__(244),
-	    ApiActions = __webpack_require__(246);
+	    ApiActions = __webpack_require__(246),
+	    GfycatNames = __webpack_require__(504),
+	    HeroChart = __webpack_require__(505),
+	    Image = __webpack_require__(251).Image;
 
 	var Heroes = React.createClass({
 	  displayName: 'Heroes',
@@ -59089,40 +59169,371 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      this.state.heroes.map(function (hero, idx) {
+	      React.createElement(HeroChart, { heroes: this.state.heroes }),
+	      React.createElement(
+	        'section',
+	        null,
+	        this.state.heroes.map(function (hero, idx) {
+	          return React.createElement(
+	            'div',
+	            { key: idx },
+	            React.createElement(
+	              'h3',
+	              null,
+	              hero.name
+	            ),
+	            React.createElement('img', { width: '100px', src: url + hero.image_url + '_lg.png' }),
+	            React.createElement(
+	              'ul',
+	              { className: 'horizontal' },
+	              hero.abilities.map(function (ability, idx) {
+	                return React.createElement(
+	                  'li',
+	                  { key: idx },
+	                  React.createElement(
+	                    'span',
+	                    null,
+	                    ability.name
+	                  ),
+	                  React.createElement('br', null),
+	                  React.createElement('img', { width: '75px', src: ability.image_url })
+	                );
+	              })
+	            )
+	          );
+	        })
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Heroes;
+
+	// <iframe
+	//   className="hero-gif"
+	//   onClick={this.handleClick}
+	//   src={"https://gfycat.com/ifr/" + GfycatNames[hero.name]}
+	//   frameBorder="0"
+	//   scrolling="no">
+	// </iframe><br/>
+
+/***/ },
+/* 503 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    HeroStore = __webpack_require__(244),
+	    Row = __webpack_require__(251).Row;
+
+	var SelectedHeroes = React.createClass({
+	  displayName: 'SelectedHeroes',
+
+	  renderHero: function (id, idx) {
+	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
+
+	    if (id == 0) {
+	      return React.createElement('img', { key: idx, src: "http://i.imgur.com/rlx1Kb2.png" });
+	    } else {
+	      var hero = HeroStore.findById(id);
+	      return React.createElement('img', { key: idx, src: url + hero.image_url + '_vert.jpg' });
+	    }
+	  },
+
+	  render: function () {
+	    var that = this;
+	    return React.createElement(
+	      Row,
+	      { className: 'selected-heroes' },
+	      this.props.heroes.map(function (id, idx) {
+	        return that.renderHero(id, idx);
+	      })
+	    );
+	  }
+	});
+
+	module.exports = SelectedHeroes;
+
+/***/ },
+/* 504 */
+/***/ function(module, exports) {
+
+	var GfycatNames = {
+	  "Abaddon": "BrownSelfassuredAbyssiniancat",
+	  "Alchemist": "GracefulWearyFruitfly",
+	  "Ancient Apparition": "FarawayInfatuatedEyas",
+	  "Anti-Mage": "PettyZigzagCopperhead",
+	  "Arc Warden": "EnragedWarmheartedAsiaticlesserfreshwaterclam",
+	  "Axe": "PaltryAltruisticKiwi",
+	  "Bane": "PossibleTintedDunnart",
+	  "Batrider": "JollyGlisteningGander",
+	  "Beastmaster": "DishonestBarrenGreendarnerdragonfly",
+	  "Bloodseeker": "EverlastingPoshKangaroo",
+	  "Bounty Hunter": "PerkyImmediateBlueandgoldmackaw",
+	  "Brewmaster": "MaleSmoothHeron",
+	  "Bristleback": "PhysicalSparseBaldeagle",
+	  "Broodmother": "TinySnarlingDorado",
+	  "Centaur Warrunner": "PeacefulShockedAruanas",
+	  "Chaos Knight": "LimpingOffensiveDamselfly",
+	  "Chen": "JovialPracticalBluebreastedkookaburra",
+	  "Clinkz": "ClumsyInnocentFunnelweaverspider",
+	  "Crystal Maiden": "PiercingJitteryAntbear",
+	  "Dark Seer": "SneakyBoilingAsianlion",
+	  "Dazzle": "EasyOddballIggypops",
+	  "Death Prophet": "AliveBlaringCoyote",
+	  "Disruptor": "SomeTenseGartersnake",
+	  "Doom": "InfantileDimwittedAmericanratsnake",
+	  "Dragon Knight": "BountifulEuphoricKiskadee",
+	  "Drow Ranger": "ConcreteWelcomeBadger",
+	  "Earth Spirit": "SlimTotalAlligatorsnappingturtle",
+	  "Earthshaker": "CheapDirtyAdmiralbutterfly",
+	  "Elder Titan": "ThickTornDorado",
+	  "Ember Spirit": "ExhaustedInsecureAlaskanhusky",
+	  "Enchantress": "AdolescentObedientHorse",
+	  "Enigma": "ElderlyEagerArachnid",
+	  "Faceless Void": "MajorColorlessBunny",
+	  "Nature's Prophet": "FreshGoldenDobermanpinscher",
+	  "Gyrocopter": "CourageousFreshIslandwhistler",
+	  "Huskar": "IckyImpressiveArmedcrab",
+	  "Invoker": "KnobbyReasonableAllensbigearedbat",
+	  "Jakiro": "DearestWeightyFeline",
+	  "Juggernaut": "OptimalLeanAssassinbug",
+	  "Keeper of the Light": "ShabbyTornGourami",
+	  "Kunkka": "PrestigiousLinearFallowdeer",
+	  "Legion Commander": "AccuratePlushAfricanfisheagle",
+	  "Leshrac": "PracticalShimmeringAstarte",
+	  "Lich": "TallPowerlessCardinal",
+	  "Lifestealer": "SizzlingGroundedHummingbird",
+	  "Lina": "YellowBriefGavial",
+	  "Lion": "GrayKindheartedKawala",
+	  "Lone Druid": "DenseAromaticKagu",
+	  "Luna": "MadeupDenseKusimanse",
+	  "Lycan": "VainBiodegradableGull",
+	  "Magnus": "ZealousMilkyElephant",
+	  "Medusa": "FirmOptimisticAfricanpiedkingfisher",
+	  "Meepo": "GoodEnlightenedHydra",
+	  "Mirana": "LargeBackElkhound",
+	  "Morphling": "ColorfulDaringCapeghostfrog",
+	  "Naga Siren": "MelodicElaborateAplomadofalcon",
+	  "Necrophos": "LeadingEvilFritillarybutterfly",
+	  "Shadow Fiend": "NimbleUnnaturalDonkey",
+	  "Night Stalker": "FinishedYearlyChital",
+	  "Nyx Assassin": "KeenImpartialAlaskankleekai",
+	  "Outworld Devourer": "WanBothEider",
+	  "Ogre Magi": "DelayedClosedBoto",
+	  "Omniknight": "WelltodoFlakyBuck",
+	  "Oracle": "PalatableWeightyBilby",
+	  "Phantom Assassin": "ConcreteClassicFrigatebird",
+	  "Phantom Lancer": "PoliticalRelievedDogwoodtwigborer",
+	  "Phoenix": "RawEmotionalHamster",
+	  "Puck": "PoliteAdventurousFeline",
+	  "Pudge": "SomeAcademicCooter",
+	  "Pugna": "QuerulousFalseDeermouse",
+	  "Queen of Pain": "RingedParallelElkhound",
+	  "Clockwerk": "FineCommonDipper",
+	  "Razor": "SomeMindlessAustraliansilkyterrier",
+	  "Riki": "ImperfectForcefulKangaroo",
+	  "Rubick": "SeparateConcernedFreshwatereel",
+	  "Sand King": "GlaringConsciousGreendarnerdragonfly",
+	  "Shadow Demon": "TallCookedFairyfly",
+	  "Shadow Shaman": "EagerUniqueEthiopianwolf",
+	  "Timbersaw": "SingleRingedBarasingha",
+	  "Silencer": "EnergeticAgonizingAlaskankleekai",
+	  "Wraith King": "ContentFrigidDrake",
+	  "Skywrath Mage": "MammothUnfoldedHylaeosaurus",
+	  "Slardar": "LeafyLimpAfricanmolesnake",
+	  "Slark": "IdealisticUnfoldedGoa",
+	  "Sniper": "GrippingSparklingHerculesbeetle",
+	  "Spectre": "AdolescentInexperiencedHarpseal",
+	  "Spirit Breaker": "ShinyUnequaledGermanpinscher",
+	  "Storm Spirit": "ThinAppropriateArcticseal",
+	  "Sven": "TenseQualifiedAmurminnow",
+	  "Techies": "FelineCorruptHaddock",
+	  "Templar Assassin": "ScalyHotArcticwolf",
+	  "Terrorblade": "GrippingBareIberianchiffchaff",
+	  "Tidehunter": "GivingUnrulyIlsamochadegu",
+	  "Tinker": "FriendlyMilkyFlee",
+	  "Tiny": "SillyIncomparableJay",
+	  "Treant Protector": "WelloffSafeGrasshopper",
+	  "Troll Warlord": "SoftAncientGerbil",
+	  "Tusk": "LoathsomeFarawayAmericanratsnake",
+	  "Undying": "ScentedQuaintDegus",
+	  "Ursa": "BitterHeartfeltDorking",
+	  "Vengeful Spirit": "RedImpoliteCockerspaniel",
+	  "Venomancer": "MaleWhiteFluke",
+	  "Viper": "MarriedJoyousFish",
+	  "Visage": "SpecificTemptingChick",
+	  "Warlock": "AfraidFearlessHumpbackwhale",
+	  "Weaver": "SpottedPositiveAmericanlobster",
+	  "Windranger": "VillainousSociableCarpenterant",
+	  "Winter Wyvern": "HighInsignificantAtlanticblackgoby",
+	  "Io": "DetailedEdibleHuia",
+	  "Witch Doctor": "DetailedRelievedAnemoneshrimp",
+	  "Zeus": "PreciousMelodicGuillemot"
+	};
+
+	module.exports = GfycatNames;
+
+/***/ },
+/* 505 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    Row = __webpack_require__(251).Row,
+	    Col = __webpack_require__(251).Col,
+	    GfycatNames = __webpack_require__(504);
+
+	var HeroChart = React.createClass({
+	  displayName: 'HeroChart',
+
+	  render: function () {
+	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
+
+	    return React.createElement(
+	      Row,
+	      { className: 'hero-chart' },
+	      this.props.heroes.map(function (hero, idx) {
+	        return React.createElement('div', { key: idx, style: { background: "url(" + url + hero.image_url + '_vert.jpg' + ") no-repeat center", backgroundSize: "cover" } });
+	      })
+	    );
+	  }
+	});
+
+	module.exports = HeroChart;
+
+/***/ },
+/* 506 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    HeroStore = __webpack_require__(244),
+	    HeroDropdown = __webpack_require__(250),
+	    Row = __webpack_require__(251).Row;
+
+	var HeroDropdowns = React.createClass({
+	  displayName: 'HeroDropdowns',
+
+	  render: function () {
+	    var that = this;
+	    var slots = Object.keys(this.props.filters);
+
+	    return React.createElement(
+	      Row,
+	      null,
+	      slots.map(function (slot, idx) {
+	        var hero = HeroStore.findById(that.props.filters[slot]) || { name: "empty... " };
 	        return React.createElement(
 	          'div',
-	          { key: idx },
-	          React.createElement(
-	            'h3',
-	            null,
-	            hero.name
-	          ),
-	          React.createElement('img', { src: url + hero.image_url + '_lg.png' }),
-	          React.createElement(
-	            'ul',
-	            { className: 'horizontal' },
-	            hero.abilities.map(function (ability, idx) {
-	              return React.createElement(
-	                'li',
-	                { key: idx },
-	                React.createElement(
-	                  'span',
-	                  null,
-	                  ability.name
-	                ),
-	                React.createElement('br', null),
-	                React.createElement('img', { src: ability.image_url })
-	              );
-	            })
-	          )
+	          {
+	            key: idx },
+	          React.createElement(HeroDropdown, {
+	            filter: 'heroes',
+	            slot: slot,
+	            heroes: that.props.heroes,
+	            hero: hero })
 	        );
 	      })
 	    );
 	  }
 	});
 
-	module.exports = Heroes;
+	module.exports = HeroDropdowns;
+
+/***/ },
+/* 507 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    HeroStore = __webpack_require__(244),
+	    ApiActions = __webpack_require__(246),
+	    Row = __webpack_require__(251).Row,
+	    Col = __webpack_require__(251).Col,
+	    GfycatNames = __webpack_require__(504);
+
+	var SelectedHeroStats = React.createClass({
+	  displayName: 'SelectedHeroStats',
+
+	  getInitialState: function () {
+	    return {
+	      radiantWins: '',
+	      direWins: '',
+	      gamesPlayed: '',
+	      winrate: ''
+	    };
+	  },
+
+	  componentDidMount: function () {
+	    var heroId = this.props.hero.id;
+	    ApiActions.fetchHeroStats(heroId, this.receiveHeroStats);
+	  },
+
+	  receiveHeroStats: function (hero) {
+	    this.setState({
+	      radiantWins: hero.radiant_wins,
+	      direWins: hero.dire_wins,
+	      gamesPlayed: hero.games_played,
+	      winrate: hero.winrate
+	    });
+	  },
+
+	  render: function () {
+	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
+	    var gamesWon = this.state.radiantWins + this.state.direWins;
+	    var gamesPlayed = this.state.gamesPlayed;
+	    var gamesLost = gamesPlayed - gamesWon;
+	    var winrate = this.state.winrate;
+	    var player = this.props.player;
+	    var match = this.props.match;
+
+	    return React.createElement(
+	      Row,
+	      { className: 'selected-hero-stats' },
+	      React.createElement(
+	        Col,
+	        { md: 6 },
+	        React.createElement('iframe', { className: 'gfycat',
+	          src: "https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name],
+	          frameBorder: '0',
+	          scrolling: 'no' }),
+	        React.createElement('br', null)
+	      ),
+	      React.createElement(
+	        Col,
+	        { md: 6 },
+	        React.createElement(
+	          'h4',
+	          { className: 'hero-name' },
+	          this.props.hero.name.toUpperCase()
+	        ),
+	        React.createElement(
+	          'span',
+	          null,
+	          gamesWon + ' WINS   ' + gamesLost + ' LOSSES (' + winrate + '% WON)'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'span',
+	          null,
+	          gamesPlayed + ' GAMES PLAYED'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'span',
+	          null,
+	          player.team.toUpperCase()
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'span',
+	          null,
+	          player.team == match.winner ? "WON" : "LOST"
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = SelectedHeroStats;
 
 /***/ }
 /******/ ]);

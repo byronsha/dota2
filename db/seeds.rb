@@ -7,6 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 api = Dota.api
+
 # key = "D4D36275652E46A3909DE1A8FB759901"
 #
 #

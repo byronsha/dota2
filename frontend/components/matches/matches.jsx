@@ -4,10 +4,12 @@ var React = require('react'),
     FilterStore = require('../../stores/filter_store.js'),
     ApiActions = require('../../actions/api_actions.js'),
     FilterActions = require('../../actions/filter_actions.js'),
-    HeroFilter = require('../filters/hero_filter.jsx'),
     ModeFilter = require('../filters/mode_filter.jsx'),
+    HeroFilter = require('../filters/hero_filter.jsx'),
+    MatchListHeader = require('./match_list_header.jsx'),
     MatchList = require('./match_list.jsx'),
-    Spinner = require('./spinner.jsx');
+    Spinner = require('./spinner.jsx'),
+    HeroChart = require('../heroes/hero_chart.jsx');
 
 var Matches = React.createClass({
   getInitialState: function () {
@@ -58,11 +60,12 @@ var Matches = React.createClass({
   render: function () {
     return (
       <div>
-        <ModeFilter mode={this.state.filters.mode}/>
-        <HeroFilter heroes={this.state.heroes} filters={this.state.filters.heroes}/>
+        <br/>
+        <ModeFilter mode={this.state.filters.mode}/><br/><br/>
+        <HeroFilter heroes={this.state.heroes} filters={this.state.filters.heroes} match={this.state.matches[0]}/><br/>
 
-        {this.state.matches.length} results<br/>
-
+        {this.state.matches.length} results<br/><br/>
+        <MatchListHeader/>
         {this.renderMatchList()}
       </div>
     )
@@ -70,3 +73,4 @@ var Matches = React.createClass({
 });
 
 module.exports = Matches;
+// <HeroChart heroes={this.state.heroes}/><br/>

@@ -2,6 +2,22 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+#match-mode {
+  float: left;
+  white-space: nowrap;
+}
+
+#hero-dropdown {
+  width: 100px;
+  margin: 1px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+#match-duration {
+  padding-right: 0;
+}
+
 ul.horizontal {
   list-style-type: none;
   padding-left: 0px;
@@ -12,35 +28,68 @@ ul.horizontal li {
   display: inline-block;
 }
 
-.radiant-highlighted {
-  border: 2px solid chartreuse;
-}
-
-.dire-highlighted {
-  border: 2px solid red;
-}
-
-.unhighlighted {
-  border: 2px solid white;
-}
-
-.subtext {
-  font-size: 12px;
-}
-
-.duration-bar {
-  fill: steelblue;
-}
-
 .navbar-default li {
   padding: 10px;
 }
 
 ul.dropdown-menu {
   max-height: 500px;
-  overflow-y: scroll;
+  overflow: auto;
 }
 
 ul.dropdown-menu li {
   display: block;
+}
+
+.radiant-highlighted {
+  border: 2px solid chartreuse;
+}
+
+.dire-highlighted {
+  border:
+  2px solid red;
+}
+
+.subtext {
+  font-size: 11px;
+}
+
+.match-stats {
+  padding-right: 0;
+}
+
+.duration-bar {
+  fill: steelblue;
+  stroke-width: 1px;
+  stroke: black;
+}
+
+.match-list-header {
+  color: white;
+  background: #b380ff;
+  border-bottom: 2px solid #751aff;
+}
+
+.even-row {
+  background: #ffeb99;
+}
+
+.odd-row {
+  background: #ffc266;
+}
+
+.even-row .unhighlighted {
+  border: 2px solid #ffeb99;
+}
+
+.odd-row .unhighlighted {
+  border: 2px solid #ffc266;
+}
+
+.match-list {
+  margin-bottom: 50px;
+}
+
+.selected-heroes li {
+  margin-right: 5px;
 }

@@ -1,6 +1,9 @@
 var React = require('react'),
     HeroStore = require('../../stores/hero_store.js'),
-    ApiActions = require('../../actions/api_actions.js');
+    ApiActions = require('../../actions/api_actions.js'),
+    GfycatNames = require('../../constants/gfycat_names.js'),
+    HeroChart = require('./hero_chart.jsx'),
+    Image = require('react-bootstrap').Image;
 
 var Heroes = React.createClass({
   getInitialState: function () {
@@ -27,31 +30,44 @@ var Heroes = React.createClass({
 
     return (
       <div>
-        {
-          this.state.heroes.map(function(hero, idx) {
-            return (
-              <div key={idx}>
-                <h3>{hero.name}</h3>
-                <img src={url + hero.image_url + '_lg.png'}></img>
-                <ul className="horizontal">
-                  {
-                    hero.abilities.map(function(ability, idx) {
-                      return (
-                        <li key={idx}>
-                          <span>{ability.name}</span><br/>
-                          <img src={ability.image_url}></img>
-                        </li>
-                      )
-                    })
-                  }
-                </ul>
-              </div>
-            )
-          })
-        }
+        <HeroChart heroes={this.state.heroes}/>
+
+        <section>
+          {
+            this.state.heroes.map(function(hero, idx) {
+              return (
+                <div key={idx}>
+                  <h3>{hero.name}</h3>
+                  <img width="100px" src={url + hero.image_url + '_lg.png'}></img>
+
+                  <ul className="horizontal">
+                    {
+                      hero.abilities.map(function(ability, idx) {
+                        return (
+                          <li key={idx}>
+                            <span>{ability.name}</span><br/>
+                            <img width="75px" src={ability.image_url}></img>
+                          </li>
+                        )
+                      })
+                    }
+                  </ul>
+                </div>
+              )
+            })
+          }
+        </section>
       </div>
     )
   }
 });
 
 module.exports = Heroes;
+
+// <iframe
+//   className="hero-gif"
+//   onClick={this.handleClick}
+//   src={"https://gfycat.com/ifr/" + GfycatNames[hero.name]}
+//   frameBorder="0"
+//   scrolling="no">
+// </iframe><br/>

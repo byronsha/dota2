@@ -11,6 +11,7 @@ var ApiUtil = {
       }
     })
   },
+
   fetchAllHeroes: function (callback) {
     $.ajax({
       url: 'api/heroes',
@@ -19,11 +20,21 @@ var ApiUtil = {
       }
     })
   },
+
   fetchAllItems: function (callback) {
     $.ajax({
       url: 'api/items',
       success: function (items) {
         callback(items);
+      }
+    })
+  },
+
+  fetchHeroStats: function(heroId, callback) {
+    $.ajax({
+      url: 'api/heroes/' + heroId,
+      success: function (hero) {
+        callback(hero);
       }
     })
   }

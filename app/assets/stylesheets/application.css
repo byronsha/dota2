@@ -14,6 +14,27 @@
  *= require_self
  */
 
- .container {
-   font-size: 12px;
- }
+#root {
+  background: #33d6ff;
+  /*background: url("dota2.jpg") no-repeat center fixed;
+  background-size: cover;*/
+  min-height: 100vh;
+}
+
+.container {
+ font-size: 12px;
+}
+
+#navbar-container {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#navbar {
+  background-color: #b380ff;
+}
+
+#navbar a {
+  font-size: 12px;
+  color: white;
+}

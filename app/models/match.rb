@@ -2,7 +2,6 @@ class Match < ActiveRecord::Base
   has_many :players
 
   def self.find_by_filters(filters)
-
     mode = filters[:mode] == "0" ? nil : filters[:mode].to_i
     hero_ids = filters[:heroes].values.select { |value| value != "0" }.map(&:to_i)
     radiant_ids = filters[:radiant].values.select { |value| value != "0" }.map(&:to_i)
@@ -31,7 +30,7 @@ class Match < ActiveRecord::Base
       player_match_ids << players.map { |player| player.match_id }
     end
 
-    i = 1;
+    i = 1
     match_ids = player_match_ids[0]
 
     while i < player_match_ids.length
@@ -40,6 +39,24 @@ class Match < ActiveRecord::Base
     end
 
     match_ids
+  end
+
+  def self.hero_won_side(hero_id, side)
+    player_match_ids = []
+
+    players = Player.where('team = ? AND hero_id = ?', side, hero_id)
+    players.each do |player|
+      if player.match.winner == player.team
+        player_match_ids << player.match_id
+      end
+    end
+
+    player_match_ids.uniq
+  end
+
+  def self.has_hero(hero_id)
+    players = Player.where('hero_id = ?', hero_id)
+    players.map { |player| player.match_id }
   end
 
   def radiant_hero_ids
