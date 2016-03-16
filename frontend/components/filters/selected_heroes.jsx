@@ -7,7 +7,7 @@ var SelectedHeroes = React.createClass({
     var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
 
     if (id == 0) {
-      return <img key={idx} src={"http://i.imgur.com/rlx1Kb2.png"}></img>;
+      return <img key={idx} src={"http://a1.mzstatic.com/us/r30/Purple1/v4/98/37/8f/98378fc6-0951-0413-7551-64fce02adf60/icon175x175.jpeg"}></img>;
     } else {
       var hero = HeroStore.findById(id);
       return <img key={idx} src={url + hero.image_url + '_vert.jpg'}></img>;

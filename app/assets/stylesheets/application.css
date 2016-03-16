@@ -14,10 +14,14 @@
  *= require_self
  */
 
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic");
+
 #root {
-  background: #33d6ff;
-  /*background: url("dota2.jpg") no-repeat center fixed;
-  background-size: cover;*/
+  color: white;
+  font-family: "Iceland";
+  font-weight: 300;
+  background: url("redtrees.jpg") no-repeat center fixed;
+  background-size: cover;
   min-height: 100vh;
 }
 
@@ -31,10 +35,21 @@
 }
 
 #navbar {
-  background-color: #b380ff;
+  background-color: #404040;
+}
+
+#navbar li {
+  padding: 15px 20px 15px 20px;
 }
 
 #navbar a {
-  font-size: 12px;
+  font-size: 15px;
   color: white;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+#navbar img {
+  height: 50px;
+  padding-right: 20px;
 }

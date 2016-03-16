@@ -32,7 +32,8 @@ var Match = React.createClass({
   },
 
   winner: function () {
-    return this.props.match.winner.charAt(0).toUpperCase() + this.props.match.winner.slice(1);
+    var color = this.props.match.winner == "dire" ? "red" : "green";
+    return <span className={color}>{this.props.match.winner.charAt(0).toUpperCase() + this.props.match.winner.slice(1) + " victory"}</span>;
   },
 
   render: function () {
@@ -56,7 +57,7 @@ var Match = React.createClass({
           </Col>
 
           <Col md={3}>
-            <span>{this.winner() + " victory"}</span><br/>
+            {this.winner()}<br/>
             <span className="subtext">{Clusters[match.cluster]}</span>
           </Col>
 
@@ -73,7 +74,7 @@ var Match = React.createClass({
                 radiant.map(function(player, idx) {
                   return (
                     <li className={heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "radiant-highlighted"} key={idx}>
-                      <img width="55px" src={url + player.hero_image_url + '_sb.png'}></img>
+                      <img width="55px" src={url + player.hero_image_url + '_lg.png'}></img>
                     </li>
                   )
                 })
@@ -87,7 +88,7 @@ var Match = React.createClass({
                 dire.map(function(player, idx) {
                   return (
                     <li className={heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "dire-highlighted"} key={idx}>
-                      <img width="55px" src={url + player.hero_image_url + '_sb.png'}></img>
+                      <img width="55px" src={url + player.hero_image_url + '_lg.png'}></img>
                     </li>
                   )
                 })

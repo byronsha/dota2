@@ -41,13 +41,18 @@ ul.dropdown-menu li {
   display: block;
 }
 
+.unhighlighted {
+  margin: 2px;
+}
+
 .radiant-highlighted {
-  border: 2px solid chartreuse;
+  margin: 0px;
+  border: 2px solid #B6FF00;
 }
 
 .dire-highlighted {
-  border:
-  2px solid red;
+  margin: 0px;
+  border: 2px solid #FF1177;
 }
 
 .subtext {
@@ -66,25 +71,26 @@ ul.dropdown-menu li {
 
 .match-list-header {
   color: white;
-  background: #b380ff;
-  border-bottom: 2px solid #751aff;
+  background: #202020;
 }
 
 .even-row {
-  background: #ffeb99;
+  color: white;
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .odd-row {
-  background: #ffc266;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
 }
 
-.even-row .unhighlighted {
-  border: 2px solid #ffeb99;
-}
-
-.odd-row .unhighlighted {
-  border: 2px solid #ffc266;
-}
+// .even-row .unhighlighted {
+//   border: 2px solid #ffeb99;
+// }
+//
+// .odd-row .unhighlighted {
+//   border: 2px solid #ffc266;
+// }
 
 .match-list {
   margin-bottom: 50px;
@@ -92,4 +98,12 @@ ul.dropdown-menu li {
 
 .selected-heroes li {
   margin-right: 5px;
+}
+
+.green {
+  color: #B6FF00;
+}
+
+.red {
+  color: #FF1177;
 }

@@ -34322,21 +34322,25 @@
 
 	  render: function () {
 	    return React.createElement(
-	      "div",
-	      { className: "navbar-default", id: "navbar" },
+	      "nav",
+	      null,
 	      React.createElement(
 	        "div",
-	        { className: "container", id: "navbar-container" },
+	        { className: "container" },
 	        React.createElement(
 	          "ul",
-	          { className: "horizontal" },
+	          { className: "links" },
 	          React.createElement(
 	            "li",
 	            null,
 	            React.createElement(
 	              Link,
 	              { to: '/' },
-	              "home"
+	              React.createElement(
+	                "span",
+	                null,
+	                "home"
+	              )
 	            )
 	          ),
 	          React.createElement(
@@ -34345,7 +34349,11 @@
 	            React.createElement(
 	              Link,
 	              { to: '/matches' },
-	              "matches"
+	              React.createElement(
+	                "span",
+	                null,
+	                "matches"
+	              )
 	            )
 	          ),
 	          React.createElement(
@@ -34354,7 +34362,24 @@
 	            React.createElement(
 	              Link,
 	              { to: '/heroes' },
-	              "heroes"
+	              React.createElement(
+	                "span",
+	                null,
+	                "heroes"
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            "li",
+	            null,
+	            React.createElement(
+	              Link,
+	              { to: '/items' },
+	              React.createElement(
+	                "span",
+	                null,
+	                "items"
+	              )
 	            )
 	          )
 	        )
@@ -34364,6 +34389,8 @@
 	});
 
 	module.exports = Navbar;
+
+	// <Link to={'/'}><img src="http://shotsfiredgaming.com/misc/stream_images/dota2_symbol.png"></img></Link>
 
 /***/ },
 /* 219 */
@@ -58751,7 +58778,12 @@
 	  },
 
 	  winner: function () {
-	    return this.props.match.winner.charAt(0).toUpperCase() + this.props.match.winner.slice(1);
+	    var color = this.props.match.winner == "dire" ? "red" : "green";
+	    return React.createElement(
+	      'span',
+	      { className: color },
+	      this.props.match.winner.charAt(0).toUpperCase() + this.props.match.winner.slice(1) + " victory"
+	    );
 	  },
 
 	  render: function () {
@@ -58800,11 +58832,7 @@
 	        React.createElement(
 	          Col,
 	          { md: 3 },
-	          React.createElement(
-	            'span',
-	            null,
-	            this.winner() + " victory"
-	          ),
+	          this.winner(),
 	          React.createElement('br', null),
 	          React.createElement(
 	            'span',
@@ -58836,7 +58864,7 @@
 	              return React.createElement(
 	                'li',
 	                { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "radiant-highlighted", key: idx },
-	                React.createElement('img', { width: '55px', src: url + player.hero_image_url + '_sb.png' })
+	                React.createElement('img', { width: '55px', src: url + player.hero_image_url + '_lg.png' })
 	              );
 	            })
 	          )
@@ -58851,7 +58879,7 @@
 	              return React.createElement(
 	                'li',
 	                { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "dire-highlighted", key: idx },
-	                React.createElement('img', { width: '55px', src: url + player.hero_image_url + '_sb.png' })
+	                React.createElement('img', { width: '55px', src: url + player.hero_image_url + '_lg.png' })
 	              );
 	            })
 	          )
@@ -59232,7 +59260,7 @@
 	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
 
 	    if (id == 0) {
-	      return React.createElement('img', { key: idx, src: "http://i.imgur.com/rlx1Kb2.png" });
+	      return React.createElement('img', { key: idx, src: "http://a1.mzstatic.com/us/r30/Purple1/v4/98/37/8f/98378fc6-0951-0413-7551-64fce02adf60/icon175x175.jpeg" });
 	    } else {
 	      var hero = HeroStore.findById(id);
 	      return React.createElement('img', { key: idx, src: url + hero.image_url + '_vert.jpg' });
@@ -59380,20 +59408,46 @@
 	var React = __webpack_require__(1),
 	    Row = __webpack_require__(251).Row,
 	    Col = __webpack_require__(251).Col,
-	    GfycatNames = __webpack_require__(504);
+	    HeroList = __webpack_require__(509),
+	    GfycatNames = __webpack_require__(504),
+	    PrimaryStats = __webpack_require__(508);
 
 	var HeroChart = React.createClass({
 	  displayName: 'HeroChart',
 
 	  render: function () {
-	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
+	    var strength = [];
+	    var agility = [];
+	    var intelligence = [];
+
+	    for (var i = 0; i < this.props.heroes.length; i++) {
+	      var hero = this.props.heroes[i];
+	      if (PrimaryStats[hero.name] == "Strength") {
+	        strength.push(hero);
+	      } else if (PrimaryStats[hero.name] == "Agility") {
+	        agility.push(hero);
+	      } else if (PrimaryStats[hero.name] == "Intelligence") {
+	        intelligence.push(hero);
+	      }
+	    };
 
 	    return React.createElement(
-	      Row,
-	      { className: 'hero-chart' },
-	      this.props.heroes.map(function (hero, idx) {
-	        return React.createElement('div', { key: idx, style: { background: "url(" + url + hero.image_url + '_vert.jpg' + ") no-repeat center", backgroundSize: "cover" } });
-	      })
+	      Col,
+	      { md: 6 },
+	      React.createElement(
+	        Row,
+	        null,
+	        React.createElement(
+	          'h3',
+	          null,
+	          'SELECT HEROES'
+	        )
+	      ),
+	      React.createElement(HeroList, { heroes: strength, title: 'Strength' }),
+	      React.createElement('br', null),
+	      React.createElement(HeroList, { heroes: agility, title: 'Agility' }),
+	      React.createElement('br', null),
+	      React.createElement(HeroList, { heroes: intelligence, title: 'Intelligence' })
 	    );
 	  }
 	});
@@ -59445,6 +59499,7 @@
 	var React = __webpack_require__(1),
 	    HeroStore = __webpack_require__(244),
 	    ApiActions = __webpack_require__(246),
+	    TimeUtil = __webpack_require__(497),
 	    Row = __webpack_require__(251).Row,
 	    Col = __webpack_require__(251).Col,
 	    GfycatNames = __webpack_require__(504);
@@ -59475,11 +59530,34 @@
 	    });
 	  },
 
+	  winOrLoss: function () {
+	    if (this.props.player.team == this.props.match.winner) {
+	      return React.createElement(
+	        'p',
+	        { className: 'neon-green' },
+	        React.createElement(
+	          'a',
+	          null,
+	          'WIN'
+	        )
+	      );
+	    } else {
+	      return React.createElement(
+	        'p',
+	        { className: 'neon-red' },
+	        React.createElement(
+	          'a',
+	          null,
+	          'LOSS'
+	        )
+	      );
+	    }
+	  },
+
 	  render: function () {
-	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
+	    var url = "http://cdn.dota2.com/apps/dota2/images/items/";
 	    var gamesWon = this.state.radiantWins + this.state.direWins;
 	    var gamesPlayed = this.state.gamesPlayed;
-	    var gamesLost = gamesPlayed - gamesWon;
 	    var winrate = this.state.winrate;
 	    var player = this.props.player;
 	    var match = this.props.match;
@@ -59489,7 +59567,7 @@
 	      { className: 'selected-hero-stats' },
 	      React.createElement(
 	        Col,
-	        { md: 6 },
+	        { md: 4 },
 	        React.createElement('iframe', { className: 'gfycat',
 	          src: "https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name],
 	          frameBorder: '0',
@@ -59498,35 +59576,72 @@
 	      ),
 	      React.createElement(
 	        Col,
-	        { md: 6 },
+	        { md: 8 },
 	        React.createElement(
-	          'h4',
-	          { className: 'hero-name' },
-	          this.props.hero.name.toUpperCase()
+	          Row,
+	          null,
+	          React.createElement(
+	            'h4',
+	            { className: 'hero-name' },
+	            this.props.hero.name.toUpperCase()
+	          ),
+	          React.createElement(
+	            'span',
+	            null,
+	            winrate + '% WIN RATE '
+	          ),
+	          React.createElement(
+	            'span',
+	            null,
+	            gamesWon + ' WINS '
+	          ),
+	          React.createElement(
+	            'span',
+	            null,
+	            gamesPlayed + ' GAMES PLAYED'
+	          )
 	        ),
 	        React.createElement(
-	          'span',
+	          Row,
 	          null,
-	          gamesWon + ' WINS   ' + gamesLost + ' LOSSES (' + winrate + '% WON)'
-	        ),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'span',
-	          null,
-	          gamesPlayed + ' GAMES PLAYED'
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'span',
-	          null,
-	          player.team.toUpperCase()
-	        ),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'span',
-	          null,
-	          player.team == match.winner ? "WON" : "LOST"
+	          React.createElement(
+	            'h5',
+	            null,
+	            'LATEST MATCH '
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'horizontal' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'span',
+	                null,
+	                this.winOrLoss()
+	              ),
+	              React.createElement('br', null),
+	              React.createElement(
+	                'span',
+	                null,
+	                'Duration: ',
+	                TimeUtil.format(match.duration)
+	              ),
+	              React.createElement('br', null),
+	              React.createElement(
+	                'span',
+	                null,
+	                'KDA ' + player.kills + '/' + player.deaths + '/' + player.assists
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              { className: 'item-list' },
+	              player.items.map(function (item, idx) {
+	                return React.createElement('img', { key: idx, src: url + item.image_url + '_lg.png' });
+	              })
+	            )
+	          )
 	        )
 	      )
 	    );
@@ -59534,6 +59649,155 @@
 	});
 
 	module.exports = SelectedHeroStats;
+
+/***/ },
+/* 508 */
+/***/ function(module, exports) {
+
+	var PrimaryStats = {
+	  "Abaddon": "Strength",
+	  "Alchemist": "Strength",
+	  "Ancient Apparition": "Intelligence",
+	  "Anti-Mage": "Agility",
+	  "Arc Warden": "Agility",
+	  "Axe": "Strength",
+	  "Bane": "Intelligence",
+	  "Batrider": "Intelligence",
+	  "Beastmaster": "Strength",
+	  "Bloodseeker": "Agility",
+	  "Bounty Hunter": "Agility",
+	  "Brewmaster": "Strength",
+	  "Bristleback": "Strength",
+	  "Broodmother": "Agility",
+	  "Centaur Warrunner": "Strength",
+	  "Chaos Knight": "Strength",
+	  "Chen": "Intelligence",
+	  "Clinkz": "Agility",
+	  "Crystal Maiden": "Intelligence",
+	  "Dark Seer": "Intelligence",
+	  "Dazzle": "Intelligence",
+	  "Death Prophet": "Intelligence",
+	  "Disruptor": "Intelligence",
+	  "Doom": "Strength",
+	  "Dragon Knight": "Strength",
+	  "Drow Ranger": "Agility",
+	  "Earth Spirit": "Strength",
+	  "Earthshaker": "Strength",
+	  "Elder Titan": "Strength",
+	  "Ember Spirit": "Agility",
+	  "Enchantress": "Intelligence",
+	  "Enigma": "Intelligence",
+	  "Faceless Void": "Agility",
+	  "Nature's Prophet": "Intelligence",
+	  "Gyrocopter": "Agility",
+	  "Huskar": "Strength",
+	  "Invoker": "Intelligence",
+	  "Jakiro": "Intelligence",
+	  "Juggernaut": "Agility",
+	  "Keeper of the Light": "Intelligence",
+	  "Kunkka": "Strength",
+	  "Legion Commander": "Strength",
+	  "Leshrac": "Intelligence",
+	  "Lich": "Intelligence",
+	  "Lifestealer": "Strength",
+	  "Lina": "Intelligence",
+	  "Lion": "Intelligence",
+	  "Lone Druid": "Agility",
+	  "Luna": "Intelligence",
+	  "Lycan": "Strength",
+	  "Magnus": "Strength",
+	  "Medusa": "Agility",
+	  "Meepo": "Agility",
+	  "Mirana": "Agility",
+	  "Morphling": "Agility",
+	  "Naga Siren": "Agility",
+	  "Necrophos": "Intelligence",
+	  "Shadow Fiend": "Agility",
+	  "Night Stalker": "Strength",
+	  "Nyx Assassin": "Agility",
+	  "Outworld Devourer": "Intelligence",
+	  "Ogre Magi": "Intelligence",
+	  "Omniknight": "Strength",
+	  "Oracle": "Intelligence",
+	  "Phantom Assassin": "Agility",
+	  "Phantom Lancer": "Agility",
+	  "Phoenix": "Strength",
+	  "Puck": "Intelligence",
+	  "Pudge": "Strength",
+	  "Pugna": "Intelligence",
+	  "Queen of Pain": "Intelligence",
+	  "Clockwerk": "Strength",
+	  "Razor": "Agility",
+	  "Riki": "Agility",
+	  "Rubick": "Intelligence",
+	  "Sand King": "Strength",
+	  "Shadow Demon": "Intelligence",
+	  "Shadow Shaman": "Intelligence",
+	  "Timbersaw": "Strength",
+	  "Silencer": "Intelligence",
+	  "Wraith King": "Strength",
+	  "Skywrath Mage": "Intelligence",
+	  "Slardar": "Strength",
+	  "Slark": "Agility",
+	  "Sniper": "Agility",
+	  "Spectre": "Agility",
+	  "Spirit Breaker": "Strength",
+	  "Storm Spirit": "Intelligence",
+	  "Sven": "Strength",
+	  "Techies": "Intelligence",
+	  "Templar Assassin": "Agility",
+	  "Terrorblade": "Agility",
+	  "Tidehunter": "Strength",
+	  "Tinker": "Intelligence",
+	  "Tiny": "Strength",
+	  "Treant Protector": "Strength",
+	  "Troll Warlord": "Agility",
+	  "Tusk": "Strength",
+	  "Undying": "Strength",
+	  "Ursa": "Agility",
+	  "Vengeful Spirit": "Agility",
+	  "Venomancer": "Agility",
+	  "Viper": "Agility",
+	  "Visage": "Intelligence",
+	  "Warlock": "Intelligence",
+	  "Weaver": "Agility",
+	  "Windranger": "Intelligence",
+	  "Winter Wyvern": "Intelligence",
+	  "Io": "Intelligence",
+	  "Witch Doctor": "Intelligence",
+	  "Zeus": "Intelligence"
+	};
+
+	module.exports = PrimaryStats;
+
+/***/ },
+/* 509 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    Row = __webpack_require__(251).Row;
+
+	var HeroList = React.createClass({
+	  displayName: 'HeroList',
+
+	  render: function () {
+	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
+	    return React.createElement(
+	      Row,
+	      { className: 'hero-chart' },
+	      React.createElement(
+	        'h5',
+	        null,
+	        this.props.title
+	      ),
+	      this.props.heroes.map(function (hero, idx) {
+	        return React.createElement('div', { key: idx, style: { background: "url(" + url + hero.image_url + '_lg.png' + ") no-repeat center", backgroundSize: "cover" } });
+	      })
+	    );
+	  }
+	});
+
+	module.exports = HeroList;
 
 /***/ }
 /******/ ]);

@@ -2,10 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.hero-chart {
+  background: #202020;
+}
+
 .hero-chart div {
   float: left;
-  width: 29.6px;
-  height: 60px;
+  // width: 29.6px;
+  // height: 60px;
+  width: 45px;
+  height: 27px;
   overflow: hidden;
   position: relative;
   margin: 1px;
@@ -23,9 +29,24 @@
 
 .selected-hero-stats {
   display: inline;
+  color: white;
+  background: #202020;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.selected-hero-stats img {
+  width: 40px;
+  margin: 3px;
+  margin-top: -30px;
+}
+
+.item-list {
+  padding-top: -15px;
 }
 
 .gfycat {
   height: 136px;
   margin: 1px;
+  margin-left: -82px;
 }

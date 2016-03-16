@@ -4,17 +4,20 @@ var React = require('react'),
 var Navbar = React.createClass({
   render: function () {
     return (
-      <div className="navbar-default" id="navbar">
-        <div className="container" id="navbar-container">
-          <ul className="horizontal">
-            <li><Link to={'/'}>home</Link></li>
-            <li><Link to={'/matches'}>matches</Link></li>
-            <li><Link to={'/heroes'}>heroes</Link></li>
-          </ul>
-        </div>
-      </div>
+        <nav>
+          <div className="container">
+            <ul className="links">
+              <li><Link to={'/'}><span>home</span></Link></li>
+              <li><Link to={'/matches'}><span>matches</span></Link></li>
+              <li><Link to={'/heroes'}><span>heroes</span></Link></li>
+              <li><Link to={'/items'}><span>items</span></Link></li>
+            </ul>
+          </div>
+        </nav>
     )
   }
 });
 
 module.exports = Navbar;
+
+// <Link to={'/'}><img src="http://shotsfiredgaming.com/misc/stream_images/dota2_symbol.png"></img></Link>
