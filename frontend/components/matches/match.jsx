@@ -8,25 +8,26 @@ var React = require('react'),
 
 var Match = React.createClass({
   orderPlayers: function (players) {
-    var playerArray = players;
+    var playerArray = players.slice();
     var orderedPlayers = [];
+    var heroes = this.props.filters.heroes;
 
-    for (var slot in this.props.filters.heroes) {
-      for (var i = 0; i < playerArray.length; i++) {
-        if (this.props.filters.heroes[slot] == playerArray[i].hero_id) {
-          orderedPlayers.push(playerArray[i]);
-          playerArray.splice(i, 1);
+    for (var i = 0; i < heroes.length; i++) {
+      for (var j = 0; j < playerArray.length; j++) {
+        if (heroes[i] == playerArray[j].hero_id) {
+          orderedPlayers.push(playerArray[j]);
+          playerArray.splice(j, 1);
         }
       }
-    };
+    }
+
     return orderedPlayers.concat(playerArray);
   },
 
   heroes: function () {
     var heroes = [];
-
-    for (var slot in this.props.filters.heroes) {
-      heroes.push(parseInt(this.props.filters.heroes[slot]))
+    for (var i = 0; i < this.props.filters.heroes.length; i++) {
+      heroes.push(parseInt(this.props.filters.heroes[i]));
     };
     return heroes;
   },

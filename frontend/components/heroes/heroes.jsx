@@ -2,7 +2,7 @@ var React = require('react'),
     HeroStore = require('../../stores/hero_store.js'),
     ApiActions = require('../../actions/api_actions.js'),
     GfycatNames = require('../../constants/gfycat_names.js'),
-    HeroChart = require('./hero_chart.jsx'),
+    HeroSelector = require('./hero_selector.jsx'),
     Image = require('react-bootstrap').Image;
 
 var Heroes = React.createClass({
@@ -30,7 +30,7 @@ var Heroes = React.createClass({
 
     return (
       <div>
-        <HeroChart heroes={this.state.heroes}/>
+        <HeroSelector heroes={this.state.heroes}/>
 
         <section>
           {

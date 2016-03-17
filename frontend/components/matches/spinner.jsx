@@ -9,7 +9,7 @@ var Spinner = React.createClass({
       		<rect className="rotate-45 rotate" x="-50" y="-50" width="100" height="100" stroke="black" strokeWidth="20" strokeLinejoin="bevel" fill="none"/>
       		<g transform="translate(-50,0) rotate(-45)"><polyline className="left" points="40,-40 50,-50 -40,-50 -50,-40 -50,50 -40,40" stroke="black" strokeWidth="20" fill="none"/></g>
       		<g transform="translate(50,0) rotate(135)"><polyline className="right" points="40,-40 50,-50 -40,-50 -50,-40 -50,50 -40,40" stroke="black" strokeWidth="20" fill="none"/></g>
-      		<text y="-140" textAnchor="middle" fontWeight="bold" fontSize="3em" fontFamily="sans-serif">fetching matches...</text>
+      		<text y="-140" textAnchor="middle" fontWeight="bold" fontSize="3em" fontFamily="sans-serif"></text>
       	</g>
       </svg>
     )

@@ -14,6 +14,12 @@ var FilterActions = {
       filterParams: filterParams
     });
   },
+  removeHeroFilter: function (filterParams) {
+    Dispatcher.dispatch({
+      actionType: Constants.REMOVE_HERO_FILTER,
+      filterParams: filterParams
+    });
+  },
   resetAllFilters: function () {
     Dispatcher.dispatch({
       actionType: Constants.RESET_ALL_FILTERS

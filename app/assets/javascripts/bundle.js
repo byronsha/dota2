@@ -34423,11 +34423,11 @@
 	    ApiActions = __webpack_require__(246),
 	    FilterActions = __webpack_require__(248),
 	    ModeFilter = __webpack_require__(493),
-	    HeroFilter = __webpack_require__(249),
 	    MatchListHeader = __webpack_require__(500),
+	    OpenMatch = __webpack_require__(513),
 	    MatchList = __webpack_require__(495),
 	    Spinner = __webpack_require__(501),
-	    HeroChart = __webpack_require__(505);
+	    HeroSelector = __webpack_require__(510);
 
 	var Matches = React.createClass({
 	  displayName: 'Matches',
@@ -34478,17 +34478,21 @@
 	  },
 
 	  render: function () {
+	    var hero = HeroStore.findById(this.state.filters.heroes[this.state.filters.heroes.length - 1]);
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement('br', null),
+	      React.createElement(HeroSelector, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] }),
+	      React.createElement('br', null),
 	      React.createElement(ModeFilter, { mode: this.state.filters.mode }),
 	      React.createElement('br', null),
 	      React.createElement('br', null),
-	      React.createElement(HeroFilter, { heroes: this.state.heroes, filters: this.state.filters.heroes, match: this.state.matches[0] }),
-	      React.createElement('br', null),
 	      this.state.matches.length,
 	      ' results',
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(OpenMatch, { filters: this.state.filters, match: this.state.matches[0] }),
 	      React.createElement('br', null),
 	      React.createElement('br', null),
 	      React.createElement(MatchListHeader, null),
@@ -34498,7 +34502,6 @@
 	});
 
 	module.exports = Matches;
-	// <HeroChart heroes={this.state.heroes}/><br/>
 
 /***/ },
 /* 221 */
@@ -41304,6 +41307,7 @@
 
 	  SET_GAME_FILTER: "SET_MODE_FILTER",
 	  SET_HERO_FILTER: "SET_HERO_FILTER",
+	  REMOVE_HERO_FILTER: "REMOVE_HERO_FILTER",
 	  RESET_ALL_FILTERS: "RESET_ALL_FILTERS"
 	};
 
@@ -41356,35 +41360,17 @@
 
 	var _filters = {
 	  "mode": "22",
-	  "heroes": {
-	    "first": "0",
-	    "second": "0",
-	    "third": "0",
-	    "fourth": "0",
-	    "fifth": "0"
-	  },
-	  "radiant": {
-	    "first": "0",
-	    "second": "0",
-	    "third": "0",
-	    "fourth": "0",
-	    "fifth": "0"
-	  },
-	  "dire": {
-	    "first": "0",
-	    "second": "0",
-	    "third": "0",
-	    "fourth": "0",
-	    "fifth": "0"
-	  }
+	  "heroes": [],
+	  "radiant": [],
+	  "dire": []
 	};
 
 	var resetAllFilters = function () {
 	  _filters = {
 	    "mode": "22",
-	    "heroes": { "first": "0", "second": "0", "third": "0", "fourth": "0", "fifth": "0" },
-	    "radiant": { "first": "0", "second": "0", "third": "0", "fourth": "0", "fifth": "0" },
-	    "dire": { "first": "0", "second": "0", "third": "0", "fourth": "0", "fifth": "0" }
+	    "heroes": [],
+	    "radiant": [],
+	    "dire": []
 	  };
 	};
 
@@ -41393,7 +41379,15 @@
 	};
 
 	var receiveHeroFilter = function (filterParams) {
-	  _filters[filterParams.filter][filterParams.slot] = filterParams.value;
+	  _filters[filterParams.filter].push(filterParams.value);
+	};
+
+	var removeHeroFilter = function (filterParams) {
+	  for (var i = 0; i < _filters[filterParams.filter].length; i++) {
+	    if (_filters[filterParams.filter][i] == filterParams.value) {
+	      _filters[filterParams.filter].splice(i, 1);
+	    }
+	  }
 	};
 
 	FilterStore.all = function () {
@@ -41412,6 +41406,10 @@
 	      break;
 	    case Constants.SET_HERO_FILTER:
 	      receiveHeroFilter(payload.filterParams);
+	      FilterStore.__emitChange();
+	      break;
+	    case Constants.REMOVE_HERO_FILTER:
+	      removeHeroFilter(payload.filterParams);
 	      FilterStore.__emitChange();
 	      break;
 	  }
@@ -41477,7 +41475,7 @@
 	  fetchAllMatches: function (callback, filters, spinnerCallback) {
 	    $.ajax({
 	      url: 'api/matches',
-	      data: { filters: filters },
+	      data: { filters: JSON.stringify(filters) },
 	      success: function (matches) {
 	        spinnerCallback();
 	        callback(matches);
@@ -41535,6 +41533,12 @@
 	      filterParams: filterParams
 	    });
 	  },
+	  removeHeroFilter: function (filterParams) {
+	    Dispatcher.dispatch({
+	      actionType: Constants.REMOVE_HERO_FILTER,
+	      filterParams: filterParams
+	    });
+	  },
 	  resetAllFilters: function () {
 	    Dispatcher.dispatch({
 	      actionType: Constants.RESET_ALL_FILTERS
@@ -41545,148 +41549,8 @@
 	module.exports = FilterActions;
 
 /***/ },
-/* 249 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    FilterActions = __webpack_require__(248),
-	    HeroStore = __webpack_require__(244),
-	    FilterStore = __webpack_require__(245),
-	    HeroDropdowns = __webpack_require__(506),
-	    SelectedHeroes = __webpack_require__(503),
-	    SelectedHeroStats = __webpack_require__(507),
-	    Row = __webpack_require__(251).Row,
-	    Col = __webpack_require__(251).Col,
-	    Button = __webpack_require__(251).Button;
-
-	var HeroFilter = React.createClass({
-	  displayName: 'HeroFilter',
-
-	  resetAllFilters: function () {
-	    FilterActions.resetAllFilters();
-	  },
-
-	  filterHeroIds: function () {
-	    var ids = [];
-	    for (var slot in this.props.filters) {
-	      ids.push(this.props.filters[slot]);
-	    };
-	    return ids;
-	  },
-
-	  getSelectedHeroId: function () {
-	    for (var slot in this.props.filters) {
-	      if (this.props.filters[slot] != 0) {
-	        return this.props.filters[slot];
-	      }
-	    };
-	  },
-
-	  getHeroPlayer: function () {
-	    if (this.props.match) {
-	      var id = this.getSelectedHeroId();
-	      var players = this.props.match.radiant.concat(this.props.match.dire);
-
-	      for (var i = 0; i < players.length; i++) {
-	        if (players[i].hero_id == id) {
-	          return players[i];
-	        }
-	      }
-	    }
-	  },
-
-	  renderSelectedHeroStats: function () {
-	    var player = this.getHeroPlayer();
-
-	    if (typeof player == "undefined") {
-	      return React.createElement('div', null);
-	    } else {
-	      var hero = HeroStore.findById(player.hero_id);
-	      return React.createElement(SelectedHeroStats, { hero: hero, player: player, match: this.props.match });
-	    }
-	  },
-
-	  render: function () {
-	    var that = this;
-
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        Row,
-	        { className: 'hero-dropdowns' },
-	        React.createElement(
-	          Col,
-	          { md: 6 },
-	          React.createElement(SelectedHeroes, { heroes: this.filterHeroIds() }),
-	          React.createElement(HeroDropdowns, { heroes: this.props.heroes, filters: this.props.filters })
-	        ),
-	        React.createElement(
-	          Col,
-	          { md: 6 },
-	          this.renderSelectedHeroStats()
-	        )
-	      ),
-	      React.createElement('br', null),
-	      React.createElement(
-	        Button,
-	        {
-	          onClick: this.resetAllFilters,
-	          bsStyle: 'danger',
-	          bsSize: 'xsmall' },
-	        'reset all'
-	      )
-	    );
-	  }
-	});
-
-	module.exports = HeroFilter;
-
-/***/ },
-/* 250 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    FilterStore = __webpack_require__(245),
-	    FilterActions = __webpack_require__(248),
-	    DropdownButton = __webpack_require__(251).DropdownButton,
-	    MenuItem = __webpack_require__(251).MenuItem;
-
-	var HeroDropdown = React.createClass({
-	  displayName: 'HeroDropdown',
-
-	  selectHero: function (e, hero) {
-	    var filterParams = {
-	      filter: this.props.filter,
-	      slot: this.props.slot,
-	      value: hero
-	    };
-
-	    FilterActions.setHeroFilter(filterParams);
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      DropdownButton,
-	      {
-	        onSelect: this.selectHero,
-	        bsStyle: 'success',
-	        title: this.props.hero.name,
-	        id: 'hero-dropdown' },
-	      this.props.heroes.map(function (hero, idx) {
-	        return React.createElement(
-	          MenuItem,
-	          { key: idx, eventKey: hero.id },
-	          hero.name
-	        );
-	      })
-	    );
-	  }
-	});
-
-	module.exports = HeroDropdown;
-
-/***/ },
+/* 249 */,
+/* 250 */,
 /* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -58754,25 +58618,26 @@
 	  displayName: 'Match',
 
 	  orderPlayers: function (players) {
-	    var playerArray = players;
+	    var playerArray = players.slice();
 	    var orderedPlayers = [];
+	    var heroes = this.props.filters.heroes;
 
-	    for (var slot in this.props.filters.heroes) {
-	      for (var i = 0; i < playerArray.length; i++) {
-	        if (this.props.filters.heroes[slot] == playerArray[i].hero_id) {
-	          orderedPlayers.push(playerArray[i]);
-	          playerArray.splice(i, 1);
+	    for (var i = 0; i < heroes.length; i++) {
+	      for (var j = 0; j < playerArray.length; j++) {
+	        if (heroes[i] == playerArray[j].hero_id) {
+	          orderedPlayers.push(playerArray[j]);
+	          playerArray.splice(j, 1);
 	        }
 	      }
-	    };
+	    }
+
 	    return orderedPlayers.concat(playerArray);
 	  },
 
 	  heroes: function () {
 	    var heroes = [];
-
-	    for (var slot in this.props.filters.heroes) {
-	      heroes.push(parseInt(this.props.filters.heroes[slot]));
+	    for (var i = 0; i < this.props.filters.heroes.length; i++) {
+	      heroes.push(parseInt(this.props.filters.heroes[i]));
 	    };
 	    return heroes;
 	  },
@@ -59146,11 +59011,7 @@
 	          { transform: "translate(50,0) rotate(135)" },
 	          React.createElement("polyline", { className: "right", points: "40,-40 50,-50 -40,-50 -50,-40 -50,50 -40,40", stroke: "black", strokeWidth: "20", fill: "none" })
 	        ),
-	        React.createElement(
-	          "text",
-	          { y: "-140", textAnchor: "middle", fontWeight: "bold", fontSize: "3em", fontFamily: "sans-serif" },
-	          "fetching matches..."
-	        )
+	        React.createElement("text", { y: "-140", textAnchor: "middle", fontWeight: "bold", fontSize: "3em", fontFamily: "sans-serif" })
 	      )
 	    );
 	  }
@@ -59166,7 +59027,7 @@
 	    HeroStore = __webpack_require__(244),
 	    ApiActions = __webpack_require__(246),
 	    GfycatNames = __webpack_require__(504),
-	    HeroChart = __webpack_require__(505),
+	    HeroSelector = __webpack_require__(510),
 	    Image = __webpack_require__(251).Image;
 
 	var Heroes = React.createClass({
@@ -59197,7 +59058,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(HeroChart, { heroes: this.state.heroes }),
+	      React.createElement(HeroSelector, { heroes: this.state.heroes }),
 	      React.createElement(
 	        'section',
 	        null,
@@ -59246,42 +59107,7 @@
 	// </iframe><br/>
 
 /***/ },
-/* 503 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    HeroStore = __webpack_require__(244),
-	    Row = __webpack_require__(251).Row;
-
-	var SelectedHeroes = React.createClass({
-	  displayName: 'SelectedHeroes',
-
-	  renderHero: function (id, idx) {
-	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
-
-	    if (id == 0) {
-	      return React.createElement('img', { key: idx, src: "http://a1.mzstatic.com/us/r30/Purple1/v4/98/37/8f/98378fc6-0951-0413-7551-64fce02adf60/icon175x175.jpeg" });
-	    } else {
-	      var hero = HeroStore.findById(id);
-	      return React.createElement('img', { key: idx, src: url + hero.image_url + '_vert.jpg' });
-	    }
-	  },
-
-	  render: function () {
-	    var that = this;
-	    return React.createElement(
-	      Row,
-	      { className: 'selected-heroes' },
-	      this.props.heroes.map(function (id, idx) {
-	        return that.renderHero(id, idx);
-	      })
-	    );
-	  }
-	});
-
-	module.exports = SelectedHeroes;
-
-/***/ },
+/* 503 */,
 /* 504 */
 /***/ function(module, exports) {
 
@@ -59402,18 +59228,197 @@
 	module.exports = GfycatNames;
 
 /***/ },
-/* 505 */
+/* 505 */,
+/* 506 */,
+/* 507 */,
+/* 508 */
+/***/ function(module, exports) {
+
+	var PrimaryStats = {
+	  "Abaddon": "Strength",
+	  "Alchemist": "Strength",
+	  "Ancient Apparition": "Intelligence",
+	  "Anti-Mage": "Agility",
+	  "Arc Warden": "Agility",
+	  "Axe": "Strength",
+	  "Bane": "Intelligence",
+	  "Batrider": "Intelligence",
+	  "Beastmaster": "Strength",
+	  "Bloodseeker": "Agility",
+	  "Bounty Hunter": "Agility",
+	  "Brewmaster": "Strength",
+	  "Bristleback": "Strength",
+	  "Broodmother": "Agility",
+	  "Centaur Warrunner": "Strength",
+	  "Chaos Knight": "Strength",
+	  "Chen": "Intelligence",
+	  "Clinkz": "Agility",
+	  "Crystal Maiden": "Intelligence",
+	  "Dark Seer": "Intelligence",
+	  "Dazzle": "Intelligence",
+	  "Death Prophet": "Intelligence",
+	  "Disruptor": "Intelligence",
+	  "Doom": "Strength",
+	  "Dragon Knight": "Strength",
+	  "Drow Ranger": "Agility",
+	  "Earth Spirit": "Strength",
+	  "Earthshaker": "Strength",
+	  "Elder Titan": "Strength",
+	  "Ember Spirit": "Agility",
+	  "Enchantress": "Intelligence",
+	  "Enigma": "Intelligence",
+	  "Faceless Void": "Agility",
+	  "Nature's Prophet": "Intelligence",
+	  "Gyrocopter": "Agility",
+	  "Huskar": "Strength",
+	  "Invoker": "Intelligence",
+	  "Jakiro": "Intelligence",
+	  "Juggernaut": "Agility",
+	  "Keeper of the Light": "Intelligence",
+	  "Kunkka": "Strength",
+	  "Legion Commander": "Strength",
+	  "Leshrac": "Intelligence",
+	  "Lich": "Intelligence",
+	  "Lifestealer": "Strength",
+	  "Lina": "Intelligence",
+	  "Lion": "Intelligence",
+	  "Lone Druid": "Agility",
+	  "Luna": "Intelligence",
+	  "Lycan": "Strength",
+	  "Magnus": "Strength",
+	  "Medusa": "Agility",
+	  "Meepo": "Agility",
+	  "Mirana": "Agility",
+	  "Morphling": "Agility",
+	  "Naga Siren": "Agility",
+	  "Necrophos": "Intelligence",
+	  "Shadow Fiend": "Agility",
+	  "Night Stalker": "Strength",
+	  "Nyx Assassin": "Agility",
+	  "Outworld Devourer": "Intelligence",
+	  "Ogre Magi": "Intelligence",
+	  "Omniknight": "Strength",
+	  "Oracle": "Intelligence",
+	  "Phantom Assassin": "Agility",
+	  "Phantom Lancer": "Agility",
+	  "Phoenix": "Strength",
+	  "Puck": "Intelligence",
+	  "Pudge": "Strength",
+	  "Pugna": "Intelligence",
+	  "Queen of Pain": "Intelligence",
+	  "Clockwerk": "Strength",
+	  "Razor": "Agility",
+	  "Riki": "Agility",
+	  "Rubick": "Intelligence",
+	  "Sand King": "Strength",
+	  "Shadow Demon": "Intelligence",
+	  "Shadow Shaman": "Intelligence",
+	  "Timbersaw": "Strength",
+	  "Silencer": "Intelligence",
+	  "Wraith King": "Strength",
+	  "Skywrath Mage": "Intelligence",
+	  "Slardar": "Strength",
+	  "Slark": "Agility",
+	  "Sniper": "Agility",
+	  "Spectre": "Agility",
+	  "Spirit Breaker": "Strength",
+	  "Storm Spirit": "Intelligence",
+	  "Sven": "Strength",
+	  "Techies": "Intelligence",
+	  "Templar Assassin": "Agility",
+	  "Terrorblade": "Agility",
+	  "Tidehunter": "Strength",
+	  "Tinker": "Intelligence",
+	  "Tiny": "Strength",
+	  "Treant Protector": "Strength",
+	  "Troll Warlord": "Agility",
+	  "Tusk": "Strength",
+	  "Undying": "Strength",
+	  "Ursa": "Agility",
+	  "Vengeful Spirit": "Agility",
+	  "Venomancer": "Agility",
+	  "Viper": "Agility",
+	  "Visage": "Intelligence",
+	  "Warlock": "Intelligence",
+	  "Weaver": "Agility",
+	  "Windranger": "Intelligence",
+	  "Winter Wyvern": "Intelligence",
+	  "Io": "Intelligence",
+	  "Witch Doctor": "Intelligence",
+	  "Zeus": "Intelligence"
+	};
+
+	module.exports = PrimaryStats;
+
+/***/ },
+/* 509 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    Hero = __webpack_require__(511),
+	    Row = __webpack_require__(251).Row;
+
+	var HeroList = React.createClass({
+	  displayName: 'HeroList',
+
+	  render: function () {
+	    var that = this;
+	    return React.createElement(
+	      Row,
+	      { className: 'hero-chart' },
+	      React.createElement(
+	        'h5',
+	        null,
+	        this.props.title
+	      ),
+	      this.props.heroes.map(function (hero, idx) {
+	        return React.createElement(Hero, { key: idx, hero: hero, filters: that.props.filters, loading: that.props.loading });
+	      })
+	    );
+	  }
+	});
+
+	module.exports = HeroList;
+
+/***/ },
+/* 510 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    Row = __webpack_require__(251).Row,
 	    Col = __webpack_require__(251).Col,
 	    HeroList = __webpack_require__(509),
+	    HeroStore = __webpack_require__(244),
+	    SelectedHeroStats = __webpack_require__(512),
 	    GfycatNames = __webpack_require__(504),
 	    PrimaryStats = __webpack_require__(508);
 
-	var HeroChart = React.createClass({
-	  displayName: 'HeroChart',
+	var HeroSelector = React.createClass({
+	  displayName: 'HeroSelector',
+
+	  getHeroPlayer: function () {
+	    if (this.props.match) {
+	      var id = this.props.filters.heroes[this.props.filters.heroes.length - 1];
+	      var players = this.props.match.radiant.concat(this.props.match.dire);
+
+	      for (var i = 0; i < players.length; i++) {
+	        if (players[i].hero_id == id) {
+	          return players[i];
+	        }
+	      }
+	    }
+	  },
+
+	  renderSelectedHeroStats: function () {
+	    var player = this.getHeroPlayer();
+
+	    if (typeof player == "undefined") {
+	      return React.createElement('div', null);
+	    } else {
+	      var hero = HeroStore.findById(player.hero_id);
+	      return React.createElement(SelectedHeroStats, { hero: hero, player: player, match: this.props.match });
+	    }
+	  },
 
 	  render: function () {
 	    var strength = [];
@@ -59432,68 +59437,83 @@
 	    };
 
 	    return React.createElement(
-	      Col,
-	      { md: 6 },
+	      Row,
+	      null,
 	      React.createElement(
-	        Row,
-	        null,
-	        React.createElement(
-	          'h3',
-	          null,
-	          'SELECT HEROES'
-	        )
+	        Col,
+	        { md: 6 },
+	        React.createElement(HeroList, { heroes: strength, title: 'Strength', filters: this.props.filters, loading: this.props.loading }),
+	        React.createElement('br', null),
+	        React.createElement(HeroList, { heroes: agility, title: 'Agility', filters: this.props.filters, loading: this.props.loading }),
+	        React.createElement('br', null),
+	        React.createElement(HeroList, { heroes: intelligence, title: 'Intelligence', filters: this.props.filters, loading: this.props.loading })
 	      ),
-	      React.createElement(HeroList, { heroes: strength, title: 'Strength' }),
-	      React.createElement('br', null),
-	      React.createElement(HeroList, { heroes: agility, title: 'Agility' }),
-	      React.createElement('br', null),
-	      React.createElement(HeroList, { heroes: intelligence, title: 'Intelligence' })
+	      React.createElement(
+	        Col,
+	        { md: 6 },
+	        this.renderSelectedHeroStats()
+	      )
 	    );
 	  }
 	});
 
-	module.exports = HeroChart;
+	module.exports = HeroSelector;
 
 /***/ },
-/* 506 */
+/* 511 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    HeroStore = __webpack_require__(244),
-	    HeroDropdown = __webpack_require__(250),
+	    FilterActions = __webpack_require__(248),
 	    Row = __webpack_require__(251).Row;
 
-	var HeroDropdowns = React.createClass({
-	  displayName: 'HeroDropdowns',
+	var HeroList = React.createClass({
+	  displayName: 'HeroList',
+
+	  selectHero: function () {
+	    var filterParams = {
+	      filter: "heroes",
+	      value: this.props.hero.id
+	    };
+
+	    FilterActions.setHeroFilter(filterParams);
+	  },
+
+	  removeHero: function () {
+	    var filterParams = {
+	      filter: "heroes",
+	      value: this.props.hero.id
+	    };
+
+	    FilterActions.removeHeroFilter(filterParams);
+	  },
 
 	  render: function () {
-	    var that = this;
-	    var slots = Object.keys(this.props.filters);
+	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
+	    var onClick = this.selectHero;
+	    var style = {
+	      background: "url(" + url + this.props.hero.image_url + '_lg.png' + ") no-repeat center",
+	      backgroundSize: "cover"
+	    };
 
-	    return React.createElement(
-	      Row,
-	      null,
-	      slots.map(function (slot, idx) {
-	        var hero = HeroStore.findById(that.props.filters[slot]) || { name: "empty... " };
-	        return React.createElement(
-	          'div',
-	          {
-	            key: idx },
-	          React.createElement(HeroDropdown, {
-	            filter: 'heroes',
-	            slot: slot,
-	            heroes: that.props.heroes,
-	            hero: hero })
-	        );
-	      })
-	    );
+	    if (this.props.filters.heroes.indexOf(this.props.hero.id) != -1) {
+	      style.outline = "2px solid gold";
+	      onClick = this.removeHero;
+	    }
+
+	    if (this.props.loading) {
+	      style.opacity = "0.75";
+	      onClick = null;
+	    }
+
+	    return React.createElement('div', { onClick: onClick, style: style });
 	  }
 	});
 
-	module.exports = HeroDropdowns;
+	module.exports = HeroList;
 
 /***/ },
-/* 507 */
+/* 512 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
@@ -59651,153 +59671,135 @@
 	module.exports = SelectedHeroStats;
 
 /***/ },
-/* 508 */
-/***/ function(module, exports) {
-
-	var PrimaryStats = {
-	  "Abaddon": "Strength",
-	  "Alchemist": "Strength",
-	  "Ancient Apparition": "Intelligence",
-	  "Anti-Mage": "Agility",
-	  "Arc Warden": "Agility",
-	  "Axe": "Strength",
-	  "Bane": "Intelligence",
-	  "Batrider": "Intelligence",
-	  "Beastmaster": "Strength",
-	  "Bloodseeker": "Agility",
-	  "Bounty Hunter": "Agility",
-	  "Brewmaster": "Strength",
-	  "Bristleback": "Strength",
-	  "Broodmother": "Agility",
-	  "Centaur Warrunner": "Strength",
-	  "Chaos Knight": "Strength",
-	  "Chen": "Intelligence",
-	  "Clinkz": "Agility",
-	  "Crystal Maiden": "Intelligence",
-	  "Dark Seer": "Intelligence",
-	  "Dazzle": "Intelligence",
-	  "Death Prophet": "Intelligence",
-	  "Disruptor": "Intelligence",
-	  "Doom": "Strength",
-	  "Dragon Knight": "Strength",
-	  "Drow Ranger": "Agility",
-	  "Earth Spirit": "Strength",
-	  "Earthshaker": "Strength",
-	  "Elder Titan": "Strength",
-	  "Ember Spirit": "Agility",
-	  "Enchantress": "Intelligence",
-	  "Enigma": "Intelligence",
-	  "Faceless Void": "Agility",
-	  "Nature's Prophet": "Intelligence",
-	  "Gyrocopter": "Agility",
-	  "Huskar": "Strength",
-	  "Invoker": "Intelligence",
-	  "Jakiro": "Intelligence",
-	  "Juggernaut": "Agility",
-	  "Keeper of the Light": "Intelligence",
-	  "Kunkka": "Strength",
-	  "Legion Commander": "Strength",
-	  "Leshrac": "Intelligence",
-	  "Lich": "Intelligence",
-	  "Lifestealer": "Strength",
-	  "Lina": "Intelligence",
-	  "Lion": "Intelligence",
-	  "Lone Druid": "Agility",
-	  "Luna": "Intelligence",
-	  "Lycan": "Strength",
-	  "Magnus": "Strength",
-	  "Medusa": "Agility",
-	  "Meepo": "Agility",
-	  "Mirana": "Agility",
-	  "Morphling": "Agility",
-	  "Naga Siren": "Agility",
-	  "Necrophos": "Intelligence",
-	  "Shadow Fiend": "Agility",
-	  "Night Stalker": "Strength",
-	  "Nyx Assassin": "Agility",
-	  "Outworld Devourer": "Intelligence",
-	  "Ogre Magi": "Intelligence",
-	  "Omniknight": "Strength",
-	  "Oracle": "Intelligence",
-	  "Phantom Assassin": "Agility",
-	  "Phantom Lancer": "Agility",
-	  "Phoenix": "Strength",
-	  "Puck": "Intelligence",
-	  "Pudge": "Strength",
-	  "Pugna": "Intelligence",
-	  "Queen of Pain": "Intelligence",
-	  "Clockwerk": "Strength",
-	  "Razor": "Agility",
-	  "Riki": "Agility",
-	  "Rubick": "Intelligence",
-	  "Sand King": "Strength",
-	  "Shadow Demon": "Intelligence",
-	  "Shadow Shaman": "Intelligence",
-	  "Timbersaw": "Strength",
-	  "Silencer": "Intelligence",
-	  "Wraith King": "Strength",
-	  "Skywrath Mage": "Intelligence",
-	  "Slardar": "Strength",
-	  "Slark": "Agility",
-	  "Sniper": "Agility",
-	  "Spectre": "Agility",
-	  "Spirit Breaker": "Strength",
-	  "Storm Spirit": "Intelligence",
-	  "Sven": "Strength",
-	  "Techies": "Intelligence",
-	  "Templar Assassin": "Agility",
-	  "Terrorblade": "Agility",
-	  "Tidehunter": "Strength",
-	  "Tinker": "Intelligence",
-	  "Tiny": "Strength",
-	  "Treant Protector": "Strength",
-	  "Troll Warlord": "Agility",
-	  "Tusk": "Strength",
-	  "Undying": "Strength",
-	  "Ursa": "Agility",
-	  "Vengeful Spirit": "Agility",
-	  "Venomancer": "Agility",
-	  "Viper": "Agility",
-	  "Visage": "Intelligence",
-	  "Warlock": "Intelligence",
-	  "Weaver": "Agility",
-	  "Windranger": "Intelligence",
-	  "Winter Wyvern": "Intelligence",
-	  "Io": "Intelligence",
-	  "Witch Doctor": "Intelligence",
-	  "Zeus": "Intelligence"
-	};
-
-	module.exports = PrimaryStats;
-
-/***/ },
-/* 509 */
+/* 513 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    Row = __webpack_require__(251).Row;
+	    Row = __webpack_require__(251).Row,
+	    Col = __webpack_require__(251).Col,
+	    TimeUtil = __webpack_require__(497),
+	    Clusters = __webpack_require__(498);
 
-	var HeroList = React.createClass({
-	  displayName: 'HeroList',
+	var OpenMatch = React.createClass({
+	  displayName: 'OpenMatch',
+
+	  orderPlayers: function (players) {
+	    var playerArray = players.slice();
+	    var orderedPlayers = [];
+	    var heroes = this.props.filters.heroes;
+
+	    for (var i = 0; i < heroes.length; i++) {
+	      for (var j = 0; j < playerArray.length; j++) {
+	        if (heroes[i] == playerArray[j].hero_id) {
+	          orderedPlayers.push(playerArray[j]);
+	          playerArray.splice(j, 1);
+	        }
+	      }
+	    }
+
+	    return orderedPlayers.concat(playerArray);
+	  },
+
+	  heroes: function () {
+	    var heroes = [];
+	    for (var i = 0; i < this.props.filters.heroes.length; i++) {
+	      heroes.push(parseInt(this.props.filters.heroes[i]));
+	    };
+	    return heroes;
+	  },
+
+	  winner: function () {
+	    var color = this.props.match.winner == "dire" ? "red" : "green";
+	    return React.createElement(
+	      'span',
+	      { className: color },
+	      this.props.match.winner.charAt(0).toUpperCase() + this.props.match.winner.slice(1) + " victory"
+	    );
+	  },
 
 	  render: function () {
 	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
-	    return React.createElement(
-	      Row,
-	      { className: 'hero-chart' },
-	      React.createElement(
-	        'h5',
-	        null,
-	        this.props.title
-	      ),
-	      this.props.heroes.map(function (hero, idx) {
-	        return React.createElement('div', { key: idx, style: { background: "url(" + url + hero.image_url + '_lg.png' + ") no-repeat center", backgroundSize: "cover" } });
-	      })
-	    );
+	    var match = this.props.match;
+
+	    if (match) {
+	      var radiant = this.orderPlayers(match.radiant);
+	      var dire = this.orderPlayers(match.dire);
+	      var heroes = this.heroes();
+
+	      return React.createElement(
+	        Row,
+	        { className: 'match-open' },
+	        React.createElement(
+	          Col,
+	          { md: 5 },
+	          radiant.map(function (player, idx) {
+	            return React.createElement(
+	              Row,
+	              { className: 'radiant-details', key: idx },
+	              React.createElement(
+	                Col,
+	                { md: 4 },
+	                React.createElement('img', { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "radiant-highlighted", width: '65px', height: '65px', src: url + player.hero_image_url + '_vert.jpg' })
+	              ),
+	              React.createElement(
+	                Col,
+	                { md: 4 },
+	                React.createElement(
+	                  'span',
+	                  null,
+	                  player.hero_name
+	                ),
+	                React.createElement('br', null),
+	                React.createElement(
+	                  'span',
+	                  null,
+	                  player.kills + '/' + player.deaths + '/' + player.assists
+	                )
+	              ),
+	              React.createElement(Col, { md: 4 })
+	            );
+	          })
+	        ),
+	        React.createElement(Col, { md: 2 }),
+	        React.createElement(
+	          Col,
+	          { md: 5 },
+	          dire.map(function (player, idx) {
+	            return React.createElement(
+	              Row,
+	              { className: 'dire-details', key: idx },
+	              React.createElement(Col, { md: 4 }),
+	              React.createElement(
+	                Col,
+	                { md: 4 },
+	                React.createElement(
+	                  'span',
+	                  null,
+	                  player.hero_name
+	                ),
+	                React.createElement('br', null),
+	                React.createElement(
+	                  'span',
+	                  null,
+	                  player.kills + '/' + player.deaths + '/' + player.assists
+	                )
+	              ),
+	              React.createElement(
+	                Col,
+	                { md: 4 },
+	                React.createElement('img', { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "dire-highlighted", width: '65px', height: '65px', src: url + player.hero_image_url + '_vert.jpg' })
+	              )
+	            );
+	          })
+	        )
+	      );
+	    } else {
+	      return React.createElement('div', null);
+	    }
 	  }
 	});
 
-	module.exports = HeroList;
+	module.exports = OpenMatch;
 
 /***/ }
 /******/ ]);

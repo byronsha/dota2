@@ -4,7 +4,7 @@ var ApiUtil = {
   fetchAllMatches: function (callback, filters, spinnerCallback) {
     $.ajax({
       url: 'api/matches',
-      data: { filters: filters },
+      data: { filters: JSON.stringify(filters) },
       success: function (matches) {
         spinnerCallback();
         callback(matches);

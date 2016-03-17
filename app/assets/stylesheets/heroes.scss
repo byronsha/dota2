@@ -4,12 +4,11 @@
 
 .hero-chart {
   background: #202020;
+  padding: 0px 10px 10px 10px;
 }
 
 .hero-chart div {
   float: left;
-  // width: 29.6px;
-  // height: 60px;
   width: 45px;
   height: 27px;
   overflow: hidden;
@@ -49,4 +48,8 @@
   height: 136px;
   margin: 1px;
   margin-left: -82px;
+}
+
+.loading {
+  opacity: .6;
 }

@@ -2,10 +2,11 @@ class Match < ActiveRecord::Base
   has_many :players
 
   def self.find_by_filters(filters)
-    mode = filters[:mode] == "0" ? nil : filters[:mode].to_i
-    hero_ids = filters[:heroes].values.select { |value| value != "0" }.map(&:to_i)
-    radiant_ids = filters[:radiant].values.select { |value| value != "0" }.map(&:to_i)
-    dire_ids = filters[:dire].values.select { |value| value != "0" }.map(&:to_i)
+    mode = filters["mode"] == "0" ? nil : filters["mode"].to_i
+
+    hero_ids = filters["heroes"].map(&:to_i)
+    radiant_ids = filters["radiant"].map(&:to_i)
+    dire_ids = filters["dire"].map(&:to_i)
 
     match = Match
 

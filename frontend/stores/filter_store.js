@@ -5,35 +5,17 @@ var Store = require('flux/utils').Store,
 
 var _filters = {
   "mode": "22",
-  "heroes": {
-    "first": "0",
-    "second": "0",
-    "third": "0",
-    "fourth": "0",
-    "fifth": "0",
-  },
-  "radiant": {
-    "first": "0",
-    "second": "0",
-    "third": "0",
-    "fourth": "0",
-    "fifth": "0",
-  },
-  "dire": {
-    "first": "0",
-    "second": "0",
-    "third": "0",
-    "fourth": "0",
-    "fifth": "0",
-  }
+  "heroes": [],
+  "radiant": [],
+  "dire": []
 };
 
 var resetAllFilters = function () {
   _filters = {
     "mode": "22",
-    "heroes": {"first": "0", "second": "0", "third": "0", "fourth": "0", "fifth": "0"},
-    "radiant": { "first": "0", "second": "0", "third": "0", "fourth": "0", "fifth": "0"},
-    "dire": { "first": "0", "second": "0", "third": "0", "fourth": "0", "fifth": "0"}
+    "heroes": [],
+    "radiant": [],
+    "dire": []
   }
 };
 
@@ -42,7 +24,15 @@ var receiveModeFilter = function (filterParams) {
 };
 
 var receiveHeroFilter = function (filterParams) {
-  _filters[filterParams.filter][filterParams.slot] = filterParams.value;
+  _filters[filterParams.filter].push(filterParams.value);
+};
+
+var removeHeroFilter = function (filterParams) {
+  for (var i = 0; i < _filters[filterParams.filter].length; i++) {
+    if (_filters[filterParams.filter][i] == filterParams.value) {
+      _filters[filterParams.filter].splice(i, 1);
+    }
+  }
 };
 
 FilterStore.all = function () {
@@ -61,6 +51,10 @@ FilterStore.__onDispatch = function (payload) {
       break;
     case Constants.SET_HERO_FILTER:
       receiveHeroFilter(payload.filterParams);
+      FilterStore.__emitChange();
+      break;
+    case Constants.REMOVE_HERO_FILTER:
+      removeHeroFilter(payload.filterParams);
       FilterStore.__emitChange();
       break;
   }

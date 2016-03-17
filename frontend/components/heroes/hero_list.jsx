@@ -1,17 +1,16 @@
 var React = require('react'),
+    Hero = require('./hero.jsx'),
     Row = require('react-bootstrap').Row;
 
 var HeroList = React.createClass({
   render: function () {
-    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
+    var that = this;
     return (
       <Row className="hero-chart">
         <h5>{this.props.title}</h5>
         {
           this.props.heroes.map(function(hero, idx) {
-            return (
-              <div key={idx} style={{background: "url(" + url + hero.image_url + '_lg.png' + ") no-repeat center", backgroundSize: "cover"}}></div>
-            )
+            return <Hero key={idx} hero={hero} filters={that.props.filters} loading={that.props.loading}/>
           })
         }
       </Row>
