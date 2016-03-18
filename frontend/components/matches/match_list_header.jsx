@@ -5,7 +5,7 @@ var React = require('react'),
 var MatchListHeader = React.createClass({
   render: function () {
     return (
-      <Row className="match-list-header">
+      <Row className="list-header">
         <Col md={5}>
           <Col md={3}><h5>Match ID</h5></Col>
           <Col md={3}><h5>Mode</h5></Col>

@@ -41,18 +41,18 @@ json.array! @matches do |match|
       json.image_url item.image_url
     end
 
-    if player.player_abilities
-      json.abilities player.player_abilities do |player_ability|
-        json.id player_ability.ability_id
-        json.time player_ability.time
-        json.level player_ability.level
-
-        if player_ability.ability
-          json.name player_ability.ability.name
-          json.image_url player_ability.ability.image_url
-        end
-      end
-    end
+    # if player.player_abilities
+    #   json.abilities player.player_abilities do |player_ability|
+    #     json.id player_ability.ability_id
+    #     json.time player_ability.time
+    #     json.level player_ability.level
+    #
+    #     if player_ability.ability
+    #       json.name player_ability.ability.name
+    #       json.image_url player_ability.ability.image_url
+    #     end
+    #   end
+    # end
 
     if player.units
       json.units player.units do |unit|
@@ -97,18 +97,18 @@ json.array! @matches do |match|
       json.image_url item.image_url
     end
 
-    if player.player_abilities
-      json.abilities player.player_abilities do |player_ability|
-        json.id player_ability.ability_id
-        json.time player_ability.time
-        json.level player_ability.level
-
-        if player_ability.ability
-          json.name player_ability.ability.name
-          json.image_url player_ability.ability.image_url
-        end
-      end
-    end
+    # if player.player_abilities
+    #   json.abilities player.player_abilities do |player_ability|
+    #     json.id player_ability.ability_id
+    #     json.time player_ability.time
+    #     json.level player_ability.level
+    #
+    #     if player_ability.ability
+    #       json.name player_ability.ability.name
+    #       json.image_url player_ability.ability.image_url
+    #     end
+    #   end
+    # end
 
     if player.units
       json.units player.units do |unit|

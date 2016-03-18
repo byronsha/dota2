@@ -41359,7 +41359,7 @@
 	    FilterStore = new Store(Dispatcher);
 
 	var _filters = {
-	  "mode": "22",
+	  "mode": "0",
 	  "heroes": [],
 	  "radiant": [],
 	  "dire": []
@@ -41367,7 +41367,7 @@
 
 	var resetAllFilters = function () {
 	  _filters = {
-	    "mode": "22",
+	    "mode": "0",
 	    "heroes": [],
 	    "radiant": [],
 	    "dire": []
@@ -58675,7 +58675,7 @@
 	          React.createElement('br', null),
 	          React.createElement(
 	            'span',
-	            { className: 'subtext' },
+	            null,
 	            TimeUtil.timeAgo(match.start_time)
 	          )
 	        ),
@@ -58690,7 +58690,7 @@
 	          React.createElement('br', null),
 	          React.createElement(
 	            'span',
-	            { className: 'subtext' },
+	            null,
 	            match.match_type === "Public Matchmaking" ? "Normal" : match.match_type
 	          )
 	        ),
@@ -58701,7 +58701,7 @@
 	          React.createElement('br', null),
 	          React.createElement(
 	            'span',
-	            { className: 'subtext' },
+	            null,
 	            Clusters[match.cluster]
 	          )
 	        ),
@@ -58913,7 +58913,7 @@
 	  render: function () {
 	    return React.createElement(
 	      Row,
-	      { className: 'match-list-header' },
+	      { className: 'list-header' },
 	      React.createElement(
 	        Col,
 	        { md: 5 },
@@ -59071,24 +59071,7 @@
 	              null,
 	              hero.name
 	            ),
-	            React.createElement('img', { width: '100px', src: url + hero.image_url + '_lg.png' }),
-	            React.createElement(
-	              'ul',
-	              { className: 'horizontal' },
-	              hero.abilities.map(function (ability, idx) {
-	                return React.createElement(
-	                  'li',
-	                  { key: idx },
-	                  React.createElement(
-	                    'span',
-	                    null,
-	                    ability.name
-	                  ),
-	                  React.createElement('br', null),
-	                  React.createElement('img', { width: '75px', src: ability.image_url })
-	                );
-	              })
-	            )
+	            React.createElement('img', { width: '100px', src: url + hero.image_url + '_lg.png' })
 	          );
 	        })
 	      )
@@ -59098,13 +59081,18 @@
 
 	module.exports = Heroes;
 
-	// <iframe
-	//   className="hero-gif"
-	//   onClick={this.handleClick}
-	//   src={"https://gfycat.com/ifr/" + GfycatNames[hero.name]}
-	//   frameBorder="0"
-	//   scrolling="no">
-	// </iframe><br/>
+	// <ul className="horizontal">
+	//   {
+	//     hero.abilities.map(function(ability, idx) {
+	//       return (
+	//         <li key={idx}>
+	//           <span>{ability.name}</span><br/>
+	//           <img width="75px" src={ability.image_url}></img>
+	//         </li>
+	//       )
+	//     })
+	//   }
+	// </ul>
 
 /***/ },
 /* 503 */,
@@ -59678,7 +59666,8 @@
 	    Row = __webpack_require__(251).Row,
 	    Col = __webpack_require__(251).Col,
 	    TimeUtil = __webpack_require__(497),
-	    Clusters = __webpack_require__(498);
+	    Clusters = __webpack_require__(498),
+	    OpenMatchDetails = __webpack_require__(514);
 
 	var OpenMatch = React.createClass({
 	  displayName: 'OpenMatch',
@@ -59708,17 +59697,26 @@
 	    return heroes;
 	  },
 
-	  winner: function () {
-	    var color = this.props.match.winner == "dire" ? "red" : "green";
-	    return React.createElement(
-	      'span',
-	      { className: color },
-	      this.props.match.winner.charAt(0).toUpperCase() + this.props.match.winner.slice(1) + " victory"
-	    );
+	  getPlayerItems: function (player) {
+	    var items = player.items.slice();
+	    while (items.length < 6) {
+	      items.push(0);
+	    }
+
+	    return items;
+	  },
+
+	  getItemImage: function (item) {
+	    if (item == 0) {
+	      return React.createElement('img', { className: 'item-slot', src: 'http://www.htmlcsscolor.com/preview/gallery/101010.png' });
+	    } else {
+	      return React.createElement('img', { className: 'item-slot', src: "http://cdn.dota2.com/apps/dota2/images/items/" + item.image_url + "_lg.png" });
+	    }
 	  },
 
 	  render: function () {
-	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
+	    var that = this;
+	    var url = "http://cdn.dota2.com/apps/dota2/images/";
 	    var match = this.props.match;
 
 	    if (match) {
@@ -59732,62 +59730,166 @@
 	        React.createElement(
 	          Col,
 	          { md: 5 },
+	          React.createElement(
+	            Row,
+	            { className: 'list-header text-align-center' },
+	            React.createElement(
+	              'span',
+	              { className: 'green' },
+	              'Radiant'
+	            )
+	          ),
 	          radiant.map(function (player, idx) {
+	            var items = that.getPlayerItems(player);
 	            return React.createElement(
 	              Row,
-	              { className: 'radiant-details', key: idx },
+	              { className: idx % 2 == 0 ? "" : "even-row", key: idx },
 	              React.createElement(
 	                Col,
-	                { md: 4 },
-	                React.createElement('img', { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "radiant-highlighted", width: '65px', height: '65px', src: url + player.hero_image_url + '_vert.jpg' })
-	              ),
-	              React.createElement(
-	                Col,
-	                { md: 4 },
+	                { className: 'radiant-portraits', md: 3 },
 	                React.createElement(
-	                  'span',
-	                  null,
-	                  player.hero_name
-	                ),
-	                React.createElement('br', null),
-	                React.createElement(
-	                  'span',
-	                  null,
-	                  player.kills + '/' + player.deaths + '/' + player.assists
+	                  'div',
+	                  { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "radiant-highlighted-open" },
+	                  React.createElement('img', { width: '65px', height: '65px', src: url + 'heroes/' + player.hero_image_url + '_vert.jpg' })
 	                )
 	              ),
-	              React.createElement(Col, { md: 4 })
+	              React.createElement(
+	                Col,
+	                { md: 6 },
+	                React.createElement(
+	                  'div',
+	                  { className: 'pad-top' },
+	                  React.createElement(
+	                    'div',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'green' },
+	                      player.hero_name
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'float-right' },
+	                      "Lvl " + player.level
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'ul',
+	                    { className: 'horizontal float-left' },
+	                    items.map(function (item, idx) {
+	                      return React.createElement(
+	                        'li',
+	                        { key: idx },
+	                        that.getItemImage(item)
+	                      );
+	                    })
+	                  )
+	                )
+	              ),
+	              React.createElement(
+	                Col,
+	                { md: 3 },
+	                React.createElement(
+	                  'div',
+	                  { className: 'pad-top' },
+	                  React.createElement(
+	                    'span',
+	                    { className: 'green' },
+	                    player.kills + '/' + player.deaths + '/' + player.assists
+	                  ),
+	                  React.createElement('br', null),
+	                  React.createElement(
+	                    'span',
+	                    null,
+	                    player.last_hits + '/' + player.denies
+	                  )
+	                )
+	              )
 	            );
 	          })
 	        ),
-	        React.createElement(Col, { md: 2 }),
+	        React.createElement(
+	          Col,
+	          { md: 2 },
+	          React.createElement(OpenMatchDetails, { match: match })
+	        ),
 	        React.createElement(
 	          Col,
 	          { md: 5 },
+	          React.createElement(
+	            Row,
+	            { className: 'list-header text-align-center' },
+	            React.createElement(
+	              'span',
+	              { className: 'red' },
+	              'Dire'
+	            )
+	          ),
 	          dire.map(function (player, idx) {
+	            var items = that.getPlayerItems(player);
 	            return React.createElement(
 	              Row,
-	              { className: 'dire-details', key: idx },
-	              React.createElement(Col, { md: 4 }),
+	              { className: idx % 2 == 0 ? "" : "even-row", key: idx },
 	              React.createElement(
 	                Col,
-	                { md: 4 },
+	                { md: 3 },
 	                React.createElement(
-	                  'span',
-	                  null,
-	                  player.hero_name
-	                ),
-	                React.createElement('br', null),
-	                React.createElement(
-	                  'span',
-	                  null,
-	                  player.kills + '/' + player.deaths + '/' + player.assists
+	                  'div',
+	                  { className: 'float-right pad-top' },
+	                  React.createElement(
+	                    'span',
+	                    { className: 'red' },
+	                    player.kills + '/' + player.deaths + '/' + player.assists
+	                  ),
+	                  React.createElement('br', null),
+	                  React.createElement(
+	                    'span',
+	                    { className: 'float-right' },
+	                    player.last_hits + '/' + player.denies
+	                  )
 	                )
 	              ),
 	              React.createElement(
 	                Col,
-	                { md: 4 },
-	                React.createElement('img', { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "dire-highlighted", width: '65px', height: '65px', src: url + player.hero_image_url + '_vert.jpg' })
+	                { md: 6 },
+	                React.createElement(
+	                  'div',
+	                  { className: 'pad-top' },
+	                  React.createElement(
+	                    'div',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      null,
+	                      "Lvl " + player.level
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'red float-right' },
+	                      player.hero_name
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'ul',
+	                    { className: 'horizontal float-right' },
+	                    items.map(function (item, idx) {
+	                      return React.createElement(
+	                        'li',
+	                        { key: idx },
+	                        that.getItemImage(item)
+	                      );
+	                    })
+	                  )
+	                )
+	              ),
+	              React.createElement(
+	                Col,
+	                { md: 3 },
+	                React.createElement(
+	                  'div',
+	                  { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "dire-highlighted-open" },
+	                  React.createElement('img', { width: '65px', height: '65px', src: url + 'heroes/' + player.hero_image_url + '_vert.jpg' })
+	                )
 	              )
 	            );
 	          })
@@ -59800,6 +59902,89 @@
 	});
 
 	module.exports = OpenMatch;
+
+/***/ },
+/* 514 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    Row = __webpack_require__(251).Row,
+	    TimeUtil = __webpack_require__(497),
+	    Clusters = __webpack_require__(498);
+
+	var OpenMatchDetails = React.createClass({
+	  displayName: 'OpenMatchDetails',
+
+	  winner: function () {
+	    var color = this.props.match.winner == "dire" ? "neon-red" : "neon-green";
+	    return React.createElement(
+	      'p',
+	      { className: color },
+	      React.createElement(
+	        'a',
+	        { id: 'open-match-winner' },
+	        this.props.match.winner.charAt(0).toUpperCase() + this.props.match.winner.slice(1) + " Victory"
+	      )
+	    );
+	  },
+
+	  render: function () {
+	    var match = this.props.match;
+
+	    return React.createElement(
+	      'div',
+	      { className: 'text-align-center' },
+	      React.createElement(
+	        Row,
+	        { className: 'list-header' },
+	        React.createElement(
+	          'span',
+	          null,
+	          match.steam_match_id
+	        )
+	      ),
+	      React.createElement(Row, { className: 'open-match-row' }),
+	      React.createElement(
+	        Row,
+	        { className: 'open-match-row even-row' },
+	        React.createElement('br', null),
+	        this.winner()
+	      ),
+	      React.createElement(
+	        Row,
+	        { className: 'open-match-row pad-top' },
+	        React.createElement(
+	          'span',
+	          null,
+	          match.mode
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'span',
+	          null,
+	          Clusters[match.cluster]
+	        )
+	      ),
+	      React.createElement(
+	        Row,
+	        { className: 'open-match-row even-row pad-top' },
+	        React.createElement(
+	          'span',
+	          null,
+	          TimeUtil.timeAgo(match.start_time)
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'span',
+	          null,
+	          'Duration: ' + TimeUtil.format(match.duration)
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = OpenMatchDetails;
 
 /***/ }
 /******/ ]);

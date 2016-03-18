@@ -55,8 +55,19 @@ ul.dropdown-menu li {
   border: 2px solid #FF1177;
 }
 
-.subtext {
-  font-size: 11px;
+.radiant-highlighted-open {
+  margin: 0px;
+  border: 2px solid #B6FF00;
+  width: 69px;
+  height: 69px;
+  float: right;
+}
+
+.dire-highlighted-open {
+  margin: 0px;
+  border: 2px solid #FF1177;
+  width: 69px;
+  height: 69px;
 }
 
 .match-stats {
@@ -69,7 +80,7 @@ ul.dropdown-menu li {
   stroke: black;
 }
 
-.match-list-header {
+.list-header {
   color: white;
   background: #202020;
 }
@@ -98,4 +109,8 @@ ul.dropdown-menu li {
 
 .red {
   color: #FF1177;
+}
+
+.text-align-center {
+  text-align: center;
 }

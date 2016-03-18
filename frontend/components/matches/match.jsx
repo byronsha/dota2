@@ -49,17 +49,17 @@ var Match = React.createClass({
         <Col className="match-stats" md={5}>
           <Col md={3}>
             <span>{match.steam_match_id}</span><br/>
-            <span className="subtext">{TimeUtil.timeAgo(match.start_time)}</span>
+            <span>{TimeUtil.timeAgo(match.start_time)}</span>
           </Col>
 
           <Col id="match-mode" md={3}>
             <span>{match.mode}</span><br/>
-            <span className="subtext">{match.match_type === "Public Matchmaking" ? "Normal" : match.match_type}</span>
+            <span>{match.match_type === "Public Matchmaking" ? "Normal" : match.match_type}</span>
           </Col>
 
           <Col md={3}>
             {this.winner()}<br/>
-            <span className="subtext">{Clusters[match.cluster]}</span>
+            <span>{Clusters[match.cluster]}</span>
           </Col>
 
           <Col id="match-duration" md={3}>

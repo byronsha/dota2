@@ -106,13 +106,14 @@ class Match < ActiveRecord::Base
             sequence: match_detail["match_seq_num"],
             season: "6.86",
             cluster: match_detail["cluster"],
-            starts_at: Time.at(match_detail["start_time"]),
+            starts_at: match_detail["start_time"],
             first_blood: match_detail["first_blood_time"],
             duration: match_detail["duration"],
             winner: match_detail["radiant_win"] ? "radiant" : "dire",
             positive_votes: match_detail["positive_votes"],
             negative_votes: match_detail["negative_votes"],
-            players_count: match_detail["human_players"]
+            players_count: match_detail["human_players"],
+            skill_level: 3
           )
 
           match_detail["players"].each do |player|

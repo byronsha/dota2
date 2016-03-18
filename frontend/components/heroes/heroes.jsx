@@ -40,18 +40,6 @@ var Heroes = React.createClass({
                   <h3>{hero.name}</h3>
                   <img width="100px" src={url + hero.image_url + '_lg.png'}></img>
 
-                  <ul className="horizontal">
-                    {
-                      hero.abilities.map(function(ability, idx) {
-                        return (
-                          <li key={idx}>
-                            <span>{ability.name}</span><br/>
-                            <img width="75px" src={ability.image_url}></img>
-                          </li>
-                        )
-                      })
-                    }
-                  </ul>
                 </div>
               )
             })
@@ -64,10 +52,15 @@ var Heroes = React.createClass({
 
 module.exports = Heroes;
 
-// <iframe
-//   className="hero-gif"
-//   onClick={this.handleClick}
-//   src={"https://gfycat.com/ifr/" + GfycatNames[hero.name]}
-//   frameBorder="0"
-//   scrolling="no">
-// </iframe><br/>
+// <ul className="horizontal">
+//   {
+//     hero.abilities.map(function(ability, idx) {
+//       return (
+//         <li key={idx}>
+//           <span>{ability.name}</span><br/>
+//           <img width="75px" src={ability.image_url}></img>
+//         </li>
+//       )
+//     })
+//   }
+// </ul>

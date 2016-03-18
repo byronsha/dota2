@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :abilities, only: [:index]
     resources :heroes, only: [:index, :show]
     resources :items, only: [:index]
+    resources :players, only: [:index]
   end
 
   get '*path', to: 'static_pages#root'

@@ -4,7 +4,7 @@ var Store = require('flux/utils').Store,
     FilterStore = new Store(Dispatcher);
 
 var _filters = {
-  "mode": "22",
+  "mode": "0",
   "heroes": [],
   "radiant": [],
   "dire": []
@@ -12,7 +12,7 @@ var _filters = {
 
 var resetAllFilters = function () {
   _filters = {
-    "mode": "22",
+    "mode": "0",
     "heroes": [],
     "radiant": [],
     "dire": []

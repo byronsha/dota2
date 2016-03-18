@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160307073647) do
+ActiveRecord::Schema.define(version: 20160318024814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20160307073647) do
     t.integer  "players_count"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.integer  "skill_level"
   end
 
   add_index "matches", ["steam_match_id"], name: "index_matches_on_steam_match_id", unique: true, using: :btree
