@@ -10,6 +10,7 @@ var ModeFilter = React.createClass({
     var filterParams = { filter: "mode", value: mode }
     FilterActions.setModeFilter(filterParams);
   },
+
   render: function () {
     var that = this;
 

@@ -34427,7 +34427,8 @@
 	    OpenMatch = __webpack_require__(513),
 	    MatchList = __webpack_require__(495),
 	    Spinner = __webpack_require__(501),
-	    HeroSelector = __webpack_require__(510);
+	    HeroSelector = __webpack_require__(510),
+	    Button = __webpack_require__(251).Button;
 
 	var Matches = React.createClass({
 	  displayName: 'Matches',
@@ -34465,6 +34466,10 @@
 	    ApiActions.fetchAllMatches(FilterStore.all(), this.removeSpinner);
 	  },
 
+	  resetAllFilters: function () {
+	    FilterActions.resetAllFilters();
+	  },
+
 	  renderMatchList: function () {
 	    if (this.state.loading) {
 	      return React.createElement(Spinner, null);
@@ -34486,6 +34491,11 @@
 	      React.createElement(HeroSelector, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] }),
 	      React.createElement('br', null),
 	      React.createElement(ModeFilter, { mode: this.state.filters.mode }),
+	      React.createElement(
+	        Button,
+	        { onClick: this.resetAllFilters, bsStyle: 'danger', bsSize: 'xsmall' },
+	        'reset all'
+	      ),
 	      React.createElement('br', null),
 	      React.createElement('br', null),
 	      this.state.matches.length,
@@ -58516,6 +58526,7 @@
 	    var filterParams = { filter: "mode", value: mode };
 	    FilterActions.setModeFilter(filterParams);
 	  },
+
 	  render: function () {
 	    var that = this;
 
@@ -59346,6 +59357,12 @@
 	    Hero = __webpack_require__(511),
 	    Row = __webpack_require__(251).Row;
 
+	ICONS = {
+	  "Strength": "http://images.akamai.steamusercontent.com/ugc/577904070808139756/3576D33C5276E049213C6833FDFF09838ED41A32/",
+	  "Agility": "http://images.akamai.steamusercontent.com/ugc/577904070808154460/C57BDD6E75C20265FFA9F196A1299BA18BB7E289/",
+	  "Intelligence": "http://www.dotadatabase.net/Content/icon_int.png"
+	};
+
 	var HeroList = React.createClass({
 	  displayName: 'HeroList',
 
@@ -59353,10 +59370,12 @@
 	    var that = this;
 	    return React.createElement(
 	      Row,
-	      { className: 'hero-chart' },
+	      { className: 'hero-list' },
 	      React.createElement(
-	        'h5',
+	        'h4',
 	        null,
+	        React.createElement('img', { src: ICONS[this.props.title] }),
+	        ' ',
 	        this.props.title
 	      ),
 	      this.props.heroes.map(function (hero, idx) {

@@ -2,18 +2,44 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.hero-chart {
+.hero-list {
   background: #202020;
   padding: 0px 10px 10px 10px;
+
+  // -webkit-transition: all .3s ease-out;
+  //    -moz-transition: all .3s ease-out;
+  //     -ms-transition: all .3s ease-out;
+  //      -o-transition: all .3s ease-out;
+  //         transition: all .3s ease-out;
 }
 
-.hero-chart div {
+// .hero-list:hover {
+//   transform: scale(1.2);
+// }
+
+.hero-list div {
   float: left;
   width: 45px;
   height: 27px;
   overflow: hidden;
   position: relative;
   margin: 1px;
+
+  -webkit-transition: all .2s ease-out;
+     -moz-transition: all .2s ease-out;
+      -ms-transition: all .2s ease-out;
+       -o-transition: all .2s ease-out;
+          transition: all .2s ease-out;
+}
+
+.hero-list div:hover {
+  z-index: 100;
+  transform: scale(2);
+}
+
+.hero-list img {
+  width: 25px;
+  height: 25px;
 }
 
 .selected-heroes img {
