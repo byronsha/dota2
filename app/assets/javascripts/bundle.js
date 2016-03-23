@@ -59527,6 +59527,7 @@
 	    HeroStore = __webpack_require__(244),
 	    ApiActions = __webpack_require__(246),
 	    TimeUtil = __webpack_require__(497),
+	    StatsWithOtherHeroes = __webpack_require__(515),
 	    Row = __webpack_require__(251).Row,
 	    Col = __webpack_require__(251).Col,
 	    GfycatNames = __webpack_require__(504);
@@ -59536,10 +59537,12 @@
 
 	  getInitialState: function () {
 	    return {
-	      radiantWins: '',
-	      direWins: '',
-	      gamesPlayed: '',
-	      winrate: ''
+	      radiantWins: 0,
+	      direWins: 0,
+	      gamesPlayed: 0,
+	      winrate: 0,
+	      allies: [],
+	      opponents: []
 	    };
 	  },
 
@@ -59548,12 +59551,18 @@
 	    ApiActions.fetchHeroStats(heroId, this.receiveHeroStats);
 	  },
 
+	  componentWillReceiveProps: function (nextProps) {
+	    ApiActions.fetchHeroStats(nextProps.hero.id, this.receiveHeroStats);
+	  },
+
 	  receiveHeroStats: function (hero) {
 	    this.setState({
 	      radiantWins: hero.radiant_wins,
 	      direWins: hero.dire_wins,
 	      gamesPlayed: hero.games_played,
-	      winrate: hero.winrate
+	      winrate: hero.winrate,
+	      allies: hero.allied_win_loss,
+	      opponents: hero.versus_win_loss
 	    });
 	  },
 
@@ -59582,93 +59591,107 @@
 	  },
 
 	  render: function () {
+	    var state = this.state;
 	    var url = "http://cdn.dota2.com/apps/dota2/images/items/";
 	    var gamesWon = this.state.radiantWins + this.state.direWins;
-	    var gamesPlayed = this.state.gamesPlayed;
-	    var winrate = this.state.winrate;
-	    var player = this.props.player;
-	    var match = this.props.match;
 
 	    return React.createElement(
-	      Row,
-	      { className: 'selected-hero-stats' },
+	      'div',
+	      null,
 	      React.createElement(
-	        Col,
-	        { md: 4 },
-	        React.createElement('iframe', { className: 'gfycat',
-	          src: "https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name],
-	          frameBorder: '0',
-	          scrolling: 'no' }),
-	        React.createElement('br', null)
-	      ),
-	      React.createElement(
-	        Col,
-	        { md: 8 },
+	        Row,
+	        { className: 'selected-hero-stats' },
 	        React.createElement(
-	          Row,
-	          null,
-	          React.createElement(
-	            'h4',
-	            { className: 'hero-name' },
-	            this.props.hero.name.toUpperCase()
-	          ),
-	          React.createElement(
-	            'span',
-	            null,
-	            winrate + '% WIN RATE '
-	          ),
-	          React.createElement(
-	            'span',
-	            null,
-	            gamesWon + ' WINS '
-	          ),
-	          React.createElement(
-	            'span',
-	            null,
-	            gamesPlayed + ' GAMES PLAYED'
-	          )
+	          Col,
+	          { md: 6 },
+	          React.createElement('iframe', { className: 'gfycat',
+	            src: "https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name],
+	            frameBorder: '0',
+	            scrolling: 'no' })
 	        ),
 	        React.createElement(
-	          Row,
-	          null,
+	          Col,
+	          { md: 6 },
 	          React.createElement(
-	            'h5',
+	            Row,
 	            null,
-	            'LATEST MATCH '
-	          ),
-	          React.createElement(
-	            'ul',
-	            { className: 'horizontal' },
 	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'span',
-	                null,
-	                this.winOrLoss()
-	              ),
-	              React.createElement('br', null),
-	              React.createElement(
-	                'span',
-	                null,
-	                'Duration: ',
-	                TimeUtil.format(match.duration)
-	              ),
-	              React.createElement('br', null),
-	              React.createElement(
-	                'span',
-	                null,
-	                'KDA ' + player.kills + '/' + player.deaths + '/' + player.assists
-	              )
+	              'h2',
+	              { className: 'hero-name' },
+	              this.props.hero.name
 	            ),
 	            React.createElement(
-	              'li',
-	              { className: 'item-list' },
-	              player.items.map(function (item, idx) {
-	                return React.createElement('img', { key: idx, src: url + item.image_url + '_lg.png' });
-	              })
+	              'span',
+	              null,
+	              state.winrate + '% WIN RATE'
+	            ),
+	            React.createElement('br', null),
+	            React.createElement(
+	              'span',
+	              null,
+	              gamesWon + ' WINS'
+	            ),
+	            React.createElement('br', null),
+	            React.createElement(
+	              'span',
+	              null,
+	              state.gamesPlayed - gamesWon + ' LOSSES'
+	            ),
+	            React.createElement('br', null),
+	            React.createElement(
+	              'span',
+	              null,
+	              state.gamesPlayed + ' GAMES PLAYED'
 	            )
 	          )
+	        )
+	      ),
+	      React.createElement(
+	        Row,
+	        { className: 'selected-hero-stats' },
+	        React.createElement(
+	          Col,
+	          { md: 6 },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Best with'
+	          ),
+	          React.createElement(StatsWithOtherHeroes, { heroes: state.allies.slice(0, 5) })
+	        ),
+	        React.createElement(
+	          Col,
+	          { md: 6 },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Best against'
+	          ),
+	          React.createElement(StatsWithOtherHeroes, { heroes: state.opponents.slice(0, 5) })
+	        )
+	      ),
+	      React.createElement(
+	        Row,
+	        { className: 'selected-hero-stats' },
+	        React.createElement(
+	          Col,
+	          { md: 6 },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Worst with'
+	          ),
+	          React.createElement(StatsWithOtherHeroes, { heroes: state.allies.reverse().slice(0, 5) })
+	        ),
+	        React.createElement(
+	          Col,
+	          { md: 6 },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Worst against'
+	          ),
+	          React.createElement(StatsWithOtherHeroes, { heroes: state.opponents.reverse().slice(0, 5) })
 	        )
 	      )
 	    );
@@ -60004,6 +60027,46 @@
 	});
 
 	module.exports = OpenMatchDetails;
+
+/***/ },
+/* 515 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var StatsWithOtherHeroes = React.createClass({
+	  displayName: 'StatsWithOtherHeroes',
+
+	  renderHero: function (hero, idx) {
+	    return React.createElement(
+	      'li',
+	      { key: idx },
+	      React.createElement(
+	        'span',
+	        null,
+	        hero.hero
+	      ),
+	      React.createElement(
+	        'span',
+	        null,
+	        hero.winrate + '%'
+	      )
+	    );
+	  },
+
+	  render: function () {
+	    var that = this;
+	    return React.createElement(
+	      'ul',
+	      null,
+	      this.props.heroes.map(function (hero, idx) {
+	        return that.renderHero(hero, idx);
+	      })
+	    );
+	  }
+	});
+
+	module.exports = StatsWithOtherHeroes;
 
 /***/ }
 /******/ ]);
