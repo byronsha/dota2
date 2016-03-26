@@ -1,0 +1,37 @@
+.win-loss-bar {
+  transform: translateY(-23px);
+}
+
+.bar-text {
+  font-size: 10px;
+  transform: translate(45px,-74px);
+}
+
+.other-hero-stats {
+  padding-top: 16px;
+  height: 153px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.other-hero-stats li {
+  height: 26px;
+}
+
+.hero-name {
+  margin-top: -20px;
+  margin-bottom: 0px;
+  padding-left: 15px;
+}
+
+.selected-hero-column {
+  padding: 5px;
+  background: #202020;
+  margin-left: 1px;
+}
+
+.game-count-bar {
+  fill: #FFD700;
+  stroke-width: 1px;
+  stroke: black;
+}

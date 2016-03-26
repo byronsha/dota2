@@ -10,7 +10,9 @@ var React = require('react'),
     MatchList = require('./match_list.jsx'),
     Spinner = require('./spinner.jsx'),
     HeroSelector = require('../heroes/hero_selector.jsx'),
+    SelectedHero = require('../heroes/selected_hero.jsx'),
     Button = require('react-bootstrap').Button;
+    Col = require('react-bootstrap').Col;
 
 var Matches = React.createClass({
   getInitialState: function () {
@@ -66,17 +68,22 @@ var Matches = React.createClass({
     var hero = HeroStore.findById(this.state.filters.heroes[this.state.filters.heroes.length - 1]);
     return (
       <div>
-        <br/>
-        <HeroSelector heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/><br/>
-        <ModeFilter mode={this.state.filters.mode}/>
-        <Button onClick={this.resetAllFilters} bsStyle="danger" bsSize="xsmall">reset all</Button><br/><br/>
+        <Col md={2}>
+          <HeroSelector heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
+          {this.state.matches.length} results<br/><br/>
+          <ModeFilter mode={this.state.filters.mode}/>
+          <Button onClick={this.resetAllFilters} bsStyle="danger" bsSize="xsmall">reset all</Button><br/><br/>
+        </Col>
 
-        {this.state.matches.length} results<br/><br/>
+        <Col md={2}>
+          <SelectedHero heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
+        </Col>
 
-        <OpenMatch filters={this.state.filters} match={this.state.matches[0]}/><br/><br/>
-
-        <MatchListHeader/>
-        {this.renderMatchList()}
+        <Col md={8}>
+          <OpenMatch filters={this.state.filters} match={this.state.matches[0]}/><br/>
+          <MatchListHeader/>
+          {this.renderMatchList()}
+        </Col>
       </div>
     )
   }

@@ -2,7 +2,8 @@ var React = require('react'),
     HeroStore = require('../../stores/hero_store.js'),
     ApiActions = require('../../actions/api_actions.js'),
     TimeUtil = require('../../util/time_util.js'),
-    StatsWithOtherHeroes = require('./stats_with_other_heroes.jsx'),
+    GamesWithOtherHeroes = require('./games_with_other_heroes.jsx'),
+    WinratesWithOtherHeroes = require('./winrates_with_other_heroes.jsx'),
     Row = require('react-bootstrap').Row,
     Col = require('react-bootstrap').Col,
     GfycatNames = require('../../constants/gfycat_names.js');
@@ -53,8 +54,9 @@ var SelectedHeroStats = React.createClass({
     var gamesWon = this.state.radiantWins + this.state.direWins;
 
     return (
-      <div>
+      <Row>
         <Row className="selected-hero-stats">
+          <h2 className="hero-name">{this.props.hero.name}</h2>
           <Col md={6}>
             <iframe className="gfycat"
               src={"https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name]}
@@ -63,41 +65,44 @@ var SelectedHeroStats = React.createClass({
             </iframe>
           </Col>
 
-          <Col md={6}>
+          <Col md={5}>
             <Row>
-              <h2 className="hero-name">{this.props.hero.name}</h2>
-              <span>{state.winrate + '% WIN RATE'}</span><br/>
-              <span>{gamesWon + ' WINS'}</span><br/>
-              <span>{(state.gamesPlayed - gamesWon) + ' LOSSES'}</span><br/>
-              <span>{state.gamesPlayed + ' GAMES PLAYED'}</span>
+              <span>{'WIN RATE: ' + state.winrate + '%'}</span><br/>
+              <span>{'WINS: ' + gamesWon}</span><br/>
+              <span>{'LOSSES: ' + (state.gamesPlayed - gamesWon)}</span><br/>
+              <span>{'GAMES: ' + state.gamesPlayed}</span>
             </Row>
           </Col>
         </Row>
 
         <Row className="selected-hero-stats">
-          <Col md={6}>
-            <h3>Best with</h3>
-            <StatsWithOtherHeroes heroes={state.allies.slice(0,5)}/>
-          </Col>
-
-          <Col md={6}>
-            <h3>Best against</h3>
-            <StatsWithOtherHeroes heroes={state.opponents.slice(0,5)}/>
+          <Col md={12}>
+            <h3>Games with:</h3>
+            <GamesWithOtherHeroes heroes={state.allies.slice()}/>
           </Col>
         </Row>
 
         <Row className="selected-hero-stats">
-          <Col md={6}>
-            <h3>Worst with</h3>
-            <StatsWithOtherHeroes heroes={state.allies.reverse().slice(0,5)}/>
-          </Col>
-
-          <Col md={6}>
-            <h3>Worst against</h3>
-            <StatsWithOtherHeroes heroes={state.opponents.reverse().slice(0,5)}/>
+          <Col md={12}>
+            <h3>Games against:</h3>
+            <GamesWithOtherHeroes heroes={state.opponents.slice()}/>
           </Col>
         </Row>
-      </div>
+
+        <Row className="selected-hero-stats">
+          <Col md={12}>
+            <h3>Winrate with:</h3>
+            <WinratesWithOtherHeroes heroes={state.allies.slice()}/>
+          </Col>
+        </Row>
+
+        <Row className="selected-hero-stats">
+          <Col md={12}>
+            <h3>Winrate against:</h3>
+            <WinratesWithOtherHeroes heroes={state.opponents.slice()}/>
+          </Col>
+        </Row>
+      </Row>
     )
   }
 });

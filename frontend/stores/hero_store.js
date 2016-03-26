@@ -21,6 +21,14 @@ HeroStore.findById = function (id) {
   }
 };
 
+HeroStore.findByName = function (name) {
+  for (var i = 0; i < _heroes.length; i++) {
+    if (_heroes[i].name == name) {
+      return _heroes[i];
+    }
+  }
+};
+
 HeroStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case Constants.ALL_HEROES_RECEIVED:

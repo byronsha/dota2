@@ -24742,7 +24742,7 @@
 	      React.createElement(Navbar, null),
 	      React.createElement(
 	        'div',
-	        { className: 'container' },
+	        { className: 'container-fluid' },
 	        this.props.children
 	      )
 	    );
@@ -34326,7 +34326,7 @@
 	      null,
 	      React.createElement(
 	        "div",
-	        { className: "container" },
+	        { className: "container-fluid" },
 	        React.createElement(
 	          "ul",
 	          { className: "links" },
@@ -34428,7 +34428,9 @@
 	    MatchList = __webpack_require__(495),
 	    Spinner = __webpack_require__(501),
 	    HeroSelector = __webpack_require__(510),
+	    SelectedHero = __webpack_require__(520),
 	    Button = __webpack_require__(251).Button;
+	Col = __webpack_require__(251).Col;
 
 	var Matches = React.createClass({
 	  displayName: 'Matches',
@@ -34487,26 +34489,36 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement('br', null),
-	      React.createElement(HeroSelector, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] }),
-	      React.createElement('br', null),
-	      React.createElement(ModeFilter, { mode: this.state.filters.mode }),
 	      React.createElement(
-	        Button,
-	        { onClick: this.resetAllFilters, bsStyle: 'danger', bsSize: 'xsmall' },
-	        'reset all'
+	        Col,
+	        { md: 2 },
+	        React.createElement(HeroSelector, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] }),
+	        this.state.matches.length,
+	        ' results',
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement(ModeFilter, { mode: this.state.filters.mode }),
+	        React.createElement(
+	          Button,
+	          { onClick: this.resetAllFilters, bsStyle: 'danger', bsSize: 'xsmall' },
+	          'reset all'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('br', null)
 	      ),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      this.state.matches.length,
-	      ' results',
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement(OpenMatch, { filters: this.state.filters, match: this.state.matches[0] }),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement(MatchListHeader, null),
-	      this.renderMatchList()
+	      React.createElement(
+	        Col,
+	        { md: 2 },
+	        React.createElement(SelectedHero, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] })
+	      ),
+	      React.createElement(
+	        Col,
+	        { md: 8 },
+	        React.createElement(OpenMatch, { filters: this.state.filters, match: this.state.matches[0] }),
+	        React.createElement('br', null),
+	        React.createElement(MatchListHeader, null),
+	        this.renderMatchList()
+	      )
 	    );
 	  }
 	});
@@ -41343,6 +41355,14 @@
 	HeroStore.findById = function (id) {
 	  for (var i = 0; i < _heroes.length; i++) {
 	    if (_heroes[i].id == id) {
+	      return _heroes[i];
+	    }
+	  }
+	};
+
+	HeroStore.findByName = function (name) {
+	  for (var i = 0; i < _heroes.length; i++) {
+	    if (_heroes[i].name == name) {
 	      return _heroes[i];
 	    }
 	  }
@@ -58581,7 +58601,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    Match = __webpack_require__(496);
+	    Match = __webpack_require__(496),
+	    Row = __webpack_require__(251).Row;
 
 	var MatchList = React.createClass({
 	  displayName: 'MatchList',
@@ -58602,7 +58623,7 @@
 	    var xScale = this.getXScale(props);
 
 	    return React.createElement(
-	      'div',
+	      Row,
 	      { className: 'match-list' },
 	      this.props.matches.map(function (match, idx) {
 	        return React.createElement(Match, { even: idx % 2 === 0, key: idx, match: match, filters: filters, xScale: xScale });
@@ -58889,20 +58910,19 @@
 /* 499 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158);
+	var React = __webpack_require__(1);
 
 	var DurationBar = React.createClass({
-	  displayName: 'DurationBar',
+	  displayName: "DurationBar",
 
 	  render: function () {
 	    return React.createElement(
-	      'svg',
+	      "svg",
 	      { width: 98, height: 8 },
 	      React.createElement(
-	        'g',
+	        "g",
 	        null,
-	        React.createElement('rect', { className: 'duration-bar', width: this.props.xScale(this.props.duration), height: 8 })
+	        React.createElement("rect", { className: "duration-bar", width: this.props.xScale(this.props.duration), height: 8 })
 	      )
 	    );
 	  }
@@ -59392,40 +59412,11 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    Row = __webpack_require__(251).Row,
-	    Col = __webpack_require__(251).Col,
 	    HeroList = __webpack_require__(509),
-	    HeroStore = __webpack_require__(244),
-	    SelectedHeroStats = __webpack_require__(512),
-	    GfycatNames = __webpack_require__(504),
 	    PrimaryStats = __webpack_require__(508);
 
 	var HeroSelector = React.createClass({
 	  displayName: 'HeroSelector',
-
-	  getHeroPlayer: function () {
-	    if (this.props.match) {
-	      var id = this.props.filters.heroes[this.props.filters.heroes.length - 1];
-	      var players = this.props.match.radiant.concat(this.props.match.dire);
-
-	      for (var i = 0; i < players.length; i++) {
-	        if (players[i].hero_id == id) {
-	          return players[i];
-	        }
-	      }
-	    }
-	  },
-
-	  renderSelectedHeroStats: function () {
-	    var player = this.getHeroPlayer();
-
-	    if (typeof player == "undefined") {
-	      return React.createElement('div', null);
-	    } else {
-	      var hero = HeroStore.findById(player.hero_id);
-	      return React.createElement(SelectedHeroStats, { hero: hero, player: player, match: this.props.match });
-	    }
-	  },
 
 	  render: function () {
 	    var strength = [];
@@ -59444,22 +59435,13 @@
 	    };
 
 	    return React.createElement(
-	      Row,
+	      'div',
 	      null,
-	      React.createElement(
-	        Col,
-	        { md: 6 },
-	        React.createElement(HeroList, { heroes: strength, title: 'Strength', filters: this.props.filters, loading: this.props.loading }),
-	        React.createElement('br', null),
-	        React.createElement(HeroList, { heroes: agility, title: 'Agility', filters: this.props.filters, loading: this.props.loading }),
-	        React.createElement('br', null),
-	        React.createElement(HeroList, { heroes: intelligence, title: 'Intelligence', filters: this.props.filters, loading: this.props.loading })
-	      ),
-	      React.createElement(
-	        Col,
-	        { md: 6 },
-	        this.renderSelectedHeroStats()
-	      )
+	      React.createElement(HeroList, { heroes: strength, title: 'Strength', filters: this.props.filters, loading: this.props.loading }),
+	      React.createElement('br', null),
+	      React.createElement(HeroList, { heroes: agility, title: 'Agility', filters: this.props.filters, loading: this.props.loading }),
+	      React.createElement('br', null),
+	      React.createElement(HeroList, { heroes: intelligence, title: 'Intelligence', filters: this.props.filters, loading: this.props.loading })
 	    );
 	  }
 	});
@@ -59527,7 +59509,8 @@
 	    HeroStore = __webpack_require__(244),
 	    ApiActions = __webpack_require__(246),
 	    TimeUtil = __webpack_require__(497),
-	    StatsWithOtherHeroes = __webpack_require__(515),
+	    GamesWithOtherHeroes = __webpack_require__(518),
+	    WinratesWithOtherHeroes = __webpack_require__(517),
 	    Row = __webpack_require__(251).Row,
 	    Col = __webpack_require__(251).Col,
 	    GfycatNames = __webpack_require__(504);
@@ -59596,11 +59579,16 @@
 	    var gamesWon = this.state.radiantWins + this.state.direWins;
 
 	    return React.createElement(
-	      'div',
+	      Row,
 	      null,
 	      React.createElement(
 	        Row,
 	        { className: 'selected-hero-stats' },
+	        React.createElement(
+	          'h2',
+	          { className: 'hero-name' },
+	          this.props.hero.name
+	        ),
 	        React.createElement(
 	          Col,
 	          { md: 6 },
@@ -59611,37 +59599,32 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 6 },
+	          { md: 5 },
 	          React.createElement(
 	            Row,
 	            null,
 	            React.createElement(
-	              'h2',
-	              { className: 'hero-name' },
-	              this.props.hero.name
-	            ),
-	            React.createElement(
 	              'span',
 	              null,
-	              state.winrate + '% WIN RATE'
+	              'WIN RATE: ' + state.winrate + '%'
 	            ),
 	            React.createElement('br', null),
 	            React.createElement(
 	              'span',
 	              null,
-	              gamesWon + ' WINS'
+	              'WINS: ' + gamesWon
 	            ),
 	            React.createElement('br', null),
 	            React.createElement(
 	              'span',
 	              null,
-	              state.gamesPlayed - gamesWon + ' LOSSES'
+	              'LOSSES: ' + (state.gamesPlayed - gamesWon)
 	            ),
 	            React.createElement('br', null),
 	            React.createElement(
 	              'span',
 	              null,
-	              state.gamesPlayed + ' GAMES PLAYED'
+	              'GAMES: ' + state.gamesPlayed
 	            )
 	          )
 	        )
@@ -59651,23 +59634,13 @@
 	        { className: 'selected-hero-stats' },
 	        React.createElement(
 	          Col,
-	          { md: 6 },
+	          { md: 12 },
 	          React.createElement(
 	            'h3',
 	            null,
-	            'Best with'
+	            'Games with:'
 	          ),
-	          React.createElement(StatsWithOtherHeroes, { heroes: state.allies.slice(0, 5) })
-	        ),
-	        React.createElement(
-	          Col,
-	          { md: 6 },
-	          React.createElement(
-	            'h3',
-	            null,
-	            'Best against'
-	          ),
-	          React.createElement(StatsWithOtherHeroes, { heroes: state.opponents.slice(0, 5) })
+	          React.createElement(GamesWithOtherHeroes, { heroes: state.allies.slice() })
 	        )
 	      ),
 	      React.createElement(
@@ -59675,23 +59648,41 @@
 	        { className: 'selected-hero-stats' },
 	        React.createElement(
 	          Col,
-	          { md: 6 },
+	          { md: 12 },
 	          React.createElement(
 	            'h3',
 	            null,
-	            'Worst with'
+	            'Games against:'
 	          ),
-	          React.createElement(StatsWithOtherHeroes, { heroes: state.allies.reverse().slice(0, 5) })
-	        ),
+	          React.createElement(GamesWithOtherHeroes, { heroes: state.opponents.slice() })
+	        )
+	      ),
+	      React.createElement(
+	        Row,
+	        { className: 'selected-hero-stats' },
 	        React.createElement(
 	          Col,
-	          { md: 6 },
+	          { md: 12 },
 	          React.createElement(
 	            'h3',
 	            null,
-	            'Worst against'
+	            'Winrate with:'
 	          ),
-	          React.createElement(StatsWithOtherHeroes, { heroes: state.opponents.reverse().slice(0, 5) })
+	          React.createElement(WinratesWithOtherHeroes, { heroes: state.allies.slice() })
+	        )
+	      ),
+	      React.createElement(
+	        Row,
+	        { className: 'selected-hero-stats' },
+	        React.createElement(
+	          Col,
+	          { md: 12 },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Winrate against:'
+	          ),
+	          React.createElement(WinratesWithOtherHeroes, { heroes: state.opponents.slice() })
 	        )
 	      )
 	    );
@@ -60029,27 +60020,75 @@
 	module.exports = OpenMatchDetails;
 
 /***/ },
-/* 515 */
+/* 515 */,
+/* 516 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 
-	var StatsWithOtherHeroes = React.createClass({
-	  displayName: 'StatsWithOtherHeroes',
+	var WinLossBar = React.createClass({
+	  displayName: "WinLossBar",
+
+	  render: function () {
+	    var hero = this.props.hero;
+	    var winrate = hero.winrate;
+	    var lossrate = 100 - winrate;
+
+	    return React.createElement(
+	      "svg",
+	      { className: "win-loss-bar", width: 100, height: 10 },
+	      React.createElement(
+	        "g",
+	        null,
+	        React.createElement("rect", { className: "wins-bar", x: 45, width: this.props.xScale(winrate), height: 10 }),
+	        React.createElement("rect", { className: "losses-bar", x: this.props.xScale(winrate) + 45, width: this.props.xScale(lossrate), height: 10 })
+	      )
+	    );
+	  }
+	});
+
+	module.exports = WinLossBar;
+
+/***/ },
+/* 517 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    HeroStore = __webpack_require__(244),
+	    WinLossBar = __webpack_require__(516);
+
+	var WinratesWithOtherHeroes = React.createClass({
+	  displayName: 'WinratesWithOtherHeroes',
+
+	  getXScale: function (props) {
+	    heroes = props.heroes;
+
+	    return d3.scale.linear().domain([0, 50]).range([0, 100]);
+	  },
 
 	  renderHero: function (hero, idx) {
+	    var xScale = this.getXScale(this.props);
+	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
+	    var alliedHero = HeroStore.findByName(hero.hero);
+
 	    return React.createElement(
 	      'li',
 	      { key: idx },
+	      React.createElement('img', { src: url + alliedHero.image_url + '_lg.png', height: '25px' }),
+	      React.createElement(WinLossBar, { hero: hero, xScale: xScale }),
 	      React.createElement(
-	        'span',
-	        null,
-	        hero.hero
-	      ),
-	      React.createElement(
-	        'span',
-	        null,
-	        hero.winrate + '%'
+	        'div',
+	        { className: 'bar-text' },
+	        React.createElement(
+	          'span',
+	          null,
+	          hero.hero + ': '
+	        ),
+	        React.createElement(
+	          'span',
+	          null,
+	          hero.winrate + '% '
+	        )
 	      )
 	    );
 	  },
@@ -60057,16 +60096,170 @@
 	  render: function () {
 	    var that = this;
 	    return React.createElement(
-	      'ul',
-	      null,
-	      this.props.heroes.map(function (hero, idx) {
-	        return that.renderHero(hero, idx);
-	      })
+	      'div',
+	      { className: 'other-hero-stats' },
+	      React.createElement(
+	        'ul',
+	        null,
+	        this.props.heroes.map(function (hero, idx) {
+	          return that.renderHero(hero, idx);
+	        })
+	      )
 	    );
 	  }
 	});
 
-	module.exports = StatsWithOtherHeroes;
+	module.exports = WinratesWithOtherHeroes;
+
+/***/ },
+/* 518 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    HeroStore = __webpack_require__(244),
+	    GameCountBar = __webpack_require__(519);
+
+	var WinratesWithOtherHeroes = React.createClass({
+	  displayName: 'WinratesWithOtherHeroes',
+
+	  getXScale: function (props) {
+	    heroes = props.heroes;
+
+	    var xMax = d3.max(heroes, function (hero) {
+	      return hero.games;
+	    });
+
+	    return d3.scale.linear().domain([0, xMax]).range([0, 100]);
+	  },
+
+	  sortedHeroes: function () {
+	    return this.props.heroes.sort(function (a, b) {
+	      if (a.games < b.games) {
+	        return 1;
+	      } else if (a.games > b.games) {
+	        return -1;
+	      } else {
+	        return 0;
+	      }
+	    });
+	  },
+
+	  renderHero: function (hero, idx) {
+	    var xScale = this.getXScale(this.props);
+	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
+	    var alliedHero = HeroStore.findByName(hero.hero);
+
+	    return React.createElement(
+	      'li',
+	      { key: idx },
+	      React.createElement('img', { src: url + alliedHero.image_url + '_lg.png', height: '25px' }),
+	      React.createElement(GameCountBar, { hero: hero, xScale: xScale }),
+	      React.createElement(
+	        'div',
+	        { className: 'bar-text' },
+	        React.createElement(
+	          'span',
+	          null,
+	          hero.hero + ': '
+	        ),
+	        React.createElement(
+	          'span',
+	          null,
+	          hero.games
+	        )
+	      )
+	    );
+	  },
+
+	  render: function () {
+	    var that = this;
+	    var heroes = this.sortedHeroes();
+
+	    return React.createElement(
+	      'div',
+	      { className: 'other-hero-stats' },
+	      React.createElement(
+	        'ul',
+	        null,
+	        heroes.map(function (hero, idx) {
+	          return that.renderHero(hero, idx);
+	        })
+	      )
+	    );
+	  }
+	});
+
+	module.exports = WinratesWithOtherHeroes;
+
+/***/ },
+/* 519 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var GameCountBar = React.createClass({
+	  displayName: "GameCountBar",
+
+	  render: function () {
+	    return React.createElement(
+	      "svg",
+	      { className: "win-loss-bar", width: 100, height: 10 },
+	      React.createElement(
+	        "g",
+	        null,
+	        React.createElement("rect", { className: "game-count-bar", x: 45, width: this.props.xScale(this.props.hero.games) * 1.4, height: 10 })
+	      )
+	    );
+	  }
+	});
+
+	module.exports = GameCountBar;
+
+/***/ },
+/* 520 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    HeroStore = __webpack_require__(244),
+	    SelectedHeroStats = __webpack_require__(512);
+
+	var SelectedHero = React.createClass({
+	  displayName: 'SelectedHero',
+
+	  getHeroPlayer: function () {
+	    if (this.props.match) {
+	      var id = this.props.filters.heroes[this.props.filters.heroes.length - 1];
+	      var players = this.props.match.radiant.concat(this.props.match.dire);
+
+	      for (var i = 0; i < players.length; i++) {
+	        if (players[i].hero_id == id) {
+	          return players[i];
+	        }
+	      }
+	    }
+	  },
+
+	  renderSelectedHeroStats: function () {
+	    var player = this.getHeroPlayer();
+
+	    if (typeof player == "undefined") {
+	      return React.createElement('div', null);
+	    } else {
+	      var hero = HeroStore.findById(player.hero_id);
+	      return React.createElement(SelectedHeroStats, { hero: hero, player: player, match: this.props.match });
+	    }
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'selected-hero-column' },
+	      this.renderSelectedHeroStats()
+	    );
+	  }
+	});
+
+	module.exports = SelectedHero;
 
 /***/ }
 /******/ ]);

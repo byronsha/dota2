@@ -1,0 +1,45 @@
+var React = require('react'),
+    HeroStore = require('../../stores/hero_store.js'),
+    WinLossBar = require('./win_loss_bar.jsx');
+
+var WinratesWithOtherHeroes = React.createClass({
+  getXScale: function(props) {
+    heroes = props.heroes;
+
+    return d3.scale.linear()
+      .domain([0, 50])
+      .range([0, 100]);
+  },
+
+  renderHero: function (hero, idx) {
+    var xScale = this.getXScale(this.props);
+    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
+    var alliedHero = HeroStore.findByName(hero.hero);
+
+    return (
+      <li key={idx}>
+        <img src={url + alliedHero.image_url + '_lg.png'} height="25px"></img>
+        <WinLossBar hero={hero} xScale={xScale}/>
+        <div className="bar-text">
+          <span>{hero.hero + ': '}</span>
+          <span>{hero.winrate + '% '}</span>
+        </div>
+      </li>
+    )
+  },
+
+  render: function () {
+    var that = this;
+    return (
+      <div className="other-hero-stats">
+        <ul>
+          {this.props.heroes.map(function (hero, idx) {
+            return that.renderHero(hero, idx);
+          })}
+        </ul>
+      </div>
+    )
+  }
+});
+
+module.exports = WinratesWithOtherHeroes;

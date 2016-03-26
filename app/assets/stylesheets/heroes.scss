@@ -5,22 +5,12 @@
 .hero-list {
   background: #202020;
   padding: 0px 10px 10px 10px;
-
-  // -webkit-transition: all .3s ease-out;
-  //    -moz-transition: all .3s ease-out;
-  //     -ms-transition: all .3s ease-out;
-  //      -o-transition: all .3s ease-out;
-  //         transition: all .3s ease-out;
 }
-
-// .hero-list:hover {
-//   transform: scale(1.2);
-// }
 
 .hero-list div {
   float: left;
-  width: 45px;
-  height: 27px;
+  width: 54px;
+  height: 30px;
   overflow: hidden;
   position: relative;
   margin: 1px;
@@ -70,16 +60,32 @@
   font-size: 16px;
 }
 
+.selected-hero-stats h3 {
+  margin-top: 0px;
+}
+
 .item-list {
   padding-top: -15px;
 }
 
 .gfycat {
-  height: 165px;
+  height: 115px;
   margin: 1px;
-  margin-left: -30px;
+  margin-left: -88px;
 }
 
 .loading {
   opacity: .6;
+}
+
+.wins-bar {
+  fill: #B6FF00;
+  stroke-width: 1px;
+  stroke: black;
+}
+
+.losses-bar {
+  fill: #FF1177;
+  stroke-width: 1px;
+  stroke: black;
 }

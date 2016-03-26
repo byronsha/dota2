@@ -1,5 +1,6 @@
 var React = require('react'),
-    Match = require('./match.jsx');
+    Match = require('./match.jsx'),
+    Row = require('react-bootstrap').Row;
 
 var MatchList = React.createClass({
   getXScale: function(props) {
@@ -18,7 +19,7 @@ var MatchList = React.createClass({
     var xScale = this.getXScale(props);
 
     return (
-      <div className="match-list">
+      <Row className="match-list">
         {
           this.props.matches.map(function(match, idx) {
             return (
@@ -26,7 +27,7 @@ var MatchList = React.createClass({
             )
           })
         }
-      </div>
+      </Row>
     )
   }
 });

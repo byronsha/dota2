@@ -5,7 +5,7 @@ var Navbar = React.createClass({
   render: function () {
     return (
         <nav>
-          <div className="container">
+          <div className="container-fluid">
             <ul className="links">
               <li><Link to={'/'}><span>home</span></Link></li>
               <li><Link to={'/matches'}><span>matches</span></Link></li>

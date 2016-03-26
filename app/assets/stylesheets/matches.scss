@@ -18,8 +18,11 @@
   padding-right: 0;
 }
 
-ul.horizontal {
+ul {
   list-style-type: none;
+}
+
+ul.horizontal {
   padding-left: 0px;
   margin-bottom: 0px;
 }
@@ -96,7 +99,9 @@ ul.dropdown-menu li {
 }
 
 .match-list {
-  margin-bottom: 50px;
+  height: 600px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .selected-heroes li {
