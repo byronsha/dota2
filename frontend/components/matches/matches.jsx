@@ -75,11 +75,11 @@ var Matches = React.createClass({
           <Button onClick={this.resetAllFilters} bsStyle="danger" bsSize="xsmall">reset all</Button><br/><br/>
         </Col>
 
-        <Col md={2}>
+        <Col md={3}>
           <SelectedHero heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
         </Col>
 
-        <Col md={8}>
+        <Col md={7}>
           <OpenMatch filters={this.state.filters} match={this.state.matches[0]}/><br/>
           <MatchListHeader/>
           {this.renderMatchList()}

@@ -19,5 +19,3 @@ var Navbar = React.createClass({
 });
 
 module.exports = Navbar;
-
-// <Link to={'/'}><img src="http://shotsfiredgaming.com/misc/stream_images/dota2_symbol.png"></img></Link>

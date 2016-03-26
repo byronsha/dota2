@@ -34390,8 +34390,6 @@
 
 	module.exports = Navbar;
 
-	// <Link to={'/'}><img src="http://shotsfiredgaming.com/misc/stream_images/dota2_symbol.png"></img></Link>
-
 /***/ },
 /* 219 */
 /***/ function(module, exports, __webpack_require__) {
@@ -34508,12 +34506,12 @@
 	      ),
 	      React.createElement(
 	        Col,
-	        { md: 2 },
+	        { md: 3 },
 	        React.createElement(SelectedHero, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] })
 	      ),
 	      React.createElement(
 	        Col,
-	        { md: 8 },
+	        { md: 7 },
 	        React.createElement(OpenMatch, { filters: this.state.filters, match: this.state.matches[0] }),
 	        React.createElement('br', null),
 	        React.createElement(MatchListHeader, null),
@@ -58695,7 +58693,7 @@
 	      { className: this.props.even ? "even-row" : "odd-row" },
 	      React.createElement(
 	        Col,
-	        { className: 'match-stats', md: 5 },
+	        { md: 5 },
 	        React.createElement(
 	          Col,
 	          { md: 3 },
@@ -58713,7 +58711,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { id: 'match-mode', md: 3 },
+	          { md: 3 },
 	          React.createElement(
 	            'span',
 	            null,

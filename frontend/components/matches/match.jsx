@@ -46,13 +46,13 @@ var Match = React.createClass({
 
     return (
       <Row className={this.props.even ? "even-row" : "odd-row"}>
-        <Col className="match-stats" md={5}>
+        <Col md={5}>
           <Col md={3}>
             <span>{match.steam_match_id}</span><br/>
             <span>{TimeUtil.timeAgo(match.start_time)}</span>
           </Col>
 
-          <Col id="match-mode" md={3}>
+          <Col md={3}>
             <span>{match.mode}</span><br/>
             <span>{match.match_type === "Public Matchmaking" ? "Normal" : match.match_type}</span>
           </Col>
