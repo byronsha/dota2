@@ -8,7 +8,7 @@ var WinratesWithOtherHeroes = React.createClass({
 
     return d3.scale.linear()
       .domain([0, 50])
-      .range([0, 100]);
+      .range([0, 175]);
   },
 
   renderHero: function (hero, idx) {
@@ -16,22 +16,26 @@ var WinratesWithOtherHeroes = React.createClass({
     var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
     var alliedHero = HeroStore.findByName(hero.hero);
 
-    return (
-      <li key={idx}>
-        <img src={url + alliedHero.image_url + '_lg.png'} height="25px"></img>
-        <WinLossBar hero={hero} xScale={xScale}/>
-        <div className="bar-text">
-          <span>{hero.hero + ': '}</span>
-          <span>{hero.winrate + '% '}</span>
-        </div>
-      </li>
-    )
+    if (typeof alliedHero !== "undefined") {
+      return (
+        <li key={idx}>
+          <img src={url + alliedHero.image_url + '_lg.png'} height="25px"></img>
+          <WinLossBar hero={hero} xScale={xScale}/>
+          <div className="bar-text">
+            <span>{hero.hero + ': '}</span>
+            <span>{hero.winrate + '% '}</span>
+          </div>
+        </li>
+      )
+    } else {
+      return <li key={idx}/>
+    }
   },
 
   render: function () {
     var that = this;
     return (
-      <div className="other-hero-stats">
+      <div className="other-hero-stats" id={this.props.initial ? "initial-stats" : ""}>
         <ul>
           {this.props.heroes.map(function (hero, idx) {
             return that.renderHero(hero, idx);

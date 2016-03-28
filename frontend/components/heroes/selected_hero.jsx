@@ -1,6 +1,7 @@
 var React = require('react'),
     HeroStore = require('../../stores/hero_store.js'),
-    SelectedHeroStats = require('../heroes/selected_hero_stats.jsx');
+    SelectedHeroStats = require('../heroes/selected_hero_stats.jsx'),
+    InitialStats = require('../heroes/initial_stats.jsx');
 
 var SelectedHero = React.createClass({
   getHeroPlayer: function () {
@@ -20,12 +21,10 @@ var SelectedHero = React.createClass({
     var player = this.getHeroPlayer();
 
     if (typeof player == "undefined") {
-      return <div/>;
+      return <InitialStats/>;
     } else {
       var hero = HeroStore.findById(player.hero_id);
-      return (
-        <SelectedHeroStats hero={hero} player={player} match={this.props.match}/>
-      );
+      return <SelectedHeroStats hero={hero} player={player} match={this.props.match}/>;
     }
   },
 

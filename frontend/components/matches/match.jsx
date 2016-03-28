@@ -47,29 +47,29 @@ var Match = React.createClass({
     return (
       <Row className={this.props.even ? "even-row" : "odd-row"}>
         <Col md={5}>
-          <Col md={3}>
+          <Col id="match-stats-column" md={3}>
             <span>{match.steam_match_id}</span><br/>
             <span>{TimeUtil.timeAgo(match.start_time)}</span>
           </Col>
 
-          <Col md={3}>
+          <Col id="match-stats-column" md={3}>
             <span>{match.mode}</span><br/>
             <span>{match.match_type === "Public Matchmaking" ? "Normal" : match.match_type}</span>
           </Col>
 
-          <Col md={3}>
+          <Col id="match-stats-column" md={3}>
             {this.winner()}<br/>
             <span>{Clusters[match.cluster]}</span>
           </Col>
 
-          <Col id="match-duration" md={3}>
+          <Col id="match-stats-column" md={3}>
             <span>{TimeUtil.format(match.duration)}</span>
             <DurationBar duration={match.duration} xScale={this.props.xScale}/>
           </Col>
         </Col>
 
         <Col md={7}>
-          <Col md={6}>
+          <Col id="match-stats-column" md={6}>
             <ul className="horizontal">
               {
                 radiant.map(function(player, idx) {
@@ -83,7 +83,7 @@ var Match = React.createClass({
             </ul>
           </Col>
 
-          <Col md={6}>
+          <Col id="match-stats-column" md={6}>
             <ul className="horizontal">
               {
                 dire.map(function(player, idx) {

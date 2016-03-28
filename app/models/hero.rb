@@ -67,7 +67,7 @@ class Hero < ActiveRecord::Base
       JOIN matches m ON p1.match_id = m.id
       JOIN heros h1 ON p1.hero_id = h1.id
       JOIN heros h2 ON p2.hero_id = h2.id
-      WHERE h1.id = 1
+      WHERE h1.id = ?
         AND p1.team = p2.team
         AND p1.id <> p2.id
         AND m.winner <> p1.team
@@ -136,7 +136,7 @@ class Hero < ActiveRecord::Base
       JOIN matches m ON p1.match_id = m.id
       JOIN heros h1 ON p1.hero_id = h1.id
       JOIN heros h2 ON p2.hero_id = h2.id
-      WHERE h1.id = 1
+      WHERE h1.id = ?
         AND p1.team <> p2.team
         AND p1.id <> p2.id
         AND m.winner = p2.team

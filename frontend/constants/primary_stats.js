@@ -47,7 +47,7 @@ var PrimaryStats = {
   "Lina": "Intelligence",
   "Lion": "Intelligence",
   "Lone Druid": "Agility",
-  "Luna": "Intelligence",
+  "Luna": "Agility",
   "Lycan": "Strength",
   "Magnus": "Strength",
   "Medusa": "Agility",

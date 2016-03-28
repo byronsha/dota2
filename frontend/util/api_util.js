@@ -37,6 +37,15 @@ var ApiUtil = {
         callback(hero);
       }
     })
+  },
+
+  fetchInitialStats: function(callback) {
+    $.ajax({
+      url: 'api/statistics/',
+      success: function (stats) {
+        callback(stats);
+      }
+    })
   }
 };
 

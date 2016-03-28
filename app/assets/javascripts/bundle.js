@@ -41328,7 +41328,9 @@
 	  SET_GAME_FILTER: "SET_MODE_FILTER",
 	  SET_HERO_FILTER: "SET_HERO_FILTER",
 	  REMOVE_HERO_FILTER: "REMOVE_HERO_FILTER",
-	  RESET_ALL_FILTERS: "RESET_ALL_FILTERS"
+	  RESET_ALL_FILTERS: "RESET_ALL_FILTERS",
+
+	  INITIAL_STATS_RECEIVED: "INITIAL_STATS_RECEIVED"
 	};
 
 /***/ },
@@ -41468,6 +41470,9 @@
 	  fetchHeroStats: function (heroId, callback) {
 	    ApiUtil.fetchHeroStats(heroId, callback);
 	  },
+	  fetchInitialStats: function () {
+	    ApiUtil.fetchInitialStats(ApiActions.receiveInitialStats);
+	  },
 
 	  // Responses
 
@@ -41487,6 +41492,12 @@
 	    Dispatcher.dispatch({
 	      actionType: Constants.ALL_ITEMS_RECEIVED,
 	      items: items
+	    });
+	  },
+	  receiveInitialStats: function (stats) {
+	    Dispatcher.dispatch({
+	      actionType: Constants.INITIAL_STATS_RECEIVED,
+	      stats: stats
 	    });
 	  }
 	};
@@ -41534,6 +41545,15 @@
 	      url: 'api/heroes/' + heroId,
 	      success: function (hero) {
 	        callback(hero);
+	      }
+	    });
+	  },
+
+	  fetchInitialStats: function (callback) {
+	    $.ajax({
+	      url: 'api/statistics/',
+	      success: function (stats) {
+	        callback(stats);
 	      }
 	    });
 	  }
@@ -58696,7 +58716,7 @@
 	        { md: 5 },
 	        React.createElement(
 	          Col,
-	          { md: 3 },
+	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'span',
 	            null,
@@ -58711,7 +58731,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 3 },
+	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'span',
 	            null,
@@ -58726,7 +58746,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 3 },
+	          { id: 'match-stats-column', md: 3 },
 	          this.winner(),
 	          React.createElement('br', null),
 	          React.createElement(
@@ -58737,7 +58757,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { id: 'match-duration', md: 3 },
+	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'span',
 	            null,
@@ -58751,7 +58771,7 @@
 	        { md: 7 },
 	        React.createElement(
 	          Col,
-	          { md: 6 },
+	          { id: 'match-stats-column', md: 6 },
 	          React.createElement(
 	            'ul',
 	            { className: 'horizontal' },
@@ -58766,7 +58786,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 6 },
+	          { id: 'match-stats-column', md: 6 },
 	          React.createElement(
 	            'ul',
 	            { className: 'horizontal' },
@@ -58948,7 +58968,7 @@
 	        { md: 5 },
 	        React.createElement(
 	          Col,
-	          { md: 3 },
+	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'h5',
 	            null,
@@ -58957,7 +58977,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 3 },
+	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'h5',
 	            null,
@@ -58966,7 +58986,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 3 },
+	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'h5',
 	            null,
@@ -58975,7 +58995,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 3 },
+	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'h5',
 	            null,
@@ -58988,7 +59008,7 @@
 	        { md: 7 },
 	        React.createElement(
 	          Col,
-	          { md: 6 },
+	          { id: 'match-stats-column', md: 6 },
 	          React.createElement(
 	            'h5',
 	            null,
@@ -58997,7 +59017,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 6 },
+	          { id: 'match-stats-column', md: 6 },
 	          React.createElement(
 	            'h5',
 	            null,
@@ -59300,7 +59320,7 @@
 	  "Lina": "Intelligence",
 	  "Lion": "Intelligence",
 	  "Lone Druid": "Agility",
-	  "Luna": "Intelligence",
+	  "Luna": "Agility",
 	  "Lycan": "Strength",
 	  "Magnus": "Strength",
 	  "Medusa": "Agility",
@@ -59638,7 +59658,7 @@
 	            null,
 	            'Games with:'
 	          ),
-	          React.createElement(GamesWithOtherHeroes, { heroes: state.allies.slice() })
+	          React.createElement(GamesWithOtherHeroes, { heroes: state.allies.slice(), initial: false })
 	        )
 	      ),
 	      React.createElement(
@@ -59652,7 +59672,7 @@
 	            null,
 	            'Games against:'
 	          ),
-	          React.createElement(GamesWithOtherHeroes, { heroes: state.opponents.slice() })
+	          React.createElement(GamesWithOtherHeroes, { heroes: state.opponents.slice(), initial: false })
 	        )
 	      ),
 	      React.createElement(
@@ -59666,7 +59686,7 @@
 	            null,
 	            'Winrate with:'
 	          ),
-	          React.createElement(WinratesWithOtherHeroes, { heroes: state.allies.slice() })
+	          React.createElement(WinratesWithOtherHeroes, { heroes: state.allies.slice(), initial: false })
 	        )
 	      ),
 	      React.createElement(
@@ -59680,7 +59700,7 @@
 	            null,
 	            'Winrate against:'
 	          ),
-	          React.createElement(WinratesWithOtherHeroes, { heroes: state.opponents.slice() })
+	          React.createElement(WinratesWithOtherHeroes, { heroes: state.opponents.slice(), initial: false })
 	        )
 	      )
 	    );
@@ -60061,7 +60081,7 @@
 	  getXScale: function (props) {
 	    heroes = props.heroes;
 
-	    return d3.scale.linear().domain([0, 50]).range([0, 100]);
+	    return d3.scale.linear().domain([0, 50]).range([0, 175]);
 	  },
 
 	  renderHero: function (hero, idx) {
@@ -60069,33 +60089,37 @@
 	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
 	    var alliedHero = HeroStore.findByName(hero.hero);
 
-	    return React.createElement(
-	      'li',
-	      { key: idx },
-	      React.createElement('img', { src: url + alliedHero.image_url + '_lg.png', height: '25px' }),
-	      React.createElement(WinLossBar, { hero: hero, xScale: xScale }),
-	      React.createElement(
-	        'div',
-	        { className: 'bar-text' },
+	    if (typeof alliedHero !== "undefined") {
+	      return React.createElement(
+	        'li',
+	        { key: idx },
+	        React.createElement('img', { src: url + alliedHero.image_url + '_lg.png', height: '25px' }),
+	        React.createElement(WinLossBar, { hero: hero, xScale: xScale }),
 	        React.createElement(
-	          'span',
-	          null,
-	          hero.hero + ': '
-	        ),
-	        React.createElement(
-	          'span',
-	          null,
-	          hero.winrate + '% '
+	          'div',
+	          { className: 'bar-text' },
+	          React.createElement(
+	            'span',
+	            null,
+	            hero.hero + ': '
+	          ),
+	          React.createElement(
+	            'span',
+	            null,
+	            hero.winrate + '% '
+	          )
 	        )
-	      )
-	    );
+	      );
+	    } else {
+	      return React.createElement('li', { key: idx });
+	    }
 	  },
 
 	  render: function () {
 	    var that = this;
 	    return React.createElement(
 	      'div',
-	      { className: 'other-hero-stats' },
+	      { className: 'other-hero-stats', id: this.props.initial ? "initial-stats" : "" },
 	      React.createElement(
 	        'ul',
 	        null,
@@ -60127,7 +60151,7 @@
 	      return hero.games;
 	    });
 
-	    return d3.scale.linear().domain([0, xMax]).range([0, 100]);
+	    return d3.scale.linear().domain([0, xMax]).range([0, 350]);
 	  },
 
 	  sortedHeroes: function () {
@@ -60147,26 +60171,30 @@
 	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
 	    var alliedHero = HeroStore.findByName(hero.hero);
 
-	    return React.createElement(
-	      'li',
-	      { key: idx },
-	      React.createElement('img', { src: url + alliedHero.image_url + '_lg.png', height: '25px' }),
-	      React.createElement(GameCountBar, { hero: hero, xScale: xScale }),
-	      React.createElement(
-	        'div',
-	        { className: 'bar-text' },
+	    if (typeof alliedHero !== "undefined") {
+	      return React.createElement(
+	        'li',
+	        { key: idx },
+	        React.createElement('img', { src: url + alliedHero.image_url + '_lg.png', height: '25px' }),
+	        React.createElement(GameCountBar, { hero: hero, xScale: xScale }),
 	        React.createElement(
-	          'span',
-	          null,
-	          hero.hero + ': '
-	        ),
-	        React.createElement(
-	          'span',
-	          null,
-	          hero.games
+	          'div',
+	          { className: 'bar-text' },
+	          React.createElement(
+	            'span',
+	            null,
+	            hero.hero + ': '
+	          ),
+	          React.createElement(
+	            'span',
+	            null,
+	            hero.games
+	          )
 	        )
-	      )
-	    );
+	      );
+	    } else {
+	      return React.createElement('li', { key: idx });
+	    }
 	  },
 
 	  render: function () {
@@ -60175,7 +60203,7 @@
 
 	    return React.createElement(
 	      'div',
-	      { className: 'other-hero-stats' },
+	      { className: 'other-hero-stats', id: this.props.initial ? "initial-stats" : "" },
 	      React.createElement(
 	        'ul',
 	        null,
@@ -60205,7 +60233,7 @@
 	      React.createElement(
 	        "g",
 	        null,
-	        React.createElement("rect", { className: "game-count-bar", x: 45, width: this.props.xScale(this.props.hero.games) * 1.4, height: 10 })
+	        React.createElement("rect", { className: "game-count-bar", x: 45, width: this.props.xScale(this.props.hero.games), height: 10 })
 	      )
 	    );
 	  }
@@ -60219,7 +60247,8 @@
 
 	var React = __webpack_require__(1),
 	    HeroStore = __webpack_require__(244),
-	    SelectedHeroStats = __webpack_require__(512);
+	    SelectedHeroStats = __webpack_require__(512),
+	    InitialStats = __webpack_require__(521);
 
 	var SelectedHero = React.createClass({
 	  displayName: 'SelectedHero',
@@ -60241,7 +60270,7 @@
 	    var player = this.getHeroPlayer();
 
 	    if (typeof player == "undefined") {
-	      return React.createElement('div', null);
+	      return React.createElement(InitialStats, null);
 	    } else {
 	      var hero = HeroStore.findById(player.hero_id);
 	      return React.createElement(SelectedHeroStats, { hero: hero, player: player, match: this.props.match });
@@ -60258,6 +60287,116 @@
 	});
 
 	module.exports = SelectedHero;
+
+/***/ },
+/* 521 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    StatisticsStore = __webpack_require__(522),
+	    ApiActions = __webpack_require__(246),
+	    GamesWithOtherHeroes = __webpack_require__(518),
+	    WinratesWithOtherHeroes = __webpack_require__(517),
+	    Row = __webpack_require__(251).Row,
+	    Col = __webpack_require__(251).Col;
+
+	var InitialStats = React.createClass({
+	  displayName: 'InitialStats',
+
+	  getInitialState: function () {
+	    return {
+	      gamesPlayed: [],
+	      winrates: []
+	    };
+	  },
+
+	  componentDidMount: function () {
+	    this.statisticsListener = StatisticsStore.addListener(this._onChange);
+	    ApiActions.fetchInitialStats();
+	  },
+
+	  _onChange: function () {
+	    this.setState({
+	      gamesPlayed: StatisticsStore.gamesPlayed(),
+	      winrates: StatisticsStore.winrates()
+	    });
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      Row,
+	      null,
+	      React.createElement(
+	        Row,
+	        { className: 'selected-hero-stats' },
+	        React.createElement(
+	          Col,
+	          { md: 12 },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Most played:'
+	          ),
+	          React.createElement(GamesWithOtherHeroes, { heroes: this.state.gamesPlayed.slice(), initial: true })
+	        )
+	      ),
+	      React.createElement(
+	        Row,
+	        { className: 'selected-hero-stats' },
+	        React.createElement(
+	          Col,
+	          { md: 12 },
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Winrates:'
+	          ),
+	          React.createElement(WinratesWithOtherHeroes, { heroes: this.state.winrates.slice(), initial: true })
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = InitialStats;
+
+/***/ },
+/* 522 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(222).Store,
+	    Dispatcher = __webpack_require__(240),
+	    Constants = __webpack_require__(243),
+	    StatisticsStore = new Store(Dispatcher);
+
+	var _statistics = {
+	  "gamesPlayed": [],
+	  "winrates": []
+	};
+
+	var receiveInitialStats = function (stats) {
+	  _statistics["gamesPlayed"] = stats.games_played;
+	  _statistics["winrates"] = stats.winrates;
+	};
+
+	StatisticsStore.gamesPlayed = function () {
+	  return _statistics["gamesPlayed"].slice();
+	};
+
+	StatisticsStore.winrates = function () {
+	  return _statistics["winrates"].slice();
+	};
+
+	StatisticsStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case Constants.INITIAL_STATS_RECEIVED:
+	      receiveInitialStats(payload.stats);
+	      StatisticsStore.__emitChange();
+	      break;
+	  }
+	};
+
+	module.exports = StatisticsStore;
 
 /***/ }
 /******/ ]);

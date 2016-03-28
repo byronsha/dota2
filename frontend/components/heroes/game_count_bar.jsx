@@ -5,7 +5,7 @@ var GameCountBar = React.createClass({
     return (
       <svg className="win-loss-bar" width={100} height={10}>
         <g>
-          <rect className="game-count-bar" x={45} width={this.props.xScale(this.props.hero.games) * 1.4} height={10}></rect>
+          <rect className="game-count-bar" x={45} width={this.props.xScale(this.props.hero.games)} height={10}></rect>
         </g>
       </svg>
     )
