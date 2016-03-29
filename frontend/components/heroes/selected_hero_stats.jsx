@@ -57,7 +57,7 @@ var SelectedHeroStats = React.createClass({
       <Row>
         <Row className="selected-hero-stats">
           <h2 className="hero-name">{this.props.hero.name}</h2>
-          <Col md={6}>
+          <Col md={4}>
             <iframe className="gfycat"
               src={"https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name]}
               frameBorder="0"
@@ -65,7 +65,7 @@ var SelectedHeroStats = React.createClass({
             </iframe>
           </Col>
 
-          <Col md={5}>
+          <Col md={8}>
             <Row>
               <span>{'WIN RATE: ' + state.winrate + '%'}</span><br/>
               <span>{'WINS: ' + gamesWon}</span><br/>
@@ -73,35 +73,35 @@ var SelectedHeroStats = React.createClass({
               <span>{'GAMES: ' + state.gamesPlayed}</span>
             </Row>
           </Col>
-        </Row>
+        </Row><br/>
 
         <Row className="selected-hero-stats">
           <Col md={12}>
             <h3>Games with:</h3>
             <GamesWithOtherHeroes heroes={state.allies.slice()} initial={false}/>
           </Col>
-        </Row>
+        </Row><br/>
 
         <Row className="selected-hero-stats">
           <Col md={12}>
             <h3>Games against:</h3>
             <GamesWithOtherHeroes heroes={state.opponents.slice()} initial={false}/>
           </Col>
-        </Row>
+        </Row><br/>
 
         <Row className="selected-hero-stats">
           <Col md={12}>
             <h3>Winrate with:</h3>
             <WinratesWithOtherHeroes heroes={state.allies.slice()} initial={false}/>
           </Col>
-        </Row>
+        </Row><br/>
 
         <Row className="selected-hero-stats">
           <Col md={12}>
             <h3>Winrate against:</h3>
             <WinratesWithOtherHeroes heroes={state.opponents.slice()} initial={false}/>
           </Col>
-        </Row>
+        </Row><br/>
       </Row>
     )
   }

@@ -1,9 +1,27 @@
 var React = require('react'),
     Match = require('./match.jsx'),
+    OpenMatch = require('./open_match.jsx'),
     Row = require('react-bootstrap').Row;
 
 var MatchList = React.createClass({
-  getXScale: function(props) {
+  getInitialState: function () {
+    return { openMatch: 0 }
+  },
+
+  renderMatch: function (match, idx) {
+    if (this.state.openMatch == idx) {
+      return <OpenMatch key={idx} filters={this.props.filters} match={match}/>
+    } else {
+      var xScale = this.getXScale(this.props);
+      return <Match key={idx} match={match} filters={this.props.filters} xScale={xScale} changeOpenMatch={this.changeOpenMatch} matchIndex={idx}/>
+    }
+  },
+
+  changeOpenMatch: function (idx) {
+    this.setState({ openMatch: idx })
+  },
+
+  getXScale: function (props) {
     matches = props.matches;
 
     var xMax = d3.max(matches, function(match) { return match.duration });
@@ -14,17 +32,13 @@ var MatchList = React.createClass({
   },
 
   render: function () {
-    var props = this.props;
-    var filters = props.filters;
-    var xScale = this.getXScale(props);
+    var that = this;
 
     return (
       <Row className="match-list">
         {
           this.props.matches.map(function(match, idx) {
-            return (
-              <Match even={idx % 2 === 0} key={idx} match={match} filters={filters} xScale={xScale}/>
-            )
+            return that.renderMatch(match, idx)
           })
         }
       </Row>

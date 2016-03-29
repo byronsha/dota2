@@ -16,6 +16,8 @@ class Api::StatisticsController < ApplicationController
     heroes.each do |hero|
       @statistics["winrates"] << {
         hero: hero,
+        wins: hero_wins[hero],
+        losses: hero_games[hero] - hero_wins[hero],
         winrate: (hero_wins[hero].to_f / hero_games[hero].to_f * 100).round(2)
       }
     end

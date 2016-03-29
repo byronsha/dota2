@@ -37,6 +37,10 @@ var Match = React.createClass({
     return <span className={color}>{this.props.match.winner.charAt(0).toUpperCase() + this.props.match.winner.slice(1) + " victory"}</span>;
   },
 
+  changeOpenMatch: function () {
+    this.props.changeOpenMatch(this.props.matchIndex);
+  },
+
   render: function () {
     var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
     var match = this.props.match;
@@ -45,7 +49,7 @@ var Match = React.createClass({
     var heroes = this.heroes();
 
     return (
-      <Row className={this.props.even ? "even-row" : "odd-row"}>
+      <Row onClick={this.changeOpenMatch}>
         <Col md={5}>
           <Col id="match-stats-column" md={3}>
             <span>{match.steam_match_id}</span><br/>

@@ -42,7 +42,7 @@ var OpenMatch = React.createClass({
 
   getItemImage: function (item) {
     if (item == 0) {
-      return <img className="item-slot" src="http://www.htmlcsscolor.com/preview/gallery/101010.png"></img>;
+      return <img className="item-slot" src="http://hydra-media.cursecdn.com/dota2.gamepedia.com/thumb/6/6b/Unknown_icon.png/128px-Unknown_icon.png?version=0e96d6b76f5c83fd05ceb93e9a0f52b6"></img>;
     } else {
       return <img className="item-slot" src={"http://cdn.dota2.com/apps/dota2/images/items/" + item.image_url + "_lg.png"}></img>;
     }
@@ -60,6 +60,7 @@ var OpenMatch = React.createClass({
 
       return (
         <Row className="match-open">
+          <h2 className="section-title">{'Match: ' + match.steam_match_id}</h2>
           <Col md={5}>
             <Row className="list-header text-align-center">
               <span className="green">Radiant</span>

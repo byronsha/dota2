@@ -3,14 +3,14 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .hero-list {
-  background: #202020;
+  // background: #202020;
   padding: 0px 10px 10px 10px;
 }
 
 .hero-list div {
   float: left;
-  width: 54px;
-  height: 30px;
+  width: 56px;
+  height: 33px;
   overflow: hidden;
   position: relative;
   margin: 1px;
@@ -45,7 +45,7 @@
 .selected-hero-stats {
   display: inline;
   color: white;
-  background: #202020;
+  // background: #202020;
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -60,8 +60,12 @@
   font-size: 16px;
 }
 
+.selected-hero-stats h2 {
+  margin-top: -20px;
+}
+
 .selected-hero-stats h3 {
-  margin-top: 0px;
+  margin-top: -20px;
 }
 
 .item-list {
@@ -69,9 +73,9 @@
 }
 
 .gfycat {
-  height: 115px;
+  height: 130px;
   margin: 1px;
-  margin-left: -88px;
+  margin-left: -85px;
 }
 
 .loading {
@@ -88,4 +92,21 @@
   fill: #FF1177;
   stroke-width: 1px;
   stroke: black;
+}
+
+.hero-selector h2 {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  padding-left: 10px;
+}
+
+.section-title {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  padding-left: 10px;
+}
+
+.hero-picker {
+  background: #202020;
+  height: calc(100vh - 52px);
 }

@@ -20,9 +20,17 @@
   color: white;
   font-family: "Iceland";
   font-weight: 300;
-  background: url("redtrees.jpg") no-repeat center fixed;
-  background-size: cover;
+  background-color: #404040;
+  /*background: url("redtrees.jpg") no-repeat center fixed;
+  background-size: cover;*/
+  height: 100vh;
   min-height: 100vh;
+  max-height: 100vh;
+}
+
+#app {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .container {

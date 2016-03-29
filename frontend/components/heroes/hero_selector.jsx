@@ -1,6 +1,7 @@
 var React = require('react'),
     HeroList = require('./hero_list.jsx'),
-    PrimaryStats = require('../../constants/primary_stats.js');
+    PrimaryStats = require('../../constants/primary_stats.js'),
+    Row = require('react-bootstrap').Row;
 
 var HeroSelector = React.createClass({
   render: function () {
@@ -20,9 +21,10 @@ var HeroSelector = React.createClass({
     };
 
     return (
-      <div>
-        <HeroList heroes={strength} title="Strength" filters={this.props.filters} loading={this.props.loading}/><br/>
-        <HeroList heroes={agility} title="Agility" filters={this.props.filters} loading={this.props.loading}/><br/>
+      <div className="hero-selector">
+        <Row><h2>Pick your heroes</h2></Row>
+        <HeroList heroes={strength} title="Strength" filters={this.props.filters} loading={this.props.loading}/>
+        <HeroList heroes={agility} title="Agility" filters={this.props.filters} loading={this.props.loading}/>
         <HeroList heroes={intelligence} title="Intelligence" filters={this.props.filters} loading={this.props.loading}/>
       </div>
     )

@@ -24742,7 +24742,7 @@
 	      React.createElement(Navbar, null),
 	      React.createElement(
 	        'div',
-	        { className: 'container-fluid' },
+	        { className: 'container-fluid', id: 'app' },
 	        this.props.children
 	      )
 	    );
@@ -34422,12 +34422,12 @@
 	    FilterActions = __webpack_require__(248),
 	    ModeFilter = __webpack_require__(493),
 	    MatchListHeader = __webpack_require__(500),
-	    OpenMatch = __webpack_require__(513),
 	    MatchList = __webpack_require__(495),
 	    Spinner = __webpack_require__(501),
 	    HeroSelector = __webpack_require__(510),
 	    SelectedHero = __webpack_require__(520),
 	    Button = __webpack_require__(251).Button;
+	Row = __webpack_require__(251).Row;
 	Col = __webpack_require__(251).Col;
 
 	var Matches = React.createClass({
@@ -34489,20 +34489,13 @@
 	      null,
 	      React.createElement(
 	        Col,
-	        { md: 2 },
+	        { md: 2, className: 'hero-picker' },
 	        React.createElement(HeroSelector, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] }),
-	        this.state.matches.length,
-	        ' results',
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        React.createElement(ModeFilter, { mode: this.state.filters.mode }),
 	        React.createElement(
 	          Button,
 	          { onClick: this.resetAllFilters, bsStyle: 'danger', bsSize: 'xsmall' },
 	          'reset all'
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('br', null)
+	        )
 	      ),
 	      React.createElement(
 	        Col,
@@ -34511,9 +34504,16 @@
 	      ),
 	      React.createElement(
 	        Col,
-	        { md: 7 },
-	        React.createElement(OpenMatch, { filters: this.state.filters, match: this.state.matches[0] }),
-	        React.createElement('br', null),
+	        { md: 7, className: 'recent-matches' },
+	        React.createElement(
+	          Row,
+	          null,
+	          React.createElement(
+	            'h2',
+	            { className: 'section-title' },
+	            'Recent matches'
+	          )
+	        ),
 	        React.createElement(MatchListHeader, null),
 	        this.renderMatchList()
 	      )
@@ -34522,6 +34522,8 @@
 	});
 
 	module.exports = Matches;
+
+	// <ModeFilter mode={this.state.filters.mode}/>
 
 /***/ },
 /* 221 */
@@ -58620,10 +58622,28 @@
 
 	var React = __webpack_require__(1),
 	    Match = __webpack_require__(496),
+	    OpenMatch = __webpack_require__(513),
 	    Row = __webpack_require__(251).Row;
 
 	var MatchList = React.createClass({
 	  displayName: 'MatchList',
+
+	  getInitialState: function () {
+	    return { openMatch: 0 };
+	  },
+
+	  renderMatch: function (match, idx) {
+	    if (this.state.openMatch == idx) {
+	      return React.createElement(OpenMatch, { key: idx, filters: this.props.filters, match: match });
+	    } else {
+	      var xScale = this.getXScale(this.props);
+	      return React.createElement(Match, { key: idx, match: match, filters: this.props.filters, xScale: xScale, changeOpenMatch: this.changeOpenMatch, matchIndex: idx });
+	    }
+	  },
+
+	  changeOpenMatch: function (idx) {
+	    this.setState({ openMatch: idx });
+	  },
 
 	  getXScale: function (props) {
 	    matches = props.matches;
@@ -58636,15 +58656,13 @@
 	  },
 
 	  render: function () {
-	    var props = this.props;
-	    var filters = props.filters;
-	    var xScale = this.getXScale(props);
+	    var that = this;
 
 	    return React.createElement(
 	      Row,
 	      { className: 'match-list' },
 	      this.props.matches.map(function (match, idx) {
-	        return React.createElement(Match, { even: idx % 2 === 0, key: idx, match: match, filters: filters, xScale: xScale });
+	        return that.renderMatch(match, idx);
 	      })
 	    );
 	  }
@@ -58701,6 +58719,10 @@
 	    );
 	  },
 
+	  changeOpenMatch: function () {
+	    this.props.changeOpenMatch(this.props.matchIndex);
+	  },
+
 	  render: function () {
 	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
 	    var match = this.props.match;
@@ -58710,7 +58732,7 @@
 
 	    return React.createElement(
 	      Row,
-	      { className: this.props.even ? "even-row" : "odd-row" },
+	      { onClick: this.changeOpenMatch },
 	      React.createElement(
 	        Col,
 	        { md: 5 },
@@ -59431,7 +59453,8 @@
 
 	var React = __webpack_require__(1),
 	    HeroList = __webpack_require__(509),
-	    PrimaryStats = __webpack_require__(508);
+	    PrimaryStats = __webpack_require__(508),
+	    Row = __webpack_require__(251).Row;
 
 	var HeroSelector = React.createClass({
 	  displayName: 'HeroSelector',
@@ -59454,11 +59477,18 @@
 
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'hero-selector' },
+	      React.createElement(
+	        Row,
+	        null,
+	        React.createElement(
+	          'h2',
+	          null,
+	          'Pick your heroes'
+	        )
+	      ),
 	      React.createElement(HeroList, { heroes: strength, title: 'Strength', filters: this.props.filters, loading: this.props.loading }),
-	      React.createElement('br', null),
 	      React.createElement(HeroList, { heroes: agility, title: 'Agility', filters: this.props.filters, loading: this.props.loading }),
-	      React.createElement('br', null),
 	      React.createElement(HeroList, { heroes: intelligence, title: 'Intelligence', filters: this.props.filters, loading: this.props.loading })
 	    );
 	  }
@@ -59609,7 +59639,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 6 },
+	          { md: 4 },
 	          React.createElement('iframe', { className: 'gfycat',
 	            src: "https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name],
 	            frameBorder: '0',
@@ -59617,7 +59647,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 5 },
+	          { md: 8 },
 	          React.createElement(
 	            Row,
 	            null,
@@ -59647,6 +59677,7 @@
 	          )
 	        )
 	      ),
+	      React.createElement('br', null),
 	      React.createElement(
 	        Row,
 	        { className: 'selected-hero-stats' },
@@ -59661,6 +59692,7 @@
 	          React.createElement(GamesWithOtherHeroes, { heroes: state.allies.slice(), initial: false })
 	        )
 	      ),
+	      React.createElement('br', null),
 	      React.createElement(
 	        Row,
 	        { className: 'selected-hero-stats' },
@@ -59675,6 +59707,7 @@
 	          React.createElement(GamesWithOtherHeroes, { heroes: state.opponents.slice(), initial: false })
 	        )
 	      ),
+	      React.createElement('br', null),
 	      React.createElement(
 	        Row,
 	        { className: 'selected-hero-stats' },
@@ -59689,6 +59722,7 @@
 	          React.createElement(WinratesWithOtherHeroes, { heroes: state.allies.slice(), initial: false })
 	        )
 	      ),
+	      React.createElement('br', null),
 	      React.createElement(
 	        Row,
 	        { className: 'selected-hero-stats' },
@@ -59702,7 +59736,8 @@
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: state.opponents.slice(), initial: false })
 	        )
-	      )
+	      ),
+	      React.createElement('br', null)
 	    );
 	  }
 	});
@@ -59759,7 +59794,7 @@
 
 	  getItemImage: function (item) {
 	    if (item == 0) {
-	      return React.createElement('img', { className: 'item-slot', src: 'http://www.htmlcsscolor.com/preview/gallery/101010.png' });
+	      return React.createElement('img', { className: 'item-slot', src: 'http://hydra-media.cursecdn.com/dota2.gamepedia.com/thumb/6/6b/Unknown_icon.png/128px-Unknown_icon.png?version=0e96d6b76f5c83fd05ceb93e9a0f52b6' });
 	    } else {
 	      return React.createElement('img', { className: 'item-slot', src: "http://cdn.dota2.com/apps/dota2/images/items/" + item.image_url + "_lg.png" });
 	    }
@@ -59778,6 +59813,11 @@
 	      return React.createElement(
 	        Row,
 	        { className: 'match-open' },
+	        React.createElement(
+	          'h2',
+	          { className: 'section-title' },
+	          'Match: ' + match.steam_match_id
+	        ),
 	        React.createElement(
 	          Col,
 	          { md: 5 },
@@ -60333,13 +60373,14 @@
 	          Col,
 	          { md: 12 },
 	          React.createElement(
-	            'h3',
+	            'h2',
 	            null,
 	            'Most played:'
 	          ),
 	          React.createElement(GamesWithOtherHeroes, { heroes: this.state.gamesPlayed.slice(), initial: true })
 	        )
 	      ),
+	      React.createElement('br', null),
 	      React.createElement(
 	        Row,
 	        { className: 'selected-hero-stats' },
@@ -60347,9 +60388,9 @@
 	          Col,
 	          { md: 12 },
 	          React.createElement(
-	            'h3',
+	            'h2',
 	            null,
-	            'Winrates:'
+	            'Highest winrates:'
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: this.state.winrates.slice(), initial: true })
 	        )
