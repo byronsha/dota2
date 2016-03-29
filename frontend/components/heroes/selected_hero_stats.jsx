@@ -76,30 +76,26 @@ var SelectedHeroStats = React.createClass({
         </Row><br/>
 
         <Row className="selected-hero-stats">
-          <Col md={12}>
+          <Col md={6}>
             <h3>Games with:</h3>
-            <GamesWithOtherHeroes heroes={state.allies.slice()} initial={false}/>
+            <GamesWithOtherHeroes heroes={state.allies.slice()} barWidth={40} maxWidth={130} initial={false}/>
           </Col>
-        </Row><br/>
 
-        <Row className="selected-hero-stats">
-          <Col md={12}>
+          <Col md={6}>
             <h3>Games against:</h3>
-            <GamesWithOtherHeroes heroes={state.opponents.slice()} initial={false}/>
+            <GamesWithOtherHeroes heroes={state.opponents.slice()} barWidth={40} maxWidth={130} initial={false}/>
           </Col>
         </Row><br/>
 
         <Row className="selected-hero-stats">
-          <Col md={12}>
+          <Col md={6}>
             <h3>Winrate with:</h3>
-            <WinratesWithOtherHeroes heroes={state.allies.slice()} initial={false}/>
+            <WinratesWithOtherHeroes heroes={state.allies.slice()} barWidth={100} maxWidth={130} initial={false}/>
           </Col>
-        </Row><br/>
 
-        <Row className="selected-hero-stats">
-          <Col md={12}>
+          <Col md={6}>
             <h3>Winrate against:</h3>
-            <WinratesWithOtherHeroes heroes={state.opponents.slice()} initial={false}/>
+            <WinratesWithOtherHeroes heroes={state.opponents.slice()} barWidth={100} maxWidth={130} initial={false}/>
           </Col>
         </Row><br/>
       </Row>

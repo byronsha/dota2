@@ -7,8 +7,8 @@ var WinratesWithOtherHeroes = React.createClass({
     heroes = props.heroes;
 
     return d3.scale.linear()
-      .domain([0, 50])
-      .range([0, 175]);
+      .domain([0, props.barWidth])
+      .range([0, props.maxWidth]);
   },
 
   renderHero: function (hero, idx) {
@@ -20,7 +20,7 @@ var WinratesWithOtherHeroes = React.createClass({
       return (
         <li key={idx}>
           <img src={url + alliedHero.image_url + '_lg.png'} height="25px"></img>
-          <WinLossBar hero={hero} xScale={xScale}/>
+          <WinLossBar hero={hero} xScale={xScale} barWidth={this.props.barWidth}/>
           <div className="bar-text">
             <span>{hero.hero + ': '}</span>
             <span>{hero.winrate + '% '}</span>

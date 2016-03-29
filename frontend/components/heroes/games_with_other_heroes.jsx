@@ -10,7 +10,7 @@ var WinratesWithOtherHeroes = React.createClass({
 
     return d3.scale.linear()
       .domain([0, xMax])
-      .range([0, 350]);
+      .range([0, props.maxWidth]);
   },
 
   sortedHeroes: function () {
@@ -34,7 +34,7 @@ var WinratesWithOtherHeroes = React.createClass({
       return (
         <li key={idx}>
           <img src={url + alliedHero.image_url + '_lg.png'} height="25px"></img>
-          <GameCountBar hero={hero} xScale={xScale}/>
+          <GameCountBar hero={hero} xScale={xScale} barWidth={this.props.barWidth}/>
           <div className="bar-text">
             <span>{hero.hero + ': '}</span>
             <span>{hero.games}</span>

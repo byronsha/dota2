@@ -60,7 +60,7 @@ var OpenMatch = React.createClass({
 
       return (
         <Row className="match-open">
-          <h2 className="section-title">{'Match: ' + match.steam_match_id}</h2>
+          <h2 className="section-title">{'Match ' + match.steam_match_id}</h2>
           <Col md={5}>
             <Row className="list-header text-align-center">
               <span className="green">Radiant</span>
@@ -69,7 +69,7 @@ var OpenMatch = React.createClass({
               radiant.map(function(player, idx) {
                 var items = that.getPlayerItems(player);
                 return (
-                  <Row className={idx % 2 == 0 ? "" : "even-row"} key={idx}>
+                  <Row key={idx}>
                     <Col className="radiant-portraits" md={3}>
                       <div className={heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "radiant-highlighted-open"}>
                         <img width="65px" height="65px" src={url + 'heroes/' + player.hero_image_url + '_vert.jpg'}></img>
@@ -116,7 +116,7 @@ var OpenMatch = React.createClass({
               dire.map(function(player, idx) {
                 var items = that.getPlayerItems(player);
                 return (
-                  <Row className={idx % 2 == 0 ? "" : "even-row"} key={idx}>
+                  <Row key={idx}>
                     <Col md={3}>
                       <div className="float-right pad-top">
                         <span className="red">{player.kills + '/' + player.deaths + '/' + player.assists}</span><br/>

@@ -59683,28 +59683,23 @@
 	        { className: 'selected-hero-stats' },
 	        React.createElement(
 	          Col,
-	          { md: 12 },
+	          { md: 6 },
 	          React.createElement(
 	            'h3',
 	            null,
 	            'Games with:'
 	          ),
-	          React.createElement(GamesWithOtherHeroes, { heroes: state.allies.slice(), initial: false })
-	        )
-	      ),
-	      React.createElement('br', null),
-	      React.createElement(
-	        Row,
-	        { className: 'selected-hero-stats' },
+	          React.createElement(GamesWithOtherHeroes, { heroes: state.allies.slice(), barWidth: 40, maxWidth: 130, initial: false })
+	        ),
 	        React.createElement(
 	          Col,
-	          { md: 12 },
+	          { md: 6 },
 	          React.createElement(
 	            'h3',
 	            null,
 	            'Games against:'
 	          ),
-	          React.createElement(GamesWithOtherHeroes, { heroes: state.opponents.slice(), initial: false })
+	          React.createElement(GamesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 40, maxWidth: 130, initial: false })
 	        )
 	      ),
 	      React.createElement('br', null),
@@ -59713,28 +59708,23 @@
 	        { className: 'selected-hero-stats' },
 	        React.createElement(
 	          Col,
-	          { md: 12 },
+	          { md: 6 },
 	          React.createElement(
 	            'h3',
 	            null,
 	            'Winrate with:'
 	          ),
-	          React.createElement(WinratesWithOtherHeroes, { heroes: state.allies.slice(), initial: false })
-	        )
-	      ),
-	      React.createElement('br', null),
-	      React.createElement(
-	        Row,
-	        { className: 'selected-hero-stats' },
+	          React.createElement(WinratesWithOtherHeroes, { heroes: state.allies.slice(), barWidth: 100, maxWidth: 130, initial: false })
+	        ),
 	        React.createElement(
 	          Col,
-	          { md: 12 },
+	          { md: 6 },
 	          React.createElement(
 	            'h3',
 	            null,
 	            'Winrate against:'
 	          ),
-	          React.createElement(WinratesWithOtherHeroes, { heroes: state.opponents.slice(), initial: false })
+	          React.createElement(WinratesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 100, maxWidth: 130, initial: false })
 	        )
 	      ),
 	      React.createElement('br', null)
@@ -59816,7 +59806,7 @@
 	        React.createElement(
 	          'h2',
 	          { className: 'section-title' },
-	          'Match: ' + match.steam_match_id
+	          'Match ' + match.steam_match_id
 	        ),
 	        React.createElement(
 	          Col,
@@ -59834,7 +59824,7 @@
 	            var items = that.getPlayerItems(player);
 	            return React.createElement(
 	              Row,
-	              { className: idx % 2 == 0 ? "" : "even-row", key: idx },
+	              { key: idx },
 	              React.createElement(
 	                Col,
 	                { className: 'radiant-portraits', md: 3 },
@@ -59920,7 +59910,7 @@
 	            var items = that.getPlayerItems(player);
 	            return React.createElement(
 	              Row,
-	              { className: idx % 2 == 0 ? "" : "even-row", key: idx },
+	              { key: idx },
 	              React.createElement(
 	                Col,
 	                { md: 3 },
@@ -60094,7 +60084,7 @@
 
 	    return React.createElement(
 	      "svg",
-	      { className: "win-loss-bar", width: 100, height: 10 },
+	      { className: "win-loss-bar", width: this.props.barWidth, height: 10 },
 	      React.createElement(
 	        "g",
 	        null,
@@ -60121,7 +60111,7 @@
 	  getXScale: function (props) {
 	    heroes = props.heroes;
 
-	    return d3.scale.linear().domain([0, 50]).range([0, 175]);
+	    return d3.scale.linear().domain([0, props.barWidth]).range([0, props.maxWidth]);
 	  },
 
 	  renderHero: function (hero, idx) {
@@ -60134,7 +60124,7 @@
 	        'li',
 	        { key: idx },
 	        React.createElement('img', { src: url + alliedHero.image_url + '_lg.png', height: '25px' }),
-	        React.createElement(WinLossBar, { hero: hero, xScale: xScale }),
+	        React.createElement(WinLossBar, { hero: hero, xScale: xScale, barWidth: this.props.barWidth }),
 	        React.createElement(
 	          'div',
 	          { className: 'bar-text' },
@@ -60191,7 +60181,7 @@
 	      return hero.games;
 	    });
 
-	    return d3.scale.linear().domain([0, xMax]).range([0, 350]);
+	    return d3.scale.linear().domain([0, xMax]).range([0, props.maxWidth]);
 	  },
 
 	  sortedHeroes: function () {
@@ -60216,7 +60206,7 @@
 	        'li',
 	        { key: idx },
 	        React.createElement('img', { src: url + alliedHero.image_url + '_lg.png', height: '25px' }),
-	        React.createElement(GameCountBar, { hero: hero, xScale: xScale }),
+	        React.createElement(GameCountBar, { hero: hero, xScale: xScale, barWidth: this.props.barWidth }),
 	        React.createElement(
 	          'div',
 	          { className: 'bar-text' },
@@ -60269,7 +60259,7 @@
 	  render: function () {
 	    return React.createElement(
 	      "svg",
-	      { className: "win-loss-bar", width: 100, height: 10 },
+	      { className: "win-loss-bar", width: this.props.barWidth, height: 10 },
 	      React.createElement(
 	        "g",
 	        null,
@@ -60377,7 +60367,7 @@
 	            null,
 	            'Most played:'
 	          ),
-	          React.createElement(GamesWithOtherHeroes, { heroes: this.state.gamesPlayed.slice(), initial: true })
+	          React.createElement(GamesWithOtherHeroes, { heroes: this.state.gamesPlayed.slice(), barWidth: 100, maxWidth: 350, initial: true })
 	        )
 	      ),
 	      React.createElement('br', null),
@@ -60392,7 +60382,7 @@
 	            null,
 	            'Highest winrates:'
 	          ),
-	          React.createElement(WinratesWithOtherHeroes, { heroes: this.state.winrates.slice(), initial: true })
+	          React.createElement(WinratesWithOtherHeroes, { heroes: this.state.winrates.slice(), barWidth: 100, maxWidth: 350, initial: true })
 	        )
 	      )
 	    );

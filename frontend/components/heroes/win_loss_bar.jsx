@@ -7,7 +7,7 @@ var WinLossBar = React.createClass({
     var lossrate = 100 - winrate;
 
     return (
-      <svg className="win-loss-bar" width={100} height={10}>
+      <svg className="win-loss-bar" width={this.props.barWidth} height={10}>
         <g>
           <rect className="wins-bar" x={45} width={this.props.xScale(winrate)} height={10}></rect>
           <rect className="losses-bar" x={this.props.xScale(winrate) + 45} width={this.props.xScale(lossrate)} height={10}></rect>
