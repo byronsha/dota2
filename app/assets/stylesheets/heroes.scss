@@ -3,7 +3,6 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .hero-list {
-  // background: #202020;
   padding: 0px 10px 10px 10px;
 }
 
@@ -45,7 +44,6 @@
 .selected-hero-stats {
   display: inline;
   color: white;
-  // background: #202020;
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -66,6 +64,15 @@
 
 .selected-hero-stats h3 {
   margin-top: -20px;
+}
+
+.overall-stats span {
+  font-size: 20px;
+}
+
+#selected-hero-chart {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .item-list {
@@ -107,6 +114,6 @@
 }
 
 .hero-picker {
-  background: #202020;
+  background: #006dac;
   height: calc(100vh - 52px);
 }

@@ -39,7 +39,6 @@ var Heroes = React.createClass({
                 <div key={idx}>
                   <h3>{hero.name}</h3>
                   <img width="100px" src={url + hero.image_url + '_lg.png'}></img>
-
                 </div>
               )
             })

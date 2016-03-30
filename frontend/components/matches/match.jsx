@@ -49,7 +49,7 @@ var Match = React.createClass({
     var heroes = this.heroes();
 
     return (
-      <Row onClick={this.changeOpenMatch}>
+      <Row className="match-row" onClick={this.changeOpenMatch}>
         <Col md={5}>
           <Col id="match-stats-column" md={3}>
             <span>{match.steam_match_id}</span><br/>

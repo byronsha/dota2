@@ -62,9 +62,6 @@ var OpenMatch = React.createClass({
         <Row className="match-open">
           <h2 className="section-title">{'Match ' + match.steam_match_id}</h2>
           <Col md={5}>
-            <Row className="list-header text-align-center">
-              <span className="green">Radiant</span>
-            </Row>
             {
               radiant.map(function(player, idx) {
                 var items = that.getPlayerItems(player);
@@ -109,9 +106,6 @@ var OpenMatch = React.createClass({
           </Col>
 
           <Col md={5}>
-            <Row className="list-header text-align-center">
-              <span className="red">Dire</span>
-            </Row>
             {
               dire.map(function(player, idx) {
                 var items = that.getPlayerItems(player);

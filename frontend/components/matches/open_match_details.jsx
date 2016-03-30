@@ -14,13 +14,9 @@ var OpenMatchDetails = React.createClass({
 
     return (
       <div className="text-align-center">
-        <Row className="list-header">
-          <span>{match.steam_match_id}</span>
-        </Row>
-
         <Row className="open-match-row"></Row>
 
-        <Row className="open-match-row even-row">
+        <Row className="open-match-row">
           <br/>{this.winner()}
         </Row>
 
@@ -29,7 +25,7 @@ var OpenMatchDetails = React.createClass({
           <span>{Clusters[match.cluster]}</span>
         </Row>
 
-        <Row className="open-match-row even-row pad-top">
+        <Row className="open-match-row pad-top">
           <span>{TimeUtil.timeAgo(match.start_time)}</span><br/>
           <span>{'Duration: ' + TimeUtil.format(match.duration)}</span>
         </Row>

@@ -52,11 +52,9 @@ var Matches = React.createClass({
     FilterActions.resetAllFilters();
   },
 
-  renderMatchList: function () {
+  renderLoadingScreen: function () {
     if (this.state.loading) {
-      return <Spinner/>;
-    } else {
-      return <MatchList matches={this.state.matches} filters={this.state.filters}/>;
+      return <div className="loader"/>
     }
   },
 
@@ -68,6 +66,8 @@ var Matches = React.createClass({
     var hero = HeroStore.findById(this.state.filters.heroes[this.state.filters.heroes.length - 1]);
     return (
       <div>
+        {this.renderLoadingScreen()}
+
         <Col md={2} className="hero-picker">
           <HeroSelector heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
           <Button onClick={this.resetAllFilters} bsStyle="danger" bsSize="xsmall">reset all</Button>
@@ -80,7 +80,7 @@ var Matches = React.createClass({
         <Col md={7} className="recent-matches">
           <Row><h2 className="section-title">Recent matches</h2></Row>
           <MatchListHeader/>
-          {this.renderMatchList()}
+          <MatchList matches={this.state.matches} filters={this.state.filters}/>
         </Col>
       </div>
     )

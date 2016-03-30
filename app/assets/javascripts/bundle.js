@@ -34470,11 +34470,9 @@
 	    FilterActions.resetAllFilters();
 	  },
 
-	  renderMatchList: function () {
+	  renderLoadingScreen: function () {
 	    if (this.state.loading) {
-	      return React.createElement(Spinner, null);
-	    } else {
-	      return React.createElement(MatchList, { matches: this.state.matches, filters: this.state.filters });
+	      return React.createElement('div', { className: 'loader' });
 	    }
 	  },
 
@@ -34487,6 +34485,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
+	      this.renderLoadingScreen(),
 	      React.createElement(
 	        Col,
 	        { md: 2, className: 'hero-picker' },
@@ -34515,7 +34514,7 @@
 	          )
 	        ),
 	        React.createElement(MatchListHeader, null),
-	        this.renderMatchList()
+	        React.createElement(MatchList, { matches: this.state.matches, filters: this.state.filters })
 	      )
 	    );
 	  }
@@ -58732,7 +58731,7 @@
 
 	    return React.createElement(
 	      Row,
-	      { onClick: this.changeOpenMatch },
+	      { className: 'match-row', onClick: this.changeOpenMatch },
 	      React.createElement(
 	        Col,
 	        { md: 5 },
@@ -59484,7 +59483,7 @@
 	        React.createElement(
 	          'h2',
 	          null,
-	          'Pick your heroes'
+	          'Pick your team'
 	        )
 	      ),
 	      React.createElement(HeroList, { heroes: strength, title: 'Strength', filters: this.props.filters, loading: this.props.loading }),
@@ -59647,33 +59646,30 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 8 },
+	          { md: 8, className: 'overall-stats' },
+	          React.createElement('br', null),
 	          React.createElement(
-	            Row,
+	            'span',
 	            null,
-	            React.createElement(
-	              'span',
-	              null,
-	              'WIN RATE: ' + state.winrate + '%'
-	            ),
-	            React.createElement('br', null),
-	            React.createElement(
-	              'span',
-	              null,
-	              'WINS: ' + gamesWon
-	            ),
-	            React.createElement('br', null),
-	            React.createElement(
-	              'span',
-	              null,
-	              'LOSSES: ' + (state.gamesPlayed - gamesWon)
-	            ),
-	            React.createElement('br', null),
-	            React.createElement(
-	              'span',
-	              null,
-	              'GAMES: ' + state.gamesPlayed
-	            )
+	            'Win rate: ' + state.winrate + '%'
+	          ),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'span',
+	            null,
+	            'Wins: ' + gamesWon
+	          ),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'span',
+	            null,
+	            'Losses: ' + (state.gamesPlayed - gamesWon)
+	          ),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'span',
+	            null,
+	            'Total games: ' + state.gamesPlayed
 	          )
 	        )
 	      ),
@@ -59683,23 +59679,23 @@
 	        { className: 'selected-hero-stats' },
 	        React.createElement(
 	          Col,
-	          { md: 6 },
+	          { md: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
 	            null,
 	            'Games with:'
 	          ),
-	          React.createElement(GamesWithOtherHeroes, { heroes: state.allies.slice(), barWidth: 40, maxWidth: 130, initial: false })
+	          React.createElement(GamesWithOtherHeroes, { heroes: state.allies.slice(), barWidth: 40, maxWidth: 145, initial: false })
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 6 },
+	          { md: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
 	            null,
 	            'Games against:'
 	          ),
-	          React.createElement(GamesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 40, maxWidth: 130, initial: false })
+	          React.createElement(GamesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 40, maxWidth: 145, initial: false })
 	        )
 	      ),
 	      React.createElement('br', null),
@@ -59708,23 +59704,23 @@
 	        { className: 'selected-hero-stats' },
 	        React.createElement(
 	          Col,
-	          { md: 6 },
+	          { md: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
 	            null,
-	            'Winrate with:'
+	            'Win rate with:'
 	          ),
-	          React.createElement(WinratesWithOtherHeroes, { heroes: state.allies.slice(), barWidth: 100, maxWidth: 130, initial: false })
+	          React.createElement(WinratesWithOtherHeroes, { heroes: state.allies.slice(), barWidth: 100, maxWidth: 145, initial: false })
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 6 },
+	          { md: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
 	            null,
-	            'Winrate against:'
+	            'Win rate against:'
 	          ),
-	          React.createElement(WinratesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 100, maxWidth: 130, initial: false })
+	          React.createElement(WinratesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 100, maxWidth: 145, initial: false })
 	        )
 	      ),
 	      React.createElement('br', null)
@@ -59811,15 +59807,6 @@
 	        React.createElement(
 	          Col,
 	          { md: 5 },
-	          React.createElement(
-	            Row,
-	            { className: 'list-header text-align-center' },
-	            React.createElement(
-	              'span',
-	              { className: 'green' },
-	              'Radiant'
-	            )
-	          ),
 	          radiant.map(function (player, idx) {
 	            var items = that.getPlayerItems(player);
 	            return React.createElement(
@@ -59897,15 +59884,6 @@
 	        React.createElement(
 	          Col,
 	          { md: 5 },
-	          React.createElement(
-	            Row,
-	            { className: 'list-header text-align-center' },
-	            React.createElement(
-	              'span',
-	              { className: 'red' },
-	              'Dire'
-	            )
-	          ),
 	          dire.map(function (player, idx) {
 	            var items = that.getPlayerItems(player);
 	            return React.createElement(
@@ -60015,19 +59993,10 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'text-align-center' },
-	      React.createElement(
-	        Row,
-	        { className: 'list-header' },
-	        React.createElement(
-	          'span',
-	          null,
-	          match.steam_match_id
-	        )
-	      ),
 	      React.createElement(Row, { className: 'open-match-row' }),
 	      React.createElement(
 	        Row,
-	        { className: 'open-match-row even-row' },
+	        { className: 'open-match-row' },
 	        React.createElement('br', null),
 	        this.winner()
 	      ),
@@ -60048,7 +60017,7 @@
 	      ),
 	      React.createElement(
 	        Row,
-	        { className: 'open-match-row even-row pad-top' },
+	        { className: 'open-match-row pad-top' },
 	        React.createElement(
 	          'span',
 	          null,
@@ -60365,7 +60334,7 @@
 	          React.createElement(
 	            'h2',
 	            null,
-	            'Most played:'
+	            'Games played:'
 	          ),
 	          React.createElement(GamesWithOtherHeroes, { heroes: this.state.gamesPlayed.slice(), barWidth: 100, maxWidth: 350, initial: true })
 	        )
@@ -60380,7 +60349,7 @@
 	          React.createElement(
 	            'h2',
 	            null,
-	            'Highest winrates:'
+	            'Win rates:'
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: this.state.winrates.slice(), barWidth: 100, maxWidth: 350, initial: true })
 	        )

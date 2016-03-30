@@ -15,12 +15,15 @@
  */
 
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic");
+@import url("https://fonts.googleapis.com/css?family=Jura:400,600,500,300");
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,300,100,200,500,600,700");
+@import url("https://fonts.googleapis.com/css?family=Alegreya+Sans:400,300,100,500,700");
 
 #root {
   color: white;
-  font-family: "Iceland";
+  font-family: "Alegreya Sans";
   font-weight: 300;
-  background-color: #660000;
+  background-color: black;
   /*background: url("redtrees.jpg") no-repeat center fixed;
   background-size: cover;*/
   height: 100vh;
