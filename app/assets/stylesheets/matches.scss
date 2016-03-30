@@ -14,6 +14,13 @@
   padding-right: 2px;
 }
 
+#match-stats-column img {
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
 ul {
   list-style-type: none;
 }
@@ -84,6 +91,23 @@ ul.dropdown-menu li {
   padding-left: 15px;
   padding-right: 15px;
   height: 87vh;
+  overflow: hidden;
+}
+
+.match-row {
+  -webkit-transition: all .2s ease-out;
+     -moz-transition: all .2s ease-out;
+      -ms-transition: all .2s ease-out;
+       -o-transition: all .2s ease-out;
+          transition: all .2s ease-out;
+}
+
+.match-row:hover {
+  background: #606060;
+  transform: translate(-3px,-3px);
+}
+
+.match-list:hover {
   overflow-x: hidden;
   overflow-y: scroll;
 }
@@ -102,4 +126,21 @@ ul.dropdown-menu li {
 
 .text-align-center {
   text-align: center;
+}
+
+.loading-screen video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 100;
+  opacity: .8;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  background-size: cover;
 }

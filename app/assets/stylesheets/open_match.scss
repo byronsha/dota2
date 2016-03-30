@@ -1,5 +1,13 @@
 .match-open {
-  // background: #000000;
+  -webkit-transition: all .2s ease-out;
+     -moz-transition: all .2s ease-out;
+      -ms-transition: all .2s ease-out;
+       -o-transition: all .2s ease-out;
+          transition: all .2s ease-out;
+}
+
+.match-open:hover {
+  background: #606060;
 }
 
 .match-open span {

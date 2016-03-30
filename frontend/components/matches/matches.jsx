@@ -54,7 +54,15 @@ var Matches = React.createClass({
 
   renderLoadingScreen: function () {
     if (this.state.loading) {
-      return <div className="loader"/>
+      return (
+        <div className="loading-screen">
+          <video autoPlay loop>
+            <source src="https://gfycat.com/ifr/YoungRelievedAfricancivet" type="video/webm" />
+            <source src="https://giant.gfycat.com/YoungRelievedAfricancivet.mp4" type="video/mp4" />
+          </video>
+          <div className="loader"/>
+        </div>
+      )
     }
   },
 

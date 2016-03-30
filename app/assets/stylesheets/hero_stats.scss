@@ -10,8 +10,19 @@
 .other-hero-stats {
   padding-top: 20px;
   height: 365px;
+  overflow: hidden;
+}
+
+.other-hero-stats:hover {
   overflow-x: hidden;
   overflow-y: scroll;
+}
+
+.other-hero-stats img {
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 #initial-stats {

@@ -34472,7 +34472,17 @@
 
 	  renderLoadingScreen: function () {
 	    if (this.state.loading) {
-	      return React.createElement('div', { className: 'loader' });
+	      return React.createElement(
+	        'div',
+	        { className: 'loading-screen' },
+	        React.createElement(
+	          'video',
+	          { autoPlay: true, loop: true },
+	          React.createElement('source', { src: 'https://gfycat.com/ifr/YoungRelievedAfricancivet', type: 'video/webm' }),
+	          React.createElement('source', { src: 'https://giant.gfycat.com/YoungRelievedAfricancivet.mp4', type: 'video/mp4' })
+	        ),
+	        React.createElement('div', { className: 'loader' })
+	      );
 	    }
 	  },
 
