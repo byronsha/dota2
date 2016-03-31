@@ -24,16 +24,17 @@
   font-family: "Alegreya Sans";
   font-weight: 300;
   background-color: #303030;
-  /*background: url("redtrees.jpg") no-repeat center fixed;
-  background-size: cover;*/
+  /*background: url("redtrees.jpg") no-repeat center fixed;*/
+  /*background-size: cover;*/
   height: 100vh;
   min-height: 100vh;
   max-height: 100vh;
 }
 
 #app {
+  border-top: 2px solid #606060;
   padding-left: 0px;
-  padding-right: 0px;
+  padding-right: 5px;
 }
 
 .container {

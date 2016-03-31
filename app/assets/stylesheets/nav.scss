@@ -1,7 +1,9 @@
 nav {
-  background-color: #202020;;
+  // background-color: #101010;
+  background: url("dota2.jpg") no-repeat center fixed;
+  background-size: cover;
   height: 52px;
-  // margin-bottom: 20px;
+  border-bottom: 1px solid #FF1177;
 }
 nav ul {
   display: inline;
@@ -40,11 +42,11 @@ nav img {
   nav a {
     padding: 15px 20px;
     color: #fff;
-    background-color: #202020;
+    background-color: #303030;
   }
   nav a:hover {
     color: black;
-    background-color: white;
+    background-color: #FF1177;
     text-decoration: none;
   }
   nav span {
@@ -53,14 +55,9 @@ nav img {
 }
 
 .links li {
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-}
-
-.links li:nth-child(1) {
-  border-left: 2px solid white;
+  border-left: 1px solid #FF1177;
 }
 
 .links li:nth-child(4) {
-  border-right: 2px solid white;
+  border-right: 1px solid #FF1177;
 }

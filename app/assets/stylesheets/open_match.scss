@@ -1,13 +1,10 @@
 .match-open {
+  // background: #303030;
   -webkit-transition: all .2s ease-out;
      -moz-transition: all .2s ease-out;
       -ms-transition: all .2s ease-out;
        -o-transition: all .2s ease-out;
           transition: all .2s ease-out;
-}
-
-.match-open:hover {
-  background: #606060;
 }
 
 .match-open span {
@@ -16,6 +13,13 @@
 
 .match-open h3 {
   text-align: center;
+}
+
+.match-open img {
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid #808080;
+  border-bottom: 1px solid #808080;
 }
 
 .radiant-portraits div {

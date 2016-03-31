@@ -58735,8 +58735,8 @@
 	  render: function () {
 	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
 	    var match = this.props.match;
-	    var radiant = this.orderPlayers(match.radiant);
-	    var dire = this.orderPlayers(match.dire);
+	    var radiant = this.orderPlayers(match.players.slice(0, 5));
+	    var dire = this.orderPlayers(match.players.slice(5, 10));
 	    var heroes = this.heroes();
 
 	    return React.createElement(
@@ -59802,8 +59802,8 @@
 	    var match = this.props.match;
 
 	    if (match) {
-	      var radiant = this.orderPlayers(match.radiant);
-	      var dire = this.orderPlayers(match.dire);
+	      var radiant = this.orderPlayers(match.players.slice(0, 5));
+	      var dire = this.orderPlayers(match.players.slice(5, 10));
 	      var heroes = this.heroes();
 
 	      return React.createElement(
@@ -60265,7 +60265,7 @@
 	  getHeroPlayer: function () {
 	    if (this.props.match) {
 	      var id = this.props.filters.heroes[this.props.filters.heroes.length - 1];
-	      var players = this.props.match.radiant.concat(this.props.match.dire);
+	      var players = this.props.match.players;
 
 	      for (var i = 0; i < players.length; i++) {
 	        if (players[i].hero_id == id) {
@@ -60340,7 +60340,7 @@
 	        { className: 'selected-hero-stats' },
 	        React.createElement(
 	          Col,
-	          { md: 12 },
+	          { md: 12, id: 'initial-games-played-chart' },
 	          React.createElement(
 	            'h2',
 	            null,
@@ -60355,7 +60355,7 @@
 	        { className: 'selected-hero-stats' },
 	        React.createElement(
 	          Col,
-	          { md: 12 },
+	          { md: 12, id: 'initial-win-rates-chart' },
 	          React.createElement(
 	            'h2',
 	            null,

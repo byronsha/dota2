@@ -91,25 +91,30 @@ ul.dropdown-menu li {
   padding-left: 15px;
   padding-right: 15px;
   height: 87vh;
-  overflow: hidden;
+
+  border-top: 1px solid white;
+  border-bottom: 2px solid white;
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  background: url("redtrees.jpg") no-repeat center fixed;
+  background-size: cover;
 }
 
 .match-row {
-  -webkit-transition: all .2s ease-out;
-     -moz-transition: all .2s ease-out;
-      -ms-transition: all .2s ease-out;
-       -o-transition: all .2s ease-out;
-          transition: all .2s ease-out;
+  outline: 1px solid #404040;
+  // background: #303030;
+  -webkit-transition: all .3s ease-out;
+     -moz-transition: all .3s ease-out;
+      -ms-transition: all .3s ease-out;
+       -o-transition: all .3s ease-out;
+          transition: all .3s ease-out;
 }
 
 .match-row:hover {
   background: #606060;
-  transform: translate(-3px,-3px);
-}
-
-.match-list:hover {
-  overflow-x: hidden;
-  overflow-y: scroll;
+  transform: translate(-5px,-5px);
 }
 
 .selected-heroes li {

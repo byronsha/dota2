@@ -11,7 +11,7 @@ json.array! @matches do |match|
   json.duration match.duration
   json.winner match.winner
 
-  json.radiant match.radiant do |player|
+  json.players match.players do |player|
     json.steam_id player.steam_id
     json.hero_id player.hero_id
 
@@ -41,19 +41,6 @@ json.array! @matches do |match|
       json.image_url item.image_url
     end
 
-    # if player.player_abilities
-    #   json.abilities player.player_abilities do |player_ability|
-    #     json.id player_ability.ability_id
-    #     json.time player_ability.time
-    #     json.level player_ability.level
-    #
-    #     if player_ability.ability
-    #       json.name player_ability.ability.name
-    #       json.image_url player_ability.ability.image_url
-    #     end
-    #   end
-    # end
-
     if player.units
       json.units player.units do |unit|
         json.name unit.name
@@ -67,59 +54,46 @@ json.array! @matches do |match|
     end
   end
 
-  json.dire match.dire do |player|
-    json.steam_id player.steam_id
-    json.hero_id player.hero_id
-
-    json.hero_name player.hero.name
-    json.hero_image_url player.hero.image_url
-
-    json.team player.team
-    json.slot player.slot
-    json.level player.level
-    json.kills player.kills
-    json.deaths player.deaths
-    json.assists player.assists
-    json.last_hits player.last_hits
-    json.denies player.denies
-    json.gold player.gold
-    json.gpm player.gpm
-    json.xpm player.xpm
-    json.status player.status
-    json.gold_spent player.gold_spent
-    json.hero_damage player.hero_damage
-    json.tower_damage player.tower_damage
-    json.hero_healing player.hero_healing
-
-    json.items player.items do |item|
-      json.id item.id
-      json.name item.name
-      json.image_url item.image_url
-    end
-
-    # if player.player_abilities
-    #   json.abilities player.player_abilities do |player_ability|
-    #     json.id player_ability.ability_id
-    #     json.time player_ability.time
-    #     json.level player_ability.level
-    #
-    #     if player_ability.ability
-    #       json.name player_ability.ability.name
-    #       json.image_url player_ability.ability.image_url
-    #     end
-    #   end
-    # end
-
-    if player.units
-      json.units player.units do |unit|
-        json.name unit.name
-
-        json.items unit.items do |item|
-          json.id item.id
-          json.name item.name
-          json.image_url item.image_url
-        end
-      end
-    end
-  end
+  # json.dire match.dire do |player|
+  #   json.steam_id player.steam_id
+  #   json.hero_id player.hero_id
+  #
+  #   json.hero_name player.hero.name
+  #   json.hero_image_url player.hero.image_url
+  #
+  #   json.team player.team
+  #   json.slot player.slot
+  #   json.level player.level
+  #   json.kills player.kills
+  #   json.deaths player.deaths
+  #   json.assists player.assists
+  #   json.last_hits player.last_hits
+  #   json.denies player.denies
+  #   json.gold player.gold
+  #   json.gpm player.gpm
+  #   json.xpm player.xpm
+  #   json.status player.status
+  #   json.gold_spent player.gold_spent
+  #   json.hero_damage player.hero_damage
+  #   json.tower_damage player.tower_damage
+  #   json.hero_healing player.hero_healing
+  #
+  #   json.items player.items do |item|
+  #     json.id item.id
+  #     json.name item.name
+  #     json.image_url item.image_url
+  #   end
+  #
+  #   if player.units
+  #     json.units player.units do |unit|
+  #       json.name unit.name
+  #
+  #       json.items unit.items do |item|
+  #         json.id item.id
+  #         json.name item.name
+  #         json.image_url item.image_url
+  #       end
+  #     end
+  #   end
+  # end
 end

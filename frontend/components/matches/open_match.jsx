@@ -54,8 +54,8 @@ var OpenMatch = React.createClass({
     var match = this.props.match;
 
     if (match) {
-      var radiant = this.orderPlayers(match.radiant);
-      var dire = this.orderPlayers(match.dire);
+      var radiant = this.orderPlayers(match.players.slice(0,5));
+      var dire = this.orderPlayers(match.players.slice(5,10));
       var heroes = this.heroes();
 
       return (

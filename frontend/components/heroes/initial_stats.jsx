@@ -30,14 +30,14 @@ var InitialStats = React.createClass({
     return (
       <Row>
         <Row className="selected-hero-stats">
-          <Col md={12}>
+          <Col md={12} id="initial-games-played-chart">
             <h2>Games played:</h2>
             <GamesWithOtherHeroes heroes={this.state.gamesPlayed.slice()} barWidth={100} maxWidth={350} initial={true}/>
           </Col>
         </Row><br/>
 
         <Row className="selected-hero-stats">
-          <Col md={12}>
+          <Col md={12} id="initial-win-rates-chart">
             <h2>Win rates:</h2>
             <WinratesWithOtherHeroes heroes={this.state.winrates.slice()} barWidth={100} maxWidth={350} initial={true}/>
           </Col>

@@ -7,7 +7,7 @@ var SelectedHero = React.createClass({
   getHeroPlayer: function () {
     if (this.props.match) {
       var id = this.props.filters.heroes[this.props.filters.heroes.length - 1];
-      var players = this.props.match.radiant.concat(this.props.match.dire);
+      var players = this.props.match.players;
 
       for (var i = 0; i < players.length; i++) {
         if (players[i].hero_id == id) {
