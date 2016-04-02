@@ -84,6 +84,7 @@ ul.dropdown-menu li {
 }
 
 .list-header {
+  background: #303030;
   color: white;
 }
 
@@ -92,19 +93,20 @@ ul.dropdown-menu li {
   padding-right: 15px;
   height: 87vh;
 
-  border-top: 1px solid white;
-  border-bottom: 2px solid white;
+  border-top: 1px solid #606060;
+  border-bottom: 2px solid #606060;
 
   overflow-x: hidden;
   overflow-y: scroll;
 
-  background: url("redtrees.jpg") no-repeat center fixed;
-  background-size: cover;
+  background: black;
+  // background: url("redtrees.jpg") no-repeat center fixed;
+  // background-size: cover;
 }
 
 .match-row {
-  outline: 1px solid #404040;
-  // background: #303030;
+  outline: 1px solid #606060;
+  background: #404040;
   -webkit-transition: all .3s ease-out;
      -moz-transition: all .3s ease-out;
       -ms-transition: all .3s ease-out;
@@ -113,7 +115,7 @@ ul.dropdown-menu li {
 }
 
 .match-row:hover {
-  background: #606060;
+  background: #808080;
   transform: translate(-5px,-5px);
 }
 

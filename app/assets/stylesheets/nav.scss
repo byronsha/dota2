@@ -1,9 +1,29 @@
+#navbar-container {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.navbar-background-left {
+  position: absolute;
+  width: 50%;
+  height: 50px;
+  left: 0px;
+  display: inline;
+  background: url("radiant.jpg");
+  background-size: contain;
+}
+.navbar-background-right {
+  position: absolute;
+  width: 50%;
+  height: 50px;
+  right: 0px;
+  display: inline;
+  background: url("dire.jpg");
+  background-size: contain;
+}
+
 nav {
-  // background-color: #101010;
-  background: url("dota2.jpg") no-repeat center fixed;
-  background-size: cover;
-  height: 52px;
-  border-bottom: 1px solid #FF1177;
+  height: 50px;
+  text-align: center;
 }
 nav ul {
   display: inline;
@@ -13,7 +33,7 @@ nav ul {
 }
 nav li {
   display: inline-block;
-  margin: 0 5px;
+  margin: 0 0px;
   transition: all 0.3s;
 }
 nav a {
@@ -25,39 +45,51 @@ nav a {
   text-transform: uppercase;
 }
 nav a:hover {
-  color: #12242d;
+  cursor: pointer;
 }
 nav span {
   display: block;
 }
 nav img {
   height: 50px;
+  margin-right: 14px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 @media all and (min-width: 690px) {
   nav li {
     margin: 0;
-    transform: skewX(-15deg);
   }
   nav a {
-    padding: 15px 20px;
     color: #fff;
     background-color: #303030;
   }
   nav a:hover {
-    color: black;
-    background-color: #FF1177;
-    text-decoration: none;
+    cursor: pointer;
   }
-  nav span {
+  #home-link {
+    float: right;
+    width: 100px;
+    height: 51px;
+    margin-right: -42px;
+    transform: skewX(15deg);
+    background: #303030;
+    border-left: 1px solid #606060;
+    border-bottom: 1px solid #606060;
+  }
+  #matches-link {
+    float: left;
+    width: 100px;
+    margin-left: -42px;
+    transform: skewX(-15deg);
+    border-right: 1px solid #606060;
+    border-bottom: 1px solid #606060;
+  }
+  #home-link span {
+    transform: skewX(-15deg);
+  }
+  #matches-link span {
     transform: skewX(15deg);
   }
-}
-
-.links li {
-  border-left: 1px solid #FF1177;
-}
-
-.links li:nth-child(4) {
-  border-right: 1px solid #FF1177;
 }

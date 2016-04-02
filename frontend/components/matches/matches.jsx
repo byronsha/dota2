@@ -86,7 +86,7 @@ var Matches = React.createClass({
         </Col>
 
         <Col md={7} className="recent-matches">
-          <Row><h2 className="section-title">Recent matches</h2></Row>
+          <Row><h2 className="section-title">RECENT MATCHES</h2></Row>
           <MatchListHeader/>
           <MatchList matches={this.state.matches} filters={this.state.filters}/>
         </Col>

@@ -34326,59 +34326,33 @@
 	      null,
 	      React.createElement(
 	        "div",
-	        { className: "container-fluid" },
+	        { className: "container-fluid", id: "navbar-container" },
 	        React.createElement(
-	          "ul",
-	          { className: "links" },
+	          "div",
+	          { className: "navbar-background-left" },
 	          React.createElement(
-	            "li",
-	            null,
+	            "div",
+	            { id: "home-link" },
 	            React.createElement(
 	              Link,
 	              { to: '/' },
-	              React.createElement(
-	                "span",
-	                null,
-	                "home"
-	              )
+	              React.createElement("span", null)
 	            )
-	          ),
+	          )
+	        ),
+	        React.createElement(
+	          "div",
+	          { className: "navbar-background-right" },
 	          React.createElement(
-	            "li",
-	            null,
+	            "div",
+	            { id: "matches-link" },
 	            React.createElement(
 	              Link,
 	              { to: '/matches' },
 	              React.createElement(
 	                "span",
 	                null,
-	                "matches"
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            "li",
-	            null,
-	            React.createElement(
-	              Link,
-	              { to: '/heroes' },
-	              React.createElement(
-	                "span",
-	                null,
-	                "heroes"
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            "li",
-	            null,
-	            React.createElement(
-	              Link,
-	              { to: '/items' },
-	              React.createElement(
-	                "span",
-	                null,
-	                "items"
+	                React.createElement("img", { src: "http://dota2stratroulette.netai.net/images/logo.png" })
 	              )
 	            )
 	          )
@@ -34520,7 +34494,7 @@
 	          React.createElement(
 	            'h2',
 	            { className: 'section-title' },
-	            'Recent matches'
+	            'RECENT MATCHES'
 	          )
 	        ),
 	        React.createElement(MatchListHeader, null),
@@ -59427,9 +59401,9 @@
 	    Row = __webpack_require__(251).Row;
 
 	ICONS = {
-	  "Strength": "http://images.akamai.steamusercontent.com/ugc/577904070808139756/3576D33C5276E049213C6833FDFF09838ED41A32/",
-	  "Agility": "http://images.akamai.steamusercontent.com/ugc/577904070808154460/C57BDD6E75C20265FFA9F196A1299BA18BB7E289/",
-	  "Intelligence": "http://www.dotadatabase.net/Content/icon_int.png"
+	  "STRENGTH": "http://images.akamai.steamusercontent.com/ugc/577904070808139756/3576D33C5276E049213C6833FDFF09838ED41A32/",
+	  "AGILITY": "http://images.akamai.steamusercontent.com/ugc/577904070808154460/C57BDD6E75C20265FFA9F196A1299BA18BB7E289/",
+	  "INTELLIGENCE": "http://www.dotadatabase.net/Content/icon_int.png"
 	};
 
 	var HeroList = React.createClass({
@@ -59493,12 +59467,12 @@
 	        React.createElement(
 	          'h2',
 	          null,
-	          'Pick your team'
+	          'SELECT YOUR HEROES'
 	        )
 	      ),
-	      React.createElement(HeroList, { heroes: strength, title: 'Strength', filters: this.props.filters, loading: this.props.loading }),
-	      React.createElement(HeroList, { heroes: agility, title: 'Agility', filters: this.props.filters, loading: this.props.loading }),
-	      React.createElement(HeroList, { heroes: intelligence, title: 'Intelligence', filters: this.props.filters, loading: this.props.loading })
+	      React.createElement(HeroList, { heroes: strength, title: 'STRENGTH', filters: this.props.filters, loading: this.props.loading }),
+	      React.createElement(HeroList, { heroes: agility, title: 'AGILITY', filters: this.props.filters, loading: this.props.loading }),
+	      React.createElement(HeroList, { heroes: intelligence, title: 'INTELLIGENCE', filters: this.props.filters, loading: this.props.loading })
 	    );
 	  }
 	});
@@ -59693,7 +59667,7 @@
 	          React.createElement(
 	            'h3',
 	            null,
-	            'Games with:'
+	            'GAMES WITH:'
 	          ),
 	          React.createElement(GamesWithOtherHeroes, { heroes: state.allies.slice(), barWidth: 40, maxWidth: 145, initial: false })
 	        ),
@@ -59703,7 +59677,7 @@
 	          React.createElement(
 	            'h3',
 	            null,
-	            'Games against:'
+	            'GAMES AGAINST:'
 	          ),
 	          React.createElement(GamesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 40, maxWidth: 145, initial: false })
 	        )
@@ -59718,7 +59692,7 @@
 	          React.createElement(
 	            'h3',
 	            null,
-	            'Win rate with:'
+	            'WIN RATE WITH:'
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: state.allies.slice(), barWidth: 100, maxWidth: 145, initial: false })
 	        ),
@@ -59728,7 +59702,7 @@
 	          React.createElement(
 	            'h3',
 	            null,
-	            'Win rate against:'
+	            'WIN RATE AGAINST:'
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 100, maxWidth: 145, initial: false })
 	        )
@@ -59808,11 +59782,11 @@
 
 	      return React.createElement(
 	        Row,
-	        { className: 'match-open' },
+	        { className: 'match-open', id: match.winner + "-win" },
 	        React.createElement(
 	          'h2',
 	          { className: 'section-title' },
-	          'Match ' + match.steam_match_id
+	          'MATCH ' + match.steam_match_id
 	        ),
 	        React.createElement(
 	          Col,
@@ -59842,7 +59816,7 @@
 	                    null,
 	                    React.createElement(
 	                      'span',
-	                      { className: 'green' },
+	                      { className: 'radiant-hero-name' },
 	                      player.hero_name
 	                    ),
 	                    React.createElement(
@@ -59934,7 +59908,7 @@
 	                    ),
 	                    React.createElement(
 	                      'span',
-	                      { className: 'red float-right' },
+	                      { className: 'dire-hero-name' },
 	                      player.hero_name
 	                    )
 	                  ),
@@ -60314,8 +60288,8 @@
 
 	  getInitialState: function () {
 	    return {
-	      gamesPlayed: [],
-	      winrates: []
+	      gamesPlayed: StatisticsStore.gamesPlayed(),
+	      winrates: StatisticsStore.winrates()
 	    };
 	  },
 
@@ -60344,7 +60318,7 @@
 	          React.createElement(
 	            'h2',
 	            null,
-	            'Games played:'
+	            'GAMES PICKED:'
 	          ),
 	          React.createElement(GamesWithOtherHeroes, { heroes: this.state.gamesPlayed.slice(), barWidth: 100, maxWidth: 350, initial: true })
 	        )
@@ -60359,7 +60333,7 @@
 	          React.createElement(
 	            'h2',
 	            null,
-	            'Win rates:'
+	            'WIN RATE:'
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: this.state.winrates.slice(), barWidth: 100, maxWidth: 350, initial: true })
 	        )

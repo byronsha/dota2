@@ -23,7 +23,7 @@
   color: white;
   font-family: "Alegreya Sans";
   font-weight: 300;
-  background-color: #303030;
+  background-color: #202020;
   /*background: url("redtrees.jpg") no-repeat center fixed;*/
   /*background-size: cover;*/
   height: 100vh;
@@ -32,36 +32,11 @@
 }
 
 #app {
-  border-top: 2px solid #606060;
+  /*border-top: 2px solid #606060;*/
   padding-left: 0px;
   padding-right: 5px;
 }
 
 .container {
  font-size: 12px;
-}
-
-#navbar-container {
-  padding-left: 0px;
-  padding-right: 0px;
-}
-
-#navbar {
-  background-color: #404040;
-}
-
-#navbar li {
-  padding: 15px 20px 15px 20px;
-}
-
-#navbar a {
-  font-size: 15px;
-  color: white;
-  text-transform: uppercase;
-  font-weight: 400;
-}
-
-#navbar img {
-  height: 50px;
-  padding-right: 20px;
 }

@@ -59,8 +59,8 @@ var OpenMatch = React.createClass({
       var heroes = this.heroes();
 
       return (
-        <Row className="match-open">
-          <h2 className="section-title">{'Match ' + match.steam_match_id}</h2>
+        <Row className="match-open" id={match.winner + "-win"}>
+          <h2 className="section-title">{'MATCH ' + match.steam_match_id}</h2>
           <Col md={5}>
             {
               radiant.map(function(player, idx) {
@@ -76,7 +76,7 @@ var OpenMatch = React.createClass({
                     <Col md={6}>
                       <div className="pad-top">
                         <div>
-                          <span className="green">{player.hero_name}</span>
+                          <span className="radiant-hero-name">{player.hero_name}</span>
                           <span className="float-right">{"Lvl " + player.level}</span>
                         </div>
                         <ul className="horizontal float-left">
@@ -122,7 +122,7 @@ var OpenMatch = React.createClass({
                       <div className="pad-top">
                         <div>
                           <span>{"Lvl " + player.level}</span>
-                          <span className="red float-right">{player.hero_name}</span>
+                          <span className="dire-hero-name">{player.hero_name}</span>
                         </div>
                         <ul className="horizontal float-right">
                           {

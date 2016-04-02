@@ -1,5 +1,10 @@
 .match-open {
   // background: #303030;
+  font-size: 16px;
+  font-weight: 500;
+  text-shadow: 0 0 6px black;
+  margin-top: 4px;
+  padding-bottom: 3px;
   -webkit-transition: all .2s ease-out;
      -moz-transition: all .2s ease-out;
       -ms-transition: all .2s ease-out;
@@ -7,8 +12,14 @@
           transition: all .2s ease-out;
 }
 
-.match-open span {
-  font-size: 20px;
+#radiant-win {
+  background: url("radiant.jpg") no-repeat;
+  background-size: cover;
+}
+
+#dire-win {
+  background: url("dire.jpg") no-repeat;
+  background-size: cover;
 }
 
 .match-open h3 {
@@ -37,7 +48,6 @@
 .item-slot {
   width: 32px;
   height: 25px;
-  padding: 2px;
 }
 
 .open-match-row {
@@ -51,4 +61,17 @@
 #open-match-winner {
   font-size: 25px;
   font-family: "Alegreya Sans"
+}
+
+.dire-hero-name {
+  font-weight: 600;
+  float: right;
+  text-transform: uppercase;
+  color: #FF1177;
+}
+
+.radiant-hero-name {
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #B6FF00;
 }

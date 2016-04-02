@@ -3,9 +3,9 @@ var React = require('react'),
     Row = require('react-bootstrap').Row;
 
 ICONS = {
-  "Strength": "http://images.akamai.steamusercontent.com/ugc/577904070808139756/3576D33C5276E049213C6833FDFF09838ED41A32/",
-  "Agility": "http://images.akamai.steamusercontent.com/ugc/577904070808154460/C57BDD6E75C20265FFA9F196A1299BA18BB7E289/",
-  "Intelligence": "http://www.dotadatabase.net/Content/icon_int.png"
+  "STRENGTH": "http://images.akamai.steamusercontent.com/ugc/577904070808139756/3576D33C5276E049213C6833FDFF09838ED41A32/",
+  "AGILITY": "http://images.akamai.steamusercontent.com/ugc/577904070808154460/C57BDD6E75C20265FFA9F196A1299BA18BB7E289/",
+  "INTELLIGENCE": "http://www.dotadatabase.net/Content/icon_int.png"
 };
 
 var HeroList = React.createClass({

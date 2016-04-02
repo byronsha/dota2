@@ -4,16 +4,17 @@ var React = require('react'),
 var Navbar = React.createClass({
   render: function () {
     return (
-        <nav>
-          <div className="container-fluid">
-            <ul className="links">
-              <li><Link to={'/'}><span>home</span></Link></li>
-              <li><Link to={'/matches'}><span>matches</span></Link></li>
-              <li><Link to={'/heroes'}><span>heroes</span></Link></li>
-              <li><Link to={'/items'}><span>items</span></Link></li>
-            </ul>
+      <nav>
+        <div className="container-fluid" id="navbar-container">
+          <div className="navbar-background-left">
+            <div id="home-link"><Link to={'/'}><span></span></Link></div>
           </div>
-        </nav>
+
+          <div className="navbar-background-right">
+            <div id="matches-link"><Link to={'/matches'}><span><img src="http://dota2stratroulette.netai.net/images/logo.png"></img></span></Link></div>
+          </div>
+        </div>
+      </nav>
     )
   }
 });
