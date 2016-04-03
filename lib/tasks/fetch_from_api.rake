@@ -1,4 +1,4 @@
-rake :fetch_from_api do
+task :fetch_from_api do
   api = Dota.api
 
   matches = api.matches(mode_id: 1, skill_level: 3, min_players: 10, limit: 250)
