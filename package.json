@@ -1,4 +1,11 @@
 {
+  "engines": {
+    "node": "4.1.1",
+    "npm": "2.1.x"
+  },
+  "scripts": {
+    "postinstall": "./node_modules/.bin/webpack"
+  },
   "name": "dota",
   "version": "1.0.0",
   "description": "== README",
