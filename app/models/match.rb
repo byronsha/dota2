@@ -81,7 +81,7 @@ class Match < ActiveRecord::Base
   def self.fetch_from_api
     api = Dota.api
 
-    matches = api.matches(mode_id: 1, skill_level: 3, min_players: 10, limit: 100)
+    matches = api.matches(mode_id: 1, skill_level: 3, min_players: 10, limit: 150)
     @match_ids = []
     @match_details = []
 

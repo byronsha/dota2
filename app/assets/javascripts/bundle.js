@@ -34518,19 +34518,32 @@
 	    MatchStore = new Store(Dispatcher);
 
 	var _matches = [];
+	var _matchDetails = {};
 
 	var receiveAllMatches = function (matches) {
 	  _matches = matches;
+	};
+
+	var receiveMatchDetails = function (match) {
+	  _matchDetails[match.id] = match.players;
 	};
 
 	MatchStore.all = function () {
 	  return _matches.slice();
 	};
 
+	MatchStore.matchDetails = function (matchId) {
+	  return _matchDetails[matchId] || [];
+	};
+
 	MatchStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case Constants.ALL_MATCHES_RECEIVED:
 	      receiveAllMatches(payload.matches);
+	      MatchStore.__emitChange();
+	      break;
+	    case Constants.MATCH_DETAILS_RECEIVED:
+	      receiveMatchDetails(payload.match);
 	      MatchStore.__emitChange();
 	      break;
 	  }
@@ -41315,7 +41328,9 @@
 	  REMOVE_HERO_FILTER: "REMOVE_HERO_FILTER",
 	  RESET_ALL_FILTERS: "RESET_ALL_FILTERS",
 
-	  INITIAL_STATS_RECEIVED: "INITIAL_STATS_RECEIVED"
+	  INITIAL_STATS_RECEIVED: "INITIAL_STATS_RECEIVED",
+
+	  MATCH_DETAILS_RECEIVED: "MATCH_DETAILS_RECEIVED"
 	};
 
 /***/ },
@@ -41458,6 +41473,9 @@
 	  fetchInitialStats: function () {
 	    ApiUtil.fetchInitialStats(ApiActions.receiveInitialStats);
 	  },
+	  fetchMatchDetails: function (matchId) {
+	    ApiUtil.fetchMatchDetails(ApiActions.receiveMatchDetails, matchId);
+	  },
 
 	  // Responses
 
@@ -41483,6 +41501,12 @@
 	    Dispatcher.dispatch({
 	      actionType: Constants.INITIAL_STATS_RECEIVED,
 	      stats: stats
+	    });
+	  },
+	  receiveMatchDetails: function (match) {
+	    Dispatcher.dispatch({
+	      actionType: Constants.MATCH_DETAILS_RECEIVED,
+	      match: match
 	    });
 	  }
 	};
@@ -41539,6 +41563,15 @@
 	      url: 'api/statistics/',
 	      success: function (stats) {
 	        callback(stats);
+	      }
+	    });
+	  },
+
+	  fetchMatchDetails: function (callback, matchId) {
+	    $.ajax({
+	      url: 'api/matches/' + matchId,
+	      success: function (match) {
+	        callback(match);
 	      }
 	    });
 	  }
@@ -58617,10 +58650,10 @@
 
 	  renderMatch: function (match, idx) {
 	    if (this.state.openMatch == idx) {
-	      return React.createElement(OpenMatch, { key: idx, filters: this.props.filters, match: match });
+	      return React.createElement(OpenMatch, { key: match.id, filters: this.props.filters, match: match });
 	    } else {
 	      var xScale = this.getXScale(this.props);
-	      return React.createElement(Match, { key: idx, match: match, filters: this.props.filters, xScale: xScale, changeOpenMatch: this.changeOpenMatch, matchIndex: idx });
+	      return React.createElement(Match, { key: match.id, match: match, filters: this.props.filters, xScale: xScale, changeOpenMatch: this.changeOpenMatch, matchIndex: idx });
 	    }
 	  },
 
@@ -59723,10 +59756,31 @@
 	    Col = __webpack_require__(251).Col,
 	    TimeUtil = __webpack_require__(497),
 	    Clusters = __webpack_require__(498),
-	    OpenMatchDetails = __webpack_require__(514);
+	    OpenMatchDetails = __webpack_require__(514),
+	    MatchStore = __webpack_require__(221),
+	    ApiActions = __webpack_require__(246);
 
 	var OpenMatch = React.createClass({
 	  displayName: 'OpenMatch',
+
+	  getInitialState: function () {
+	    return {
+	      players: MatchStore.matchDetails(this.props.match.id) || []
+	    };
+	  },
+
+	  componentDidMount: function () {
+	    this.matchListener = MatchStore.addListener(this._onChange);
+	    ApiActions.fetchMatchDetails(this.props.match.id);
+	  },
+
+	  _onChange: function () {
+	    this.setState({ players: MatchStore.matchDetails(this.props.match.id) });
+	  },
+
+	  componentWillUnmount: function () {
+	    this.matchListener.remove();
+	  },
 
 	  orderPlayers: function (players) {
 	    var playerArray = players.slice();
@@ -59754,12 +59808,16 @@
 	  },
 
 	  getPlayerItems: function (player) {
-	    var items = player.items.slice();
-	    while (items.length < 6) {
-	      items.push(0);
+	    for (var i = 0; i < this.state.players.length; i++) {
+	      if (this.state.players[i].id == player.id) {
+	        var items = this.state.players[i].items.slice();
+	        while (items.length < 6) {
+	          items.push(0);
+	        }
+	        return items;
+	      }
 	    }
-
-	    return items;
+	    return [];
 	  },
 
 	  getItemImage: function (item) {

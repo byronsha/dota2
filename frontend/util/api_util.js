@@ -46,6 +46,15 @@ var ApiUtil = {
         callback(stats);
       }
     })
+  },
+
+  fetchMatchDetails: function(callback, matchId) {
+    $.ajax({
+      url: 'api/matches/' + matchId,
+      success: function (match) {
+        callback(match);
+      }
+    })
   }
 };
 

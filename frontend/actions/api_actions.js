@@ -20,6 +20,9 @@ var ApiActions = {
   fetchInitialStats: function () {
     ApiUtil.fetchInitialStats(ApiActions.receiveInitialStats);
   },
+  fetchMatchDetails: function(matchId) {
+    ApiUtil.fetchMatchDetails(ApiActions.receiveMatchDetails, matchId);
+  },
 
   // Responses
 
@@ -45,6 +48,12 @@ var ApiActions = {
     Dispatcher.dispatch({
       actionType: Constants.INITIAL_STATS_RECEIVED,
       stats: stats
+    });
+  },
+  receiveMatchDetails: function (match) {
+    Dispatcher.dispatch({
+      actionType: Constants.MATCH_DETAILS_RECEIVED,
+      match: match
     });
   }
 };

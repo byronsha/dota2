@@ -10,10 +10,10 @@ var MatchList = React.createClass({
 
   renderMatch: function (match, idx) {
     if (this.state.openMatch == idx) {
-      return <OpenMatch key={idx} filters={this.props.filters} match={match}/>
+      return <OpenMatch key={match.id} filters={this.props.filters} match={match}/>
     } else {
       var xScale = this.getXScale(this.props);
-      return <Match key={idx} match={match} filters={this.props.filters} xScale={xScale} changeOpenMatch={this.changeOpenMatch} matchIndex={idx}/>
+      return <Match key={match.id} match={match} filters={this.props.filters} xScale={xScale} changeOpenMatch={this.changeOpenMatch} matchIndex={idx}/>
     }
   },
 

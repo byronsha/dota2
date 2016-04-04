@@ -8,4 +8,8 @@ class Api::MatchesController < ApplicationController
 
     @matches = match.all.includes(players: :items).order('starts_at DESC').limit(25)
   end
+
+  def show
+    @match = Match.find(params[:id])
+  end
 end

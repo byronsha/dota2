@@ -3,9 +3,30 @@ var React = require('react'),
     Col = require('react-bootstrap').Col,
     TimeUtil = require('../../util/time_util.js'),
     Clusters = require('../../constants/clusters.js'),
-    OpenMatchDetails = require('./open_match_details.jsx');
+    OpenMatchDetails = require('./open_match_details.jsx'),
+    MatchStore = require('../../stores/match_store.js'),
+    ApiActions = require('../../actions/api_actions.js');
 
 var OpenMatch = React.createClass({
+  getInitialState: function () {
+    return {
+      players: MatchStore.matchDetails(this.props.match.id) || []
+    }
+  },
+
+  componentDidMount: function () {
+    this.matchListener = MatchStore.addListener(this._onChange);
+    ApiActions.fetchMatchDetails(this.props.match.id);
+  },
+  
+  _onChange: function () {
+    this.setState({ players: MatchStore.matchDetails(this.props.match.id) })
+  },
+
+  componentWillUnmount: function () {
+    this.matchListener.remove();
+  },
+
   orderPlayers: function (players) {
     var playerArray = players.slice();
     var orderedPlayers = [];
@@ -32,12 +53,16 @@ var OpenMatch = React.createClass({
   },
 
   getPlayerItems: function (player) {
-    var items = player.items.slice();
-    while (items.length < 6) {
-      items.push(0);
+    for (var i = 0; i < this.state.players.length; i++) {
+      if (this.state.players[i].id == player.id) {
+        var items = this.state.players[i].items.slice();
+        while (items.length < 6) {
+          items.push(0);
+        }
+        return items;
+      }
     }
-
-    return items;
+    return [];
   },
 
   getItemImage: function (item) {
