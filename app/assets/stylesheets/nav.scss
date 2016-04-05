@@ -37,6 +37,7 @@ nav li {
   transition: all 0.3s;
 }
 nav a {
+  height: calc(1px + 4.5vh);
   font-size: 15px;
   font-weight: 500;
   display: block;
@@ -69,25 +70,59 @@ nav img {
     cursor: pointer;
   }
   #home-link {
+    height: calc(1px + 4.5vh);
     float: right;
     width: 100px;
-    height: calc(1px + 4.5vh);
     margin-right: -42px;
     transform: skewX(15deg);
     background: #303030;
-    border-left: 1px solid #202020;
+    border-left: 1px solid #606060;
     border-bottom: 1px solid #202020;
+  }
+  #live-matches-link {
+    height: calc(1px + 4.5vh);
+    float: right;
+    width: 35px;
+    margin-right: 0px;
+    transform: skewX(15deg);
+    border-left: 1px solid #606060;
+    border-bottom: 1px solid #202020;
+  }
+  #live-matches-link a {
+    background: #505050;
+  }
+  #live-matches-link a:hover {
+    background: #808080;
   }
   #matches-link {
     float: left;
     width: 100px;
     margin-left: -42px;
     transform: skewX(-15deg);
-    border-right: 1px solid #202020;
+    border-right: 1px solid #606060;
     border-bottom: 1px solid #202020;
+  }
+  #heroes-link {
+    height: calc(1px + 4.5vh);
+    float: left;
+    width: 35px;
+    margin-left: 0px;
+    transform: skewX(-15deg);
+    background: #505050;
+    border-right: 1px solid #606060;
+    border-bottom: 1px solid #202020;
+  }
+  #heroes-link a {
+    background: #505050;
+  }
+  #heroes-link a:hover {
+    background: #808080;
   }
   #home-link span {
     transform: skewX(-15deg);
+  }
+  #live-matches-link span {
+    transform: skewX(15deg);
   }
   #matches-link span {
     transform: skewX(15deg);

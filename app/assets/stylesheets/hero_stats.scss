@@ -9,7 +9,7 @@
 
 .other-hero-stats {
   padding-top: 20px;
-  height: 34vh;
+  height: calc(38.95vh - 2.2vw);
   overflow: hidden;
 
   border-top: 1px solid #606060;
@@ -42,8 +42,12 @@
   padding-top: 1vh;
 }
 
+#initial-stats-wrapper {
+  height: 95.5vh;
+}
+
 #initial-stats {
-  height: 42vh;
+  height: calc(46vh - 1.5vw);
 }
 
 #initial-games-played-chart {

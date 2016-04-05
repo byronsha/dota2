@@ -28,7 +28,7 @@ var InitialStats = React.createClass({
 
   render: function () {
     return (
-      <Row>
+      <Row id="initial-stats-wrapper">
         <Row className="selected-hero-stats">
           <Col md={12} id="initial-games-played-chart">
             <h2 className="chart-header">GAMES PICKED:</h2>

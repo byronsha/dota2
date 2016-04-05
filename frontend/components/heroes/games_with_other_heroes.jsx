@@ -33,7 +33,7 @@ var WinratesWithOtherHeroes = React.createClass({
     if (typeof alliedHero !== "undefined") {
       return (
         <li key={idx}>
-          <img src={url + alliedHero.image_url + '_lg.png'} height="25px"></img>
+          <img src={url + alliedHero.image_url + '_lg.png'}></img>
           <GameCountBar hero={hero} xScale={xScale} barWidth={this.props.barWidth}/>
           <div className="bar-text">
             <span>{hero.hero + ': '}</span>

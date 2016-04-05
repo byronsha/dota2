@@ -34332,7 +34332,16 @@
 	          { className: "navbar-background-left" },
 	          React.createElement(
 	            "div",
-	            { id: "home-link" },
+	            { className: "navbar-link", id: "home-link" },
+	            React.createElement(
+	              Link,
+	              { to: '/' },
+	              React.createElement("span", null)
+	            )
+	          ),
+	          React.createElement(
+	            "div",
+	            { className: "navbar-link", id: "live-matches-link" },
 	            React.createElement(
 	              Link,
 	              { to: '/' },
@@ -34345,15 +34354,24 @@
 	          { className: "navbar-background-right" },
 	          React.createElement(
 	            "div",
-	            { id: "matches-link" },
+	            { className: "navbar-link", id: "matches-link" },
 	            React.createElement(
 	              Link,
-	              { to: '/matches' },
+	              { to: '/' },
 	              React.createElement(
 	                "span",
 	                null,
 	                React.createElement("img", { src: "http://dota2stratroulette.netai.net/images/logo.png" })
 	              )
+	            )
+	          ),
+	          React.createElement(
+	            "div",
+	            { className: "navbar-link", id: "heroes-link" },
+	            React.createElement(
+	              Link,
+	              { to: '/matches' },
+	              React.createElement("span", null)
 	            )
 	          )
 	        )
@@ -34368,16 +34386,18 @@
 /* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
+	var React = __webpack_require__(1),
+	    IntroVideo = __webpack_require__(523);
 
 	var Home = React.createClass({
 	  displayName: 'Home',
 
 	  render: function () {
+	    var url = "https://www.youtube.com/embed/4lRZ4Z6o-6U?controls=0&showinfo=0&autoplay=1&loop=1&iv_load_policy=3&playlist=4lRZ4Z6o-6U";
 	    return React.createElement(
 	      'div',
 	      null,
-	      'This is the home component'
+	      React.createElement(IntroVideo, { url: url })
 	    );
 	  }
 	});
@@ -60214,7 +60234,7 @@
 	      return React.createElement(
 	        'li',
 	        { key: idx },
-	        React.createElement('img', { src: url + alliedHero.image_url + '_lg.png', height: '25px' }),
+	        React.createElement('img', { src: url + alliedHero.image_url + '_lg.png' }),
 	        React.createElement(GameCountBar, { hero: hero, xScale: xScale, barWidth: this.props.barWidth }),
 	        React.createElement(
 	          'div',
@@ -60364,7 +60384,7 @@
 	  render: function () {
 	    return React.createElement(
 	      Row,
-	      null,
+	      { id: 'initial-stats-wrapper' },
 	      React.createElement(
 	        Row,
 	        { className: 'selected-hero-stats' },
@@ -60436,6 +60456,26 @@
 	};
 
 	module.exports = StatisticsStore;
+
+/***/ },
+/* 523 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var IntroVideo = React.createClass({
+	  displayName: "IntroVideo",
+
+	  render: function () {
+	    return React.createElement("iframe", { src: this.props.url,
+	      width: "100%",
+	      height: window.innerHeight,
+	      frameBorder: "0",
+	      allowFullScreen: true });
+	  }
+	});
+
+	module.exports = IntroVideo;
 
 /***/ }
 /******/ ]);
