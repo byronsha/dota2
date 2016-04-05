@@ -38,6 +38,10 @@
   font-size: 1.3vw;
 }
 
+#winrates {
+  padding-top: 1vh;
+}
+
 #initial-stats {
   height: 42vh;
 }
@@ -50,7 +54,11 @@
 #initial-win-rates-chart {
   padding-left: 5px;
   padding-right: 5px;
-  margin-top: -1px;
+}
+
+#initial-win-rates-chart {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .other-hero-stats li {

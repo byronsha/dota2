@@ -59009,7 +59009,7 @@
 	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'h5',
-	            null,
+	            { className: 'matches-column-header' },
 	            'Match ID'
 	          )
 	        ),
@@ -59018,7 +59018,7 @@
 	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'h5',
-	            null,
+	            { className: 'matches-column-header' },
 	            'Mode'
 	          )
 	        ),
@@ -59027,7 +59027,7 @@
 	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'h5',
-	            null,
+	            { className: 'matches-column-header' },
 	            'Result'
 	          )
 	        ),
@@ -59036,7 +59036,7 @@
 	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'h5',
-	            null,
+	            { className: 'matches-column-header' },
 	            'Duration'
 	          )
 	        )
@@ -59049,7 +59049,7 @@
 	          { id: 'match-stats-column', md: 6 },
 	          React.createElement(
 	            'h5',
-	            null,
+	            { className: 'matches-column-header' },
 	            'Radiant'
 	          )
 	        ),
@@ -59058,7 +59058,7 @@
 	          { id: 'match-stats-column', md: 6 },
 	          React.createElement(
 	            'h5',
-	            null,
+	            { className: 'matches-column-header' },
 	            'Dire'
 	          ),
 	          ' '
@@ -59714,7 +59714,6 @@
 	          React.createElement(GamesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 40, maxWidth: 145, initial: false })
 	        )
 	      ),
-	      React.createElement('br', null),
 	      React.createElement(
 	        Row,
 	        { className: 'selected-hero-stats' },
@@ -59723,7 +59722,7 @@
 	          { md: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
-	            { className: 'chart-header' },
+	            { className: 'chart-header', id: 'winrates' },
 	            'WIN RATE WITH:'
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: state.allies.slice(), barWidth: 100, maxWidth: 145, initial: false })
@@ -59733,13 +59732,12 @@
 	          { md: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
-	            { className: 'chart-header' },
+	            { className: 'chart-header', id: 'winrates' },
 	            'WIN RATE AGAINST:'
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 100, maxWidth: 145, initial: false })
 	        )
-	      ),
-	      React.createElement('br', null)
+	      )
 	    );
 	  }
 	});
@@ -60375,13 +60373,12 @@
 	          { md: 12, id: 'initial-games-played-chart' },
 	          React.createElement(
 	            'h2',
-	            null,
+	            { className: 'chart-header' },
 	            'GAMES PICKED:'
 	          ),
 	          React.createElement(GamesWithOtherHeroes, { heroes: this.state.gamesPlayed.slice(), barWidth: 100, maxWidth: 350, initial: true })
 	        )
 	      ),
-	      React.createElement('br', null),
 	      React.createElement(
 	        Row,
 	        { className: 'selected-hero-stats' },
@@ -60390,7 +60387,7 @@
 	          { md: 12, id: 'initial-win-rates-chart' },
 	          React.createElement(
 	            'h2',
-	            null,
+	            { className: 'chart-header', id: 'winrates' },
 	            'WIN RATE:'
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: this.state.winrates.slice(), barWidth: 100, maxWidth: 350, initial: true })

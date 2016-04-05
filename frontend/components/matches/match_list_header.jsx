@@ -7,15 +7,15 @@ var MatchListHeader = React.createClass({
     return (
       <Row className="list-header">
         <Col md={5}>
-          <Col id="match-stats-column" md={3}><h5>Match ID</h5></Col>
-          <Col id="match-stats-column" md={3}><h5>Mode</h5></Col>
-          <Col id="match-stats-column" md={3}><h5>Result</h5></Col>
-          <Col id="match-stats-column" md={3}><h5>Duration</h5></Col>
+          <Col id="match-stats-column" md={3}><h5 className="matches-column-header">Match ID</h5></Col>
+          <Col id="match-stats-column" md={3}><h5 className="matches-column-header">Mode</h5></Col>
+          <Col id="match-stats-column" md={3}><h5 className="matches-column-header">Result</h5></Col>
+          <Col id="match-stats-column" md={3}><h5 className="matches-column-header">Duration</h5></Col>
         </Col>
 
         <Col md={7}>
-          <Col id="match-stats-column" md={6}><h5>Radiant</h5></Col>
-          <Col id="match-stats-column" md={6}><h5>Dire</h5> </Col>
+          <Col id="match-stats-column" md={6}><h5 className="matches-column-header">Radiant</h5></Col>
+          <Col id="match-stats-column" md={6}><h5 className="matches-column-header">Dire</h5> </Col>
         </Col>
       </Row>
     )

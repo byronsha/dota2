@@ -83,19 +83,19 @@ var SelectedHeroStats = React.createClass({
             <h3 className="chart-header">GAMES AGAINST:</h3>
             <GamesWithOtherHeroes heroes={state.opponents.slice()} barWidth={40} maxWidth={145} initial={false}/>
           </Col>
-        </Row><br/>
+        </Row>
 
         <Row className="selected-hero-stats">
           <Col md={6} id="selected-hero-chart">
-            <h3 className="chart-header">WIN RATE WITH:</h3>
+            <h3 className="chart-header" id="winrates">WIN RATE WITH:</h3>
             <WinratesWithOtherHeroes heroes={state.allies.slice()} barWidth={100} maxWidth={145} initial={false}/>
           </Col>
 
           <Col md={6} id="selected-hero-chart">
-            <h3 className="chart-header">WIN RATE AGAINST:</h3>
+            <h3 className="chart-header" id="winrates">WIN RATE AGAINST:</h3>
             <WinratesWithOtherHeroes heroes={state.opponents.slice()} barWidth={100} maxWidth={145} initial={false}/>
           </Col>
-        </Row><br/>
+        </Row>
       </Row>
     )
   }

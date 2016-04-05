@@ -50,6 +50,13 @@ ul.dropdown-menu li {
   display: block;
 }
 
+.matches-column-header {
+  text-transform: uppercase;
+  font-size: .8vw;
+  margin-top: .6vh;
+  margin-bottom: .5vh;
+}
+
 .unhighlighted {
   margin: 2px;
 }
@@ -88,6 +95,7 @@ ul.dropdown-menu li {
 .list-header {
   background: #303030;
   color: white;
+  border-top: 1px solid #606060;
 }
 
 .match-list {
