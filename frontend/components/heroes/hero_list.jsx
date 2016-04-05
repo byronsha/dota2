@@ -12,7 +12,7 @@ var HeroList = React.createClass({
   render: function () {
     var that = this;
     return (
-      <Row className="hero-list">
+      <Row className="hero-list" id="hero-selector">
         <h4 className="hero-list-header"><img src={ICONS[this.props.title]}></img> {this.props.title}</h4>
         {
           this.props.heroes.map(function(hero, idx) {

@@ -59446,7 +59446,7 @@
 	    var that = this;
 	    return React.createElement(
 	      Row,
-	      { className: 'hero-list' },
+	      { className: 'hero-list', id: 'hero-selector' },
 	      React.createElement(
 	        'h4',
 	        { className: 'hero-list-header' },
@@ -59690,7 +59690,6 @@
 	          )
 	        )
 	      ),
-	      React.createElement('br', null),
 	      React.createElement(
 	        Row,
 	        { className: 'selected-hero-stats' },
@@ -59699,7 +59698,7 @@
 	          { md: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
-	            null,
+	            { className: 'chart-header' },
 	            'GAMES WITH:'
 	          ),
 	          React.createElement(GamesWithOtherHeroes, { heroes: state.allies.slice(), barWidth: 40, maxWidth: 145, initial: false })
@@ -59709,7 +59708,7 @@
 	          { md: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
-	            null,
+	            { className: 'chart-header' },
 	            'GAMES AGAINST:'
 	          ),
 	          React.createElement(GamesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 40, maxWidth: 145, initial: false })
@@ -59724,7 +59723,7 @@
 	          { md: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
-	            null,
+	            { className: 'chart-header' },
 	            'WIN RATE WITH:'
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: state.allies.slice(), barWidth: 100, maxWidth: 145, initial: false })
@@ -59734,7 +59733,7 @@
 	          { md: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
-	            null,
+	            { className: 'chart-header' },
 	            'WIN RATE AGAINST:'
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 100, maxWidth: 145, initial: false })

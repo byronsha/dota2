@@ -9,7 +9,7 @@
 
 .other-hero-stats {
   padding-top: 20px;
-  height: 378px;
+  height: 34vh;
   overflow: hidden;
 
   border-top: 1px solid #606060;
@@ -32,6 +32,10 @@
   border-left: 1px solid white;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
+}
+
+.chart-header {
+  font-size: 1.3vw;
 }
 
 #initial-stats {

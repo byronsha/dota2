@@ -19,10 +19,6 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway:400,300,100,200,500,600,700");
 @import url("https://fonts.googleapis.com/css?family=Alegreya+Sans:400,300,100,500,700");
 
-body {
-  background-color: #202020;
-}
-
 #app h2 {
   font-size: 1.5vw;
 }
