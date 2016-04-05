@@ -15,6 +15,8 @@
 }
 
 #match-stats-column img {
+  width: 2.7vw;
+  height: 1.6vw;
   border-top: 1px solid white;
   border-left: 1px solid white;
   border-right: 1px solid black;
@@ -105,6 +107,7 @@ ul.dropdown-menu li {
 }
 
 .match-row {
+  font-size: .7vw;
   outline: 1px solid #606060;
   background: #404040;
   -webkit-transition: all .3s ease-out;

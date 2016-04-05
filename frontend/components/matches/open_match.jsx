@@ -18,7 +18,7 @@ var OpenMatch = React.createClass({
     this.matchListener = MatchStore.addListener(this._onChange);
     ApiActions.fetchMatchDetails(this.props.match.id);
   },
-  
+
   _onChange: function () {
     this.setState({ players: MatchStore.matchDetails(this.props.match.id) })
   },
@@ -82,6 +82,7 @@ var OpenMatch = React.createClass({
       var radiant = this.orderPlayers(match.players.slice(0,5));
       var dire = this.orderPlayers(match.players.slice(5,10));
       var heroes = this.heroes();
+      var portraitWidth = window.innerWidth * 0.033;
 
       return (
         <Row className="match-open" id={match.winner + "-win"}>
@@ -94,7 +95,7 @@ var OpenMatch = React.createClass({
                   <Row key={idx}>
                     <Col className="radiant-portraits" md={3}>
                       <div className={heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "radiant-highlighted-open"}>
-                        <img width="65px" height="65px" src={url + 'heroes/' + player.hero_image_url + '_vert.jpg'}></img>
+                        <img width={portraitWidth} height={portraitWidth} src={url + 'heroes/' + player.hero_image_url + '_vert.jpg'}></img>
                       </div>
                     </Col>
 
@@ -104,7 +105,7 @@ var OpenMatch = React.createClass({
                           <span className="radiant-hero-name">{player.hero_name}</span>
                           <span className="float-right">{"Lvl " + player.level}</span>
                         </div>
-                        <ul className="horizontal float-left">
+                        <ul className="horizontal float-left" id="items">
                           {
                             items.map(function(item, idx) {
                               return <li key={idx}>{that.getItemImage(item)}</li>
@@ -149,7 +150,7 @@ var OpenMatch = React.createClass({
                           <span>{"Lvl " + player.level}</span>
                           <span className="dire-hero-name">{player.hero_name}</span>
                         </div>
-                        <ul className="horizontal float-right">
+                        <ul className="horizontal float-right" id="items">
                           {
                             items.map(function(item, idx) {
                               return <li key={idx}>{that.getItemImage(item)}</li>
@@ -161,7 +162,7 @@ var OpenMatch = React.createClass({
 
                     <Col md={3}>
                       <div className={heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "dire-highlighted-open"}>
-                        <img width="65px" height="65px" src={url + 'heroes/' + player.hero_image_url + '_vert.jpg'}></img>
+                        <img width={portraitWidth} height={portraitWidth} src={url + 'heroes/' + player.hero_image_url + '_vert.jpg'}></img>
                       </div>
                     </Col>
                   </Row>

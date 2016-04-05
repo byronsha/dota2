@@ -76,7 +76,7 @@ var Matches = React.createClass({
       <div>
         {this.renderLoadingScreen()}
 
-        <Col md={2} className="hero-picker">
+        <Col md={2} id="hero-picker">
           <HeroSelector heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
           <Button onClick={this.resetAllFilters} bsStyle="danger" bsSize="xsmall">reset all</Button>
         </Col>

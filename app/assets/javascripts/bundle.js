@@ -34472,7 +34472,7 @@
 	      this.renderLoadingScreen(),
 	      React.createElement(
 	        Col,
-	        { md: 2, className: 'hero-picker' },
+	        { md: 2, id: 'hero-picker' },
 	        React.createElement(HeroSelector, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] }),
 	        React.createElement(
 	          Button,
@@ -59449,7 +59449,7 @@
 	      { className: 'hero-list' },
 	      React.createElement(
 	        'h4',
-	        null,
+	        { className: 'hero-list-header' },
 	        React.createElement('img', { src: ICONS[this.props.title] }),
 	        ' ',
 	        this.props.title
@@ -59837,6 +59837,7 @@
 	      var radiant = this.orderPlayers(match.players.slice(0, 5));
 	      var dire = this.orderPlayers(match.players.slice(5, 10));
 	      var heroes = this.heroes();
+	      var portraitWidth = window.innerWidth * 0.033;
 
 	      return React.createElement(
 	        Row,
@@ -59860,7 +59861,7 @@
 	                React.createElement(
 	                  'div',
 	                  { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "radiant-highlighted-open" },
-	                  React.createElement('img', { width: '65px', height: '65px', src: url + 'heroes/' + player.hero_image_url + '_vert.jpg' })
+	                  React.createElement('img', { width: portraitWidth, height: portraitWidth, src: url + 'heroes/' + player.hero_image_url + '_vert.jpg' })
 	                )
 	              ),
 	              React.createElement(
@@ -59885,7 +59886,7 @@
 	                  ),
 	                  React.createElement(
 	                    'ul',
-	                    { className: 'horizontal float-left' },
+	                    { className: 'horizontal float-left', id: 'items' },
 	                    items.map(function (item, idx) {
 	                      return React.createElement(
 	                        'li',
@@ -59972,7 +59973,7 @@
 	                  ),
 	                  React.createElement(
 	                    'ul',
-	                    { className: 'horizontal float-right' },
+	                    { className: 'horizontal float-right', id: 'items' },
 	                    items.map(function (item, idx) {
 	                      return React.createElement(
 	                        'li',
@@ -59989,7 +59990,7 @@
 	                React.createElement(
 	                  'div',
 	                  { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "dire-highlighted-open" },
-	                  React.createElement('img', { width: '65px', height: '65px', src: url + 'heroes/' + player.hero_image_url + '_vert.jpg' })
+	                  React.createElement('img', { width: portraitWidth, height: portraitWidth, src: url + 'heroes/' + player.hero_image_url + '_vert.jpg' })
 	                )
 	              )
 	            );
