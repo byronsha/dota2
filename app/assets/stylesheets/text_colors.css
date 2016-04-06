@@ -1,19 +1,24 @@
 .green {
   color: #B6FF00;
+  text-shadow: 0 0 8px black;
 }
 
 .red {
   color: #FF1177;
+  text-shadow: 0 0 8px black;
 }
 
 .gold {
   color: #FFD700;
+  text-shadow: 0 0 8px black;
 }
 
 .blue {
   color: #04A3FF;
+  text-shadow: 0 0 8px black;
 }
 
 .grey {
   color: #D2D2D2;
+  text-shadow: 0 0 8px black;
 }
