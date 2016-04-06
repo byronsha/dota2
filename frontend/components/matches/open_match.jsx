@@ -103,7 +103,7 @@ var OpenMatch = React.createClass({
                       <div className="pad-top">
                         <div>
                           <span className="radiant-hero-name">{player.hero_name}</span>
-                          <span className="float-right">{"Lvl " + player.level}</span>
+                          <span className="gold float-right">{"Lvl " + player.level}</span>
                         </div>
                         <ul className="horizontal float-left" id="items">
                           {
@@ -147,7 +147,7 @@ var OpenMatch = React.createClass({
                     <Col md={6}>
                       <div className="pad-top">
                         <div>
-                          <span>{"Lvl " + player.level}</span>
+                          <span className="gold">{"Lvl " + player.level}</span>
                           <span className="dire-hero-name">{player.hero_name}</span>
                         </div>
                         <ul className="horizontal float-right" id="items">

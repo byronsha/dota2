@@ -58777,7 +58777,7 @@
 	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'span',
-	            null,
+	            { className: 'gold' },
 	            match.steam_match_id
 	          ),
 	          React.createElement('br', null),
@@ -58792,13 +58792,13 @@
 	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'span',
-	            null,
+	            { className: 'blue' },
 	            match.mode
 	          ),
 	          React.createElement('br', null),
 	          React.createElement(
 	            'span',
-	            null,
+	            { className: 'grey' },
 	            match.match_type === "Public Matchmaking" ? "Normal" : match.match_type
 	          )
 	        ),
@@ -58809,7 +58809,7 @@
 	          React.createElement('br', null),
 	          React.createElement(
 	            'span',
-	            null,
+	            { className: 'grey' },
 	            Clusters[match.cluster]
 	          )
 	        ),
@@ -58818,7 +58818,7 @@
 	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
 	            'span',
-	            null,
+	            { className: 'grey' },
 	            TimeUtil.format(match.duration)
 	          ),
 	          React.createElement(DurationBar, { duration: match.duration, xScale: this.props.xScale })
@@ -59459,6 +59459,12 @@
 	  "INTELLIGENCE": "http://www.dotadatabase.net/Content/icon_int.png"
 	};
 
+	COLORS = {
+	  "STRENGTH": "red",
+	  "AGILITY": "green",
+	  "INTELLIGENCE": ""
+	};
+
 	var HeroList = React.createClass({
 	  displayName: 'HeroList',
 
@@ -59469,7 +59475,7 @@
 	      { className: 'hero-list', id: 'hero-selector' },
 	      React.createElement(
 	        'h4',
-	        { className: 'hero-list-header' },
+	        { className: COLORS[this.props.title], id: 'hero-list-header' },
 	        React.createElement('img', { src: ICONS[this.props.title] }),
 	        ' ',
 	        this.props.title
@@ -59519,7 +59525,7 @@
 	        null,
 	        React.createElement(
 	          'h2',
-	          null,
+	          { className: 'chart-header' },
 	          'SELECT YOUR HEROES'
 	        )
 	      ),
@@ -59897,7 +59903,7 @@
 	                    ),
 	                    React.createElement(
 	                      'span',
-	                      { className: 'float-right' },
+	                      { className: 'gold float-right' },
 	                      "Lvl " + player.level
 	                    )
 	                  ),
@@ -59979,7 +59985,7 @@
 	                    null,
 	                    React.createElement(
 	                      'span',
-	                      null,
+	                      { className: 'gold' },
 	                      "Lvl " + player.level
 	                    ),
 	                    React.createElement(
@@ -60159,12 +60165,12 @@
 	          { className: 'bar-text' },
 	          React.createElement(
 	            'span',
-	            null,
+	            { className: 'grey' },
 	            hero.hero + ': '
 	          ),
 	          React.createElement(
 	            'span',
-	            null,
+	            { className: parseFloat(hero.winrate) > 50 ? "green" : "red" },
 	            hero.winrate + '% '
 	          )
 	        )
@@ -60241,12 +60247,12 @@
 	          { className: 'bar-text' },
 	          React.createElement(
 	            'span',
-	            null,
+	            { className: 'grey' },
 	            hero.hero + ': '
 	          ),
 	          React.createElement(
 	            'span',
-	            null,
+	            { className: 'game-count-text' },
 	            hero.games
 	          )
 	        )

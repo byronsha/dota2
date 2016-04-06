@@ -76,14 +76,14 @@ nav img {
     margin-right: -42px;
     transform: skewX(15deg);
     background: #303030;
-    border-left: 1px solid #606060;
+    border-left: 2px solid #606060;
     border-bottom: 1px solid #202020;
   }
   #live-matches-link {
     height: calc(1px + 4.5vh);
     float: right;
     width: 35px;
-    margin-right: 0px;
+    margin-right: -2px;
     transform: skewX(15deg);
     border-left: 1px solid #606060;
     border-bottom: 1px solid #202020;
@@ -92,21 +92,21 @@ nav img {
     background: #505050;
   }
   #live-matches-link a:hover {
-    background: #808080;
+    background: white;
   }
   #matches-link {
     float: left;
     width: 100px;
     margin-left: -42px;
     transform: skewX(-15deg);
-    border-right: 1px solid #606060;
+    border-right: 2px solid #606060;
     border-bottom: 1px solid #202020;
   }
   #heroes-link {
     height: calc(1px + 4.5vh);
     float: left;
     width: 35px;
-    margin-left: 0px;
+    margin-left: -2px;
     transform: skewX(-15deg);
     background: #505050;
     border-right: 1px solid #606060;
@@ -116,7 +116,7 @@ nav img {
     background: #505050;
   }
   #heroes-link a:hover {
-    background: #808080;
+    background: white;
   }
   #home-link span {
     transform: skewX(-15deg);

@@ -36,8 +36,8 @@ var WinratesWithOtherHeroes = React.createClass({
           <img src={url + alliedHero.image_url + '_lg.png'}></img>
           <GameCountBar hero={hero} xScale={xScale} barWidth={this.props.barWidth}/>
           <div className="bar-text">
-            <span>{hero.hero + ': '}</span>
-            <span>{hero.games}</span>
+            <span className="grey">{hero.hero + ': '}</span>
+            <span className="game-count-text">{hero.games}</span>
           </div>
         </li>
       )

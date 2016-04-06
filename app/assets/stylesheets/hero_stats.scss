@@ -36,6 +36,7 @@
 
 .chart-header {
   font-size: 1.3vw;
+  text-shadow: 0 0 6px white;
 }
 
 #winrates {
@@ -100,4 +101,8 @@
   fill: #FFD700;
   stroke-width: 1px;
   stroke: black;
+}
+
+.game-count-text {
+  color: #FFD700;
 }

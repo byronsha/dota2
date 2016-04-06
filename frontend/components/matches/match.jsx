@@ -52,22 +52,22 @@ var Match = React.createClass({
       <Row className="match-row" onClick={this.changeOpenMatch}>
         <Col md={5}>
           <Col id="match-stats-column" md={3}>
-            <span>{match.steam_match_id}</span><br/>
+            <span className="gold">{match.steam_match_id}</span><br/>
             <span>{TimeUtil.timeAgo(match.start_time)}</span>
           </Col>
 
           <Col id="match-stats-column" md={3}>
-            <span>{match.mode}</span><br/>
-            <span>{match.match_type === "Public Matchmaking" ? "Normal" : match.match_type}</span>
+            <span className="blue">{match.mode}</span><br/>
+            <span className="grey">{match.match_type === "Public Matchmaking" ? "Normal" : match.match_type}</span>
           </Col>
 
           <Col id="match-stats-column" md={3}>
             {this.winner()}<br/>
-            <span>{Clusters[match.cluster]}</span>
+            <span className="grey">{Clusters[match.cluster]}</span>
           </Col>
 
           <Col id="match-stats-column" md={3}>
-            <span>{TimeUtil.format(match.duration)}</span>
+            <span className="grey">{TimeUtil.format(match.duration)}</span>
             <DurationBar duration={match.duration} xScale={this.props.xScale}/>
           </Col>
         </Col>

@@ -22,8 +22,8 @@ var WinratesWithOtherHeroes = React.createClass({
           <img src={url + alliedHero.image_url + '_lg.png'} height="25px"></img>
           <WinLossBar hero={hero} xScale={xScale} barWidth={this.props.barWidth}/>
           <div className="bar-text">
-            <span>{hero.hero + ': '}</span>
-            <span>{hero.winrate + '% '}</span>
+            <span className="grey">{hero.hero + ': '}</span>
+            <span className={parseFloat(hero.winrate) > 50 ? "green" : "red"}>{hero.winrate + '% '}</span>
           </div>
         </li>
       )

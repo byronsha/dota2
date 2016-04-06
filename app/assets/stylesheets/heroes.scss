@@ -42,10 +42,11 @@
   height: 1.2vw;
 }
 
-.hero-list-header {
-  font-size: .9vw;
+#hero-list-header {
+  font-size: .8vw;
   margin-top: 2px;
   margin-bottom: 2px;
+  text-shadow: 1px 1px 5px black;
 }
 
 .selected-heroes img {
@@ -129,6 +130,7 @@
   margin-top: 5px;
   margin-bottom: 0px;
   padding-left: 10px;
+  text-shadow: 0 0 6px white;
 }
 
 #hero-picker {

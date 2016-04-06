@@ -22,7 +22,7 @@ var HeroSelector = React.createClass({
 
     return (
       <div className="hero-selector">
-        <Row><h2>SELECT YOUR HEROES</h2></Row>
+        <Row><h2 className="chart-header">SELECT YOUR HEROES</h2></Row>
         <HeroList heroes={strength} title="STRENGTH" filters={this.props.filters} loading={this.props.loading}/>
         <HeroList heroes={agility} title="AGILITY" filters={this.props.filters} loading={this.props.loading}/>
         <HeroList heroes={intelligence} title="INTELLIGENCE" filters={this.props.filters} loading={this.props.loading}/>

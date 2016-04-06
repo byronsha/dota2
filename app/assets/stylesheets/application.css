@@ -35,10 +35,12 @@
   min-height: 100vh;
   max-height: 100vh;
   overflow-y: hidden;
+
+  min-width: 1200px;
 }
 
 #app {
   /*border-top: 2px solid #606060;*/
   padding-left: 0px;
-  padding-right: 5px;
+  padding-right: 0px;
 }
