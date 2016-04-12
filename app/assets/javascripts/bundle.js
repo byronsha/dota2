@@ -34464,22 +34464,6 @@
 	    FilterActions.resetAllFilters();
 	  },
 
-	  renderLoadingScreen: function () {
-	    if (this.state.loading) {
-	      return React.createElement(
-	        'div',
-	        { className: 'loading-screen' },
-	        React.createElement(
-	          'video',
-	          { autoPlay: true, loop: true },
-	          React.createElement('source', { src: 'https://gfycat.com/ifr/YoungRelievedAfricancivet', type: 'video/webm' }),
-	          React.createElement('source', { src: 'https://giant.gfycat.com/YoungRelievedAfricancivet.mp4', type: 'video/mp4' })
-	        ),
-	        React.createElement('div', { className: 'loader' })
-	      );
-	    }
-	  },
-
 	  removeSpinner: function () {
 	    this.setState({ loading: false });
 	  },
@@ -34489,7 +34473,6 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      this.renderLoadingScreen(),
 	      React.createElement(
 	        Col,
 	        { md: 2, id: 'hero-picker' },
@@ -34518,7 +34501,7 @@
 	          )
 	        ),
 	        React.createElement(MatchListHeader, null),
-	        React.createElement(MatchList, { matches: this.state.matches, filters: this.state.filters })
+	        React.createElement(MatchList, { matches: this.state.matches, filters: this.state.filters, loading: this.state.loading })
 	      )
 	    );
 	  }
@@ -58691,12 +58674,29 @@
 	    return d3.scale.linear().domain([0, xMax]).range([0, 98]);
 	  },
 
+	  renderLoadingScreen: function () {
+	    if (this.props.loading) {
+	      return React.createElement(
+	        'div',
+	        { className: 'loading-screen' },
+	        React.createElement(
+	          'video',
+	          { autoPlay: true, loop: true },
+	          React.createElement('source', { src: 'https://gfycat.com/ifr/YoungRelievedAfricancivet', type: 'video/webm' }),
+	          React.createElement('source', { src: 'https://giant.gfycat.com/YoungRelievedAfricancivet.mp4', type: 'video/mp4' })
+	        ),
+	        React.createElement('div', { className: 'loader' })
+	      );
+	    }
+	  },
+
 	  render: function () {
 	    var that = this;
 
 	    return React.createElement(
 	      Row,
 	      { className: 'match-list' },
+	      this.renderLoadingScreen(),
 	      this.props.matches.map(function (match, idx) {
 	        return that.renderMatch(match, idx);
 	      })
@@ -59676,7 +59676,7 @@
 	        { className: 'selected-hero-stats' },
 	        React.createElement(
 	          'h2',
-	          { className: 'hero-name' },
+	          { className: 'section-title' },
 	          this.props.hero.name
 	        ),
 	        React.createElement(
@@ -59857,7 +59857,7 @@
 
 	  renderItems: function (items) {
 	    var that = this;
-	    if (items == []) {
+	    if (items.length == 0) {
 	      return React.createElement(
 	        'div',
 	        { className: 'spinner' },
@@ -60013,17 +60013,7 @@
 	                      player.hero_name
 	                    )
 	                  ),
-	                  React.createElement(
-	                    'ul',
-	                    { className: 'horizontal float-right', id: 'items' },
-	                    items.map(function (item, idx) {
-	                      return React.createElement(
-	                        'li',
-	                        { key: idx },
-	                        that.getItemImage(item)
-	                      );
-	                    })
-	                  )
+	                  that.renderItems(items)
 	                )
 	              ),
 	              React.createElement(
@@ -60199,18 +60189,41 @@
 	    }
 	  },
 
-	  render: function () {
+	  renderHeroes: function (heroes) {
 	    var that = this;
+	    if (heroes.length == 0) {
+	      return React.createElement(
+	        'div',
+	        { className: 'sk-fading-circle' },
+	        React.createElement('div', { className: 'sk-circle1 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle2 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle3 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle4 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle5 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle6 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle7 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle8 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle9 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle10 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle11 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle12 sk-circle' })
+	      );
+	    } else {
+	      return React.createElement(
+	        'ul',
+	        null,
+	        heroes.map(function (hero, idx) {
+	          return that.renderHero(hero, idx);
+	        })
+	      );
+	    }
+	  },
+
+	  render: function () {
 	    return React.createElement(
 	      'div',
 	      { className: 'other-hero-stats', id: this.props.initial ? "initial-stats" : "" },
-	      React.createElement(
-	        'ul',
-	        null,
-	        this.props.heroes.map(function (hero, idx) {
-	          return that.renderHero(hero, idx);
-	        })
-	      )
+	      this.renderHeroes(this.props.heroes)
 	    );
 	  }
 	});
@@ -60281,20 +60294,43 @@
 	    }
 	  },
 
-	  render: function () {
+	  renderHeroes: function (heroes) {
 	    var that = this;
-	    var heroes = this.sortedHeroes();
-
-	    return React.createElement(
-	      'div',
-	      { className: 'other-hero-stats', id: this.props.initial ? "initial-stats" : "" },
-	      React.createElement(
+	    if (heroes.length == 0) {
+	      return React.createElement(
+	        'div',
+	        { className: 'sk-fading-circle' },
+	        React.createElement('div', { className: 'sk-circle1 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle2 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle3 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle4 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle5 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle6 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle7 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle8 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle9 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle10 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle11 sk-circle' }),
+	        React.createElement('div', { className: 'sk-circle12 sk-circle' })
+	      );
+	    } else {
+	      return React.createElement(
 	        'ul',
 	        null,
 	        heroes.map(function (hero, idx) {
 	          return that.renderHero(hero, idx);
 	        })
-	      )
+	      );
+	    }
+	  },
+
+	  render: function () {
+	    var heroes = this.sortedHeroes();
+
+	    return React.createElement(
+	      'div',
+	      { className: 'other-hero-stats', id: this.props.initial ? "initial-stats" : "" },
+	      this.renderHeroes(heroes)
 	    );
 	  }
 	});

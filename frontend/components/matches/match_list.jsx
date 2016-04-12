@@ -31,11 +31,26 @@ var MatchList = React.createClass({
       .range([0, 98]);
   },
 
+  renderLoadingScreen: function () {
+    if (this.props.loading) {
+      return (
+        <div className="loading-screen">
+          <video autoPlay loop>
+            <source src="https://gfycat.com/ifr/YoungRelievedAfricancivet" type="video/webm" />
+            <source src="https://giant.gfycat.com/YoungRelievedAfricancivet.mp4" type="video/mp4" />
+          </video>
+          <div className="loader"/>
+        </div>
+      )
+    }
+  },
+
   render: function () {
     var that = this;
 
     return (
       <Row className="match-list">
+        {this.renderLoadingScreen()}
         {
           this.props.matches.map(function(match, idx) {
             return that.renderMatch(match, idx)

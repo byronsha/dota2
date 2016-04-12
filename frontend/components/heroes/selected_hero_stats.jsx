@@ -56,7 +56,7 @@ var SelectedHeroStats = React.createClass({
     return (
       <Row>
         <Row className="selected-hero-stats">
-          <h2 className="hero-name">{this.props.hero.name}</h2>
+          <h2 className="section-title">{this.props.hero.name}</h2>
           <Col md={4}>
             <iframe className="gfycat"
               src={"https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name]}

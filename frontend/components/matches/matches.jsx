@@ -52,20 +52,6 @@ var Matches = React.createClass({
     FilterActions.resetAllFilters();
   },
 
-  renderLoadingScreen: function () {
-    if (this.state.loading) {
-      return (
-        <div className="loading-screen">
-          <video autoPlay loop>
-            <source src="https://gfycat.com/ifr/YoungRelievedAfricancivet" type="video/webm" />
-            <source src="https://giant.gfycat.com/YoungRelievedAfricancivet.mp4" type="video/mp4" />
-          </video>
-          <div className="loader"/>
-        </div>
-      )
-    }
-  },
-
   removeSpinner: function () {
     this.setState({ loading: false });
   },
@@ -74,8 +60,6 @@ var Matches = React.createClass({
     var hero = HeroStore.findById(this.state.filters.heroes[this.state.filters.heroes.length - 1]);
     return (
       <div>
-        {this.renderLoadingScreen()}
-
         <Col md={2} id="hero-picker">
           <HeroSelector heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
           <Button onClick={this.resetAllFilters} bsStyle="danger" bsSize="xsmall">reset all</Button>
@@ -88,7 +72,7 @@ var Matches = React.createClass({
         <Col md={7} className="recent-matches">
           <Row><h2 className="section-title">RECENT MATCHES</h2></Row>
           <MatchListHeader/>
-          <MatchList matches={this.state.matches} filters={this.state.filters}/>
+          <MatchList matches={this.state.matches} filters={this.state.filters} loading={this.state.loading}/>
         </Col>
       </div>
     )

@@ -76,7 +76,8 @@ nav img {
     margin-right: -42px;
     transform: skewX(15deg);
     background: #303030;
-    border-left: 2px solid #606060;
+    // border-left: 1px solid black;
+    // border-right: 1px solid black;
     border-bottom: 1px solid #202020;
   }
   #live-matches-link {
@@ -85,7 +86,6 @@ nav img {
     width: 35px;
     margin-right: -2px;
     transform: skewX(15deg);
-    border-left: 1px solid #606060;
     border-bottom: 1px solid #202020;
   }
   #live-matches-link a {
@@ -99,7 +99,6 @@ nav img {
     width: 100px;
     margin-left: -42px;
     transform: skewX(-15deg);
-    border-right: 2px solid #606060;
     border-bottom: 1px solid #202020;
   }
   #heroes-link {
@@ -109,7 +108,8 @@ nav img {
     margin-left: -2px;
     transform: skewX(-15deg);
     background: #505050;
-    border-right: 1px solid #606060;
+    // border-left: 1px solid black;
+    // border-right: 1px solid black;
     border-bottom: 1px solid #202020;
   }
   #heroes-link a {

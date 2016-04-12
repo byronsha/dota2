@@ -46,17 +46,42 @@ var WinratesWithOtherHeroes = React.createClass({
     }
   },
 
-  render: function () {
+  renderHeroes: function (heroes) {
     var that = this;
-    var heroes = this.sortedHeroes();
-
-    return (
-      <div className="other-hero-stats" id={this.props.initial ? "initial-stats" : ""}>
+    if (heroes.length == 0) {
+      return (
+        <div className="sk-fading-circle">
+          <div className="sk-circle1 sk-circle"></div>
+          <div className="sk-circle2 sk-circle"></div>
+          <div className="sk-circle3 sk-circle"></div>
+          <div className="sk-circle4 sk-circle"></div>
+          <div className="sk-circle5 sk-circle"></div>
+          <div className="sk-circle6 sk-circle"></div>
+          <div className="sk-circle7 sk-circle"></div>
+          <div className="sk-circle8 sk-circle"></div>
+          <div className="sk-circle9 sk-circle"></div>
+          <div className="sk-circle10 sk-circle"></div>
+          <div className="sk-circle11 sk-circle"></div>
+          <div className="sk-circle12 sk-circle"></div>
+        </div>
+      )
+    } else {
+      return (
         <ul>
           {heroes.map(function (hero, idx) {
             return that.renderHero(hero, idx);
           })}
         </ul>
+      )
+    }
+  },
+
+  render: function () {
+    var heroes = this.sortedHeroes();
+
+    return (
+      <div className="other-hero-stats" id={this.props.initial ? "initial-stats" : ""}>
+        {this.renderHeroes(heroes)}
       </div>
     )
   }

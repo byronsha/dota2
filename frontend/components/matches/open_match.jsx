@@ -79,7 +79,7 @@ var OpenMatch = React.createClass({
 
   renderItems: function (items) {
     var that = this;
-    if (items == []) {
+    if (items.length == 0) {
       return (
         <div className="spinner">
           <div className="bounce1"></div>
@@ -171,13 +171,7 @@ var OpenMatch = React.createClass({
                           <span className="gold">{"Lvl " + player.level}</span>
                           <span className="dire-hero-name">{player.hero_name}</span>
                         </div>
-                        <ul className="horizontal float-right" id="items">
-                          {
-                            items.map(function(item, idx) {
-                              return <li key={idx}>{that.getItemImage(item)}</li>
-                            })
-                          }
-                        </ul>
+                        {that.renderItems(items)}
                       </div>
                     </Col>
 
