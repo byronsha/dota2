@@ -59788,6 +59788,7 @@
 
 	  getInitialState: function () {
 	    return {
+	      loading: true,
 	      players: MatchStore.matchDetails(this.props.match.id) || []
 	    };
 	  },
@@ -59798,7 +59799,10 @@
 	  },
 
 	  _onChange: function () {
-	    this.setState({ players: MatchStore.matchDetails(this.props.match.id) });
+	    this.setState({
+	      loading: false,
+	      players: MatchStore.matchDetails(this.props.match.id)
+	    });
 	  },
 
 	  componentWillUnmount: function () {
@@ -59848,6 +59852,31 @@
 	      return React.createElement('img', { className: 'item-slot', src: 'http://hydra-media.cursecdn.com/dota2.gamepedia.com/thumb/6/6b/Unknown_icon.png/128px-Unknown_icon.png?version=0e96d6b76f5c83fd05ceb93e9a0f52b6' });
 	    } else {
 	      return React.createElement('img', { className: 'item-slot', src: "http://cdn.dota2.com/apps/dota2/images/items/" + item.image_url + "_lg.png" });
+	    }
+	  },
+
+	  renderItems: function (items) {
+	    var that = this;
+	    if (items == []) {
+	      return React.createElement(
+	        'div',
+	        { className: 'spinner' },
+	        React.createElement('div', { className: 'bounce1' }),
+	        React.createElement('div', { className: 'bounce2' }),
+	        React.createElement('div', { className: 'bounce3' })
+	      );
+	    } else {
+	      return React.createElement(
+	        'ul',
+	        { className: 'horizontal float-left', id: 'items' },
+	        items.map(function (item, idx) {
+	          return React.createElement(
+	            'li',
+	            { key: idx },
+	            that.getItemImage(item)
+	          );
+	        })
+	      );
 	    }
 	  },
 
@@ -59907,17 +59936,7 @@
 	                      "Lvl " + player.level
 	                    )
 	                  ),
-	                  React.createElement(
-	                    'ul',
-	                    { className: 'horizontal float-left', id: 'items' },
-	                    items.map(function (item, idx) {
-	                      return React.createElement(
-	                        'li',
-	                        { key: idx },
-	                        that.getItemImage(item)
-	                      );
-	                    })
-	                  )
+	                  that.renderItems(items)
 	                )
 	              ),
 	              React.createElement(

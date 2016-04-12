@@ -10,6 +10,7 @@ var React = require('react'),
 var OpenMatch = React.createClass({
   getInitialState: function () {
     return {
+      loading: true,
       players: MatchStore.matchDetails(this.props.match.id) || []
     }
   },
@@ -20,7 +21,10 @@ var OpenMatch = React.createClass({
   },
 
   _onChange: function () {
-    this.setState({ players: MatchStore.matchDetails(this.props.match.id) })
+    this.setState({
+      loading: false,
+      players: MatchStore.matchDetails(this.props.match.id)
+    })
   },
 
   componentWillUnmount: function () {
@@ -73,6 +77,29 @@ var OpenMatch = React.createClass({
     }
   },
 
+  renderItems: function (items) {
+    var that = this;
+    if (items == []) {
+      return (
+        <div className="spinner">
+          <div className="bounce1"></div>
+          <div className="bounce2"></div>
+          <div className="bounce3"></div>
+        </div>
+      )
+    } else {
+      return (
+        <ul className="horizontal float-left" id="items">
+          {
+            items.map(function(item, idx) {
+              return <li key={idx}>{that.getItemImage(item)}</li>
+            })
+          }
+        </ul>
+      )
+    }
+  },
+
   render: function () {
     var that = this;
     var url = "http://cdn.dota2.com/apps/dota2/images/";
@@ -105,13 +132,7 @@ var OpenMatch = React.createClass({
                           <span className="radiant-hero-name">{player.hero_name}</span>
                           <span className="gold float-right">{"Lvl " + player.level}</span>
                         </div>
-                        <ul className="horizontal float-left" id="items">
-                          {
-                            items.map(function(item, idx) {
-                              return <li key={idx}>{that.getItemImage(item)}</li>
-                            })
-                          }
-                        </ul>
+                        {that.renderItems(items)}
                       </div>
                     </Col>
 
