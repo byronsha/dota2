@@ -5,7 +5,8 @@ var React = require('react'),
     Clusters = require('../../constants/clusters.js'),
     OpenMatchDetails = require('./open_match_details.jsx'),
     MatchStore = require('../../stores/match_store.js'),
-    ApiActions = require('../../actions/api_actions.js');
+    ApiActions = require('../../actions/api_actions.js'),
+    ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 var OpenMatch = React.createClass({
   getInitialState: function () {
@@ -89,7 +90,7 @@ var OpenMatch = React.createClass({
       )
     } else {
       return (
-        <ul className="horizontal float-left" id="items">
+        <ul className="horizontal float-left fade-in" id="items">
           {
             items.map(function(item, idx) {
               return <li key={idx}>{that.getItemImage(item)}</li>
@@ -112,7 +113,7 @@ var OpenMatch = React.createClass({
       var portraitWidth = window.innerWidth * 0.033;
 
       return (
-        <Row className="match-open" id={match.winner + "-win"}>
+        <Row className="match-open fade-in" id={match.winner + "-win"}>
           <h2 className="section-title">{'MATCH ' + match.steam_match_id}</h2>
           <Col md={5}>
             {
