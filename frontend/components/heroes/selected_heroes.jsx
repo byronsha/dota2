@@ -7,10 +7,10 @@ var SelectedHeroes = React.createClass({
     var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
 
     if (id == 0) {
-      return <li key={idx} className="empty-hero-slot">A</li>
+      return <li key={idx}><div className="empty-hero-slot"></div></li>;
     } else {
       var hero = HeroStore.findById(id);
-      return <li key={idx}><img width="50px" src={url + hero.image_url + '_lg.png'}></img></li>;
+      return <li key={idx}><div><img width="50px" src={url + hero.image_url + '_lg.png'}></img></div></li>;
     }
   },
 

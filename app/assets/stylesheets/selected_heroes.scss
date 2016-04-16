@@ -1,0 +1,40 @@
+.selected-heroes {
+  padding-left: 10px;
+}
+
+.selected-heroes img {
+  width: 3vw;
+  height: 3.2vh;
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  outline: 2px solid #FFD700;
+}
+
+.selected-heroes li {
+  margin: 1px;
+  vertical-align: top;
+}
+
+.empty-hero-slot {
+  width: 3vw;
+  height: 3.2vh;
+  border: 1px dashed white;
+}
+
+.reset-heroes-button {
+  margin-top: 5px;
+  text-align: center;
+}
+
+.reset-heroes-button span {
+  background: black;
+  border-radius: 2px;
+  padding: 0px 5px;
+}
+
+.reset-heroes-button span:hover {
+  cursor: pointer;
+  background: #404040;
+}

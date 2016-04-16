@@ -10,7 +10,6 @@ var React = require('react'),
     Spinner = require('./spinner.jsx'),
     HeroSelector = require('../heroes/hero_selector.jsx'),
     SelectedHero = require('../heroes/selected_hero.jsx'),
-    Button = require('react-bootstrap').Button;
     Row = require('react-bootstrap').Row;
     Col = require('react-bootstrap').Col;
 
@@ -48,10 +47,6 @@ var Matches = React.createClass({
     ApiActions.fetchAllMatches(FilterStore.all(), this.removeSpinner);
   },
 
-  resetAllFilters: function () {
-    FilterActions.resetAllFilters();
-  },
-
   removeSpinner: function () {
     this.setState({ loading: false });
   },
@@ -62,7 +57,6 @@ var Matches = React.createClass({
       <div>
         <Col md={2} id="hero-picker">
           <HeroSelector heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
-          <Button onClick={this.resetAllFilters} bsStyle="danger" bsSize="xsmall">reset all</Button>
         </Col>
 
         <Col md={3}>

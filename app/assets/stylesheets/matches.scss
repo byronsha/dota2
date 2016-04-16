@@ -110,8 +110,6 @@ ul.dropdown-menu li {
   overflow-y: scroll;
 
   background: black;
-  // background: url("redtrees.jpg") no-repeat center fixed;
-  // background-size: cover;
 }
 
 .match-row {
@@ -128,10 +126,6 @@ ul.dropdown-menu li {
 .match-row:hover {
   background: #808080;
   transform: translate(-5px,-5px);
-}
-
-.selected-heroes li {
-  margin-right: 5px;
 }
 
 .text-align-center {

@@ -34420,8 +34420,7 @@
 	    Spinner = __webpack_require__(501),
 	    HeroSelector = __webpack_require__(510),
 	    SelectedHero = __webpack_require__(520),
-	    Button = __webpack_require__(251).Button;
-	Row = __webpack_require__(251).Row;
+	    Row = __webpack_require__(251).Row;
 	Col = __webpack_require__(251).Col;
 
 	var Matches = React.createClass({
@@ -34460,10 +34459,6 @@
 	    ApiActions.fetchAllMatches(FilterStore.all(), this.removeSpinner);
 	  },
 
-	  resetAllFilters: function () {
-	    FilterActions.resetAllFilters();
-	  },
-
 	  removeSpinner: function () {
 	    this.setState({ loading: false });
 	  },
@@ -34476,12 +34471,7 @@
 	      React.createElement(
 	        Col,
 	        { md: 2, id: 'hero-picker' },
-	        React.createElement(HeroSelector, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] }),
-	        React.createElement(
-	          Button,
-	          { onClick: this.resetAllFilters, bsStyle: 'danger', bsSize: 'xsmall' },
-	          'reset all'
-	        )
+	        React.createElement(HeroSelector, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] })
 	      ),
 	      React.createElement(
 	        Col,
@@ -59493,6 +59483,7 @@
 	var React = __webpack_require__(1),
 	    HeroList = __webpack_require__(509),
 	    SelectedHeroes = __webpack_require__(531),
+	    ResetHeroesButton = __webpack_require__(532),
 	    PrimaryStats = __webpack_require__(508),
 	    Row = __webpack_require__(251).Row;
 
@@ -59528,6 +59519,7 @@
 	        )
 	      ),
 	      React.createElement(SelectedHeroes, { heroes: this.props.filters.heroes.slice() }),
+	      React.createElement(ResetHeroesButton, null),
 	      React.createElement(HeroList, { heroes: strength, title: 'STRENGTH', filters: this.props.filters, loading: this.props.loading }),
 	      React.createElement(HeroList, { heroes: agility, title: 'AGILITY', filters: this.props.filters, loading: this.props.loading }),
 	      React.createElement(HeroList, { heroes: intelligence, title: 'INTELLIGENCE', filters: this.props.filters, loading: this.props.loading })
@@ -61349,15 +61341,19 @@
 	    if (id == 0) {
 	      return React.createElement(
 	        'li',
-	        { key: idx, className: 'empty-hero-slot' },
-	        'A'
+	        { key: idx },
+	        React.createElement('div', { className: 'empty-hero-slot' })
 	      );
 	    } else {
 	      var hero = HeroStore.findById(id);
 	      return React.createElement(
 	        'li',
 	        { key: idx },
-	        React.createElement('img', { width: '50px', src: url + hero.image_url + '_lg.png' })
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement('img', { width: '50px', src: url + hero.image_url + '_lg.png' })
+	        )
 	      );
 	    }
 	  },
@@ -61385,6 +61381,35 @@
 	});
 
 	module.exports = SelectedHeroes;
+
+/***/ },
+/* 532 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    FilterActions = __webpack_require__(248);
+
+	var ResetHeroesButton = React.createClass({
+	  displayName: 'ResetHeroesButton',
+
+	  resetAllFilters: function () {
+	    FilterActions.resetAllFilters();
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'reset-heroes-button' },
+	      React.createElement(
+	        'span',
+	        { onClick: this.resetAllFilters },
+	        'RESET'
+	      )
+	    );
+	  }
+	});
+
+	module.exports = ResetHeroesButton;
 
 /***/ }
 /******/ ]);
