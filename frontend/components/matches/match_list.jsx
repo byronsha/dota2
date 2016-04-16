@@ -31,7 +31,9 @@ var MatchList = React.createClass({
       .range([0, 98]);
   },
 
-  renderLoadingScreen: function () {
+  render: function () {
+    var that = this;
+
     if (this.props.loading) {
       return (
         <div className="loading-screen">
@@ -42,22 +44,17 @@ var MatchList = React.createClass({
           <div className="loader"/>
         </div>
       )
+    } else {
+      return (
+        <Row className="match-list">
+          {
+            this.props.matches.map(function(match, idx) {
+              return that.renderMatch(match, idx)
+            })
+          }
+        </Row>
+      )
     }
-  },
-
-  render: function () {
-    var that = this;
-
-    return (
-      <Row className="match-list">
-        {this.renderLoadingScreen()}
-        {
-          this.props.matches.map(function(match, idx) {
-            return that.renderMatch(match, idx)
-          })
-        }
-      </Row>
-    )
   }
 });
 

@@ -58674,7 +58674,9 @@
 	    return d3.scale.linear().domain([0, xMax]).range([0, 98]);
 	  },
 
-	  renderLoadingScreen: function () {
+	  render: function () {
+	    var that = this;
+
 	    if (this.props.loading) {
 	      return React.createElement(
 	        'div',
@@ -58687,20 +58689,15 @@
 	        ),
 	        React.createElement('div', { className: 'loader' })
 	      );
+	    } else {
+	      return React.createElement(
+	        Row,
+	        { className: 'match-list' },
+	        this.props.matches.map(function (match, idx) {
+	          return that.renderMatch(match, idx);
+	        })
+	      );
 	    }
-	  },
-
-	  render: function () {
-	    var that = this;
-
-	    return React.createElement(
-	      Row,
-	      { className: 'match-list' },
-	      this.renderLoadingScreen(),
-	      this.props.matches.map(function (match, idx) {
-	        return that.renderMatch(match, idx);
-	      })
-	    );
 	  }
 	});
 
@@ -59495,6 +59492,7 @@
 
 	var React = __webpack_require__(1),
 	    HeroList = __webpack_require__(509),
+	    SelectedHeroes = __webpack_require__(531),
 	    PrimaryStats = __webpack_require__(508),
 	    Row = __webpack_require__(251).Row;
 
@@ -59529,6 +59527,7 @@
 	          'SELECT YOUR HEROES'
 	        )
 	      ),
+	      React.createElement(SelectedHeroes, { heroes: this.props.filters.heroes.slice() }),
 	      React.createElement(HeroList, { heroes: strength, title: 'STRENGTH', filters: this.props.filters, loading: this.props.loading }),
 	      React.createElement(HeroList, { heroes: agility, title: 'AGILITY', filters: this.props.filters, loading: this.props.loading }),
 	      React.createElement(HeroList, { heroes: intelligence, title: 'INTELLIGENCE', filters: this.props.filters, loading: this.props.loading })
@@ -61332,6 +61331,60 @@
 	};
 
 	module.exports = ReactTransitionEvents;
+
+/***/ },
+/* 531 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    HeroStore = __webpack_require__(244),
+	    Row = __webpack_require__(251).Row;
+
+	var SelectedHeroes = React.createClass({
+	  displayName: 'SelectedHeroes',
+
+	  renderHero: function (id, idx) {
+	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
+
+	    if (id == 0) {
+	      return React.createElement(
+	        'li',
+	        { key: idx, className: 'empty-hero-slot' },
+	        'A'
+	      );
+	    } else {
+	      var hero = HeroStore.findById(id);
+	      return React.createElement(
+	        'li',
+	        { key: idx },
+	        React.createElement('img', { width: '50px', src: url + hero.image_url + '_lg.png' })
+	      );
+	    }
+	  },
+
+	  render: function () {
+	    var that = this;
+	    var heroes = this.props.heroes;
+
+	    while (heroes.length < 5) {
+	      heroes.push(0);
+	    };
+
+	    return React.createElement(
+	      Row,
+	      { className: 'selected-heroes' },
+	      React.createElement(
+	        'ul',
+	        { className: 'horizontal' },
+	        heroes.map(function (id, idx) {
+	          return that.renderHero(id, idx);
+	        })
+	      )
+	    );
+	  }
+	});
+
+	module.exports = SelectedHeroes;
 
 /***/ }
 /******/ ]);

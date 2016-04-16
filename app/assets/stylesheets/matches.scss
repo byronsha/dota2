@@ -139,18 +139,25 @@ ul.dropdown-menu li {
 }
 
 .loading-screen video {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  z-index: 100;
-  opacity: .8;
-  -ms-transform: translateX(-50%) translateY(-50%);
-  -moz-transform: translateX(-50%) translateY(-50%);
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
-  background-size: cover;
+  // position: fixed;
+  // top: 50%;
+  // left: 50%;
+  // min-width: 100%;
+  // min-height: 100%;
+  // width: auto;
+  // height: auto;
+  // z-index: 100;
+  // opacity: .8;
+  // -ms-transform: translateX(-50%) translateY(-50%);
+  // -moz-transform: translateX(-50%) translateY(-50%);
+  // -webkit-transform: translateX(-50%) translateY(-50%);
+  // transform: translateX(-50%) translateY(-50%);
+  // background-size: cover;
+
+  height: calc(92vh - 2.33vw);
+
+  border-top: 1px solid #606060;
+  border-bottom: 2px solid #606060;
+  width: 100%;
+  background-size: contain;
 }
