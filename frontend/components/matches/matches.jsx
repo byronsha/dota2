@@ -19,7 +19,8 @@ var Matches = React.createClass({
       loading: true,
       matches: [],
       heroes: [],
-      filters: FilterStore.all()
+      filters: FilterStore.all(),
+      tab: "RECENT MATCHES"
     }
   },
 
@@ -51,23 +52,39 @@ var Matches = React.createClass({
     this.setState({ loading: false });
   },
 
+  selectTab: function (e) {
+    this.setState({ tab: e.target.innerHTML });
+  },
+
+  renderStatsOrMatches: function () {
+    if (this.state.tab == "RECENT MATCHES") {
+      return (
+        <div className="recent-matches">
+          <MatchListHeader/>
+          <MatchList matches={this.state.matches} filters={this.state.filters} loading={this.state.loading}/>
+        </div>
+      )
+    } else if (this.state.tab == "STATISTICS") {
+      return (
+        <div>
+          <SelectedHero heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
+        </div>
+      )
+    }
+  },
+
   render: function () {
     var hero = HeroStore.findById(this.state.filters.heroes[this.state.filters.heroes.length - 1]);
     return (
       <div>
-        <Col md={2} id="hero-picker">
-          <HeroSelector heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
-        </Col>
+        <div className="sections">
+          <span onClick={this.selectTab}>RECENT MATCHES</span>
+          <span onClick={this.selectTab}>STATISTICS</span>
+        </div>
 
-        <Col md={3}>
-          <SelectedHero heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
-        </Col>
+        <HeroSelector heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
 
-        <Col md={7} className="recent-matches">
-          <Row><h2 className="section-title">RECENT MATCHES</h2></Row>
-          <MatchListHeader/>
-          <MatchList matches={this.state.matches} filters={this.state.filters} loading={this.state.loading}/>
-        </Col>
+        {this.renderStatsOrMatches()}
       </div>
     )
   }

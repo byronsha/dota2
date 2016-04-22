@@ -24,10 +24,7 @@ var HeroList = React.createClass({
   render: function () {
     var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
     var onClick = this.selectHero;
-    var style = {
-      background: "url(" + url + this.props.hero.image_url + '_lg.png' + ") no-repeat center",
-      backgroundSize: "cover"
-    };
+    var style = {};
 
     if (this.props.filters.heroes.indexOf(this.props.hero.id) != -1) {
       style.outline = "2px solid gold";
@@ -39,7 +36,11 @@ var HeroList = React.createClass({
       onClick = null;
     }
 
-    return <div onClick={onClick} style={style}></div>;
+    return (
+      <div onClick={onClick} style={style}>
+        <img src={url + this.props.hero.image_url + '_lg.png'}></img>
+      </div>
+    )
   }
 });
 

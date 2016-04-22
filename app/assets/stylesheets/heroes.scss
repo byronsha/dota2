@@ -3,19 +3,12 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .hero-list {
-  padding: 0px 10px 10px 10px;
-}
-
-#hero-selector {
-  padding-bottom: 0px;
+  padding: 11px;
+  height: 168px;
 }
 
 .hero-list div {
   float: left;
-  width: 3vw;
-  height: 3.2vh;
-  // width: 56px;
-  // height: 33px;
   overflow: hidden;
   position: relative;
   margin: 1px;
@@ -32,14 +25,21 @@
           transition: all .2s ease-out;
 }
 
+.hero-list img {
+  width: 78px;
+  height: 45px;
+}
+
+#stat-icon {
+  width: 25px;
+  height: 25px;
+  margin: 5px 10px;
+}
+
 .hero-list div:hover {
   z-index: 100;
   transform: scale(2);
-}
-
-.hero-list img {
-  width: 1.2vw;
-  height: 1.2vw;
+  cursor: pointer;
 }
 
 #hero-list-header {
@@ -114,12 +114,6 @@
   stroke: black;
 }
 
-.hero-selector h2 {
-  margin-top: 5px;
-  margin-bottom: 0px;
-  padding-left: 10px;
-}
-
 .section-title {
   margin-top: 5px;
   margin-bottom: 0px;
@@ -128,12 +122,6 @@
   text-transform: uppercase;
 }
 
-#hero-picker {
-  background: #006dac;
-  // background: url("bluesmoke.jpg") no-repeat center fixed;
-  background-size: cover;
-  height: 95.5vh;
-  border-right: 1px solid black;
-  padding-left: 15px;
-  padding-right: 5px;
+.hero-selector {
+  // background: #006dac;
 }

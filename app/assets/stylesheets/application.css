@@ -28,14 +28,9 @@
   color: white;
   font-family: "Alegreya Sans";
   font-weight: 300;
-  background-color: #101010;
+  background-color: black;
   /*background: url("redtrees.jpg") no-repeat center fixed;*/
   /*background-size: cover;*/
-  height: 100vh;
-  min-height: 100vh;
-  max-height: 100vh;
-  overflow-y: hidden;
-
   min-width: 1200px;
 }
 

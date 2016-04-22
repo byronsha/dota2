@@ -53,7 +53,7 @@ var WinratesWithOtherHeroes = React.createClass({
       )
     } else {
       return (
-        <ul>
+        <ul className="fade-in">
           {heroes.map(function (hero, idx) {
             return that.renderHero(hero, idx);
           })}
@@ -64,7 +64,7 @@ var WinratesWithOtherHeroes = React.createClass({
 
   render: function () {
     return (
-      <div className="other-hero-stats" id={this.props.initial ? "initial-stats" : ""}>
+      <div className="other-hero-stats fade-in" id={this.props.initial ? "initial-stats" : ""}>
         {this.renderHeroes(this.props.heroes)}
       </div>
     )

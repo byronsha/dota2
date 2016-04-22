@@ -5,12 +5,16 @@ var React = require('react'),
 
 var MatchList = React.createClass({
   getInitialState: function () {
-    return { openMatch: 0 }
+    return { openMatch: null }
+  },
+
+  closeMatch: function () {
+    this.setState({ openMatch: null })
   },
 
   renderMatch: function (match, idx) {
     if (this.state.openMatch == idx) {
-      return <OpenMatch key={match.id} filters={this.props.filters} match={match}/>
+      return <OpenMatch close={this.closeMatch} key={match.id} filters={this.props.filters} match={match}/>
     } else {
       var xScale = this.getXScale(this.props);
       return <Match key={match.id} match={match} filters={this.props.filters} xScale={xScale} changeOpenMatch={this.changeOpenMatch} matchIndex={idx}/>

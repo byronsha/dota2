@@ -9,20 +9,12 @@
 
 .other-hero-stats {
   padding-top: 18px;
-  height: calc(38.95vh - 2.2vw);
-  overflow: hidden;
 
   border-top: 1px solid #606060;
   border-bottom: 1px solid #606060;
 
+  min-height: 700px;
   background: #404040;
-  // background: url("redtrees.jpg") no-repeat center fixed;
-  // background-size: cover;
-}
-
-.other-hero-stats:hover {
-  overflow-x: hidden;
-  overflow-y: scroll;
 }
 
 .other-hero-stats img {
@@ -37,18 +29,6 @@
 .chart-header {
   font-size: 1.3vw;
   text-shadow: 0 0 6px white;
-}
-
-#winrates {
-  padding-top: 1vh;
-}
-
-#initial-stats-wrapper {
-  height: 95.5vh;
-}
-
-#initial-stats {
-  height: calc(46vh - 1.5vw);
 }
 
 #initial-games-played-chart {

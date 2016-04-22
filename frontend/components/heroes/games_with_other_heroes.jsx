@@ -67,7 +67,7 @@ var WinratesWithOtherHeroes = React.createClass({
       )
     } else {
       return (
-        <ul>
+        <ul className="fade-in">
           {heroes.map(function (hero, idx) {
             return that.renderHero(hero, idx);
           })}

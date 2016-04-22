@@ -56,8 +56,9 @@ var SelectedHeroStats = React.createClass({
     return (
       <Row>
         <Row className="selected-hero-stats">
-          <h2 className="section-title">{this.props.hero.name}</h2>
-          <Col md={4}>
+          <Col md={4}/>
+          <Col md={2}>
+            <h2 className="section-title">{this.props.hero.name}</h2>
             <iframe className="gfycat"
               src={"https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name]}
               frameBorder="0"
@@ -65,35 +66,36 @@ var SelectedHeroStats = React.createClass({
             </iframe>
           </Col>
 
-          <Col md={8} className="overall-stats">
+          <Col md={2} className="overall-stats">
             <br/><span>{'Win rate: ' + state.winrate + '%'}</span><br/>
             <span>{'Wins: ' + gamesWon}</span><br/>
             <span>{'Losses: ' + (state.gamesPlayed - gamesWon)}</span><br/>
             <span>{'Total games: ' + state.gamesPlayed}</span>
           </Col>
+          <Col md={4}/>
         </Row>
 
+        <br/><br/>
+
         <Row className="selected-hero-stats">
-          <Col md={6} id="selected-hero-chart">
+          <Col md={3} id="selected-hero-chart">
             <h3 className="chart-header">GAMES WITH:</h3>
-            <GamesWithOtherHeroes heroes={state.allies.slice()} barWidth={40} maxWidth={145} initial={false}/>
+            <GamesWithOtherHeroes heroes={state.allies.slice()} barWidth={40} maxWidth={230} initial={false}/>
           </Col>
 
-          <Col md={6} id="selected-hero-chart">
+          <Col md={3} id="selected-hero-chart">
             <h3 className="chart-header">GAMES AGAINST:</h3>
-            <GamesWithOtherHeroes heroes={state.opponents.slice()} barWidth={40} maxWidth={145} initial={false}/>
-          </Col>
-        </Row>
-
-        <Row className="selected-hero-stats">
-          <Col md={6} id="selected-hero-chart">
-            <h3 className="chart-header" id="winrates">WIN RATE WITH:</h3>
-            <WinratesWithOtherHeroes heroes={state.allies.slice()} barWidth={100} maxWidth={145} initial={false}/>
+            <GamesWithOtherHeroes heroes={state.opponents.slice()} barWidth={40} maxWidth={230} initial={false}/>
           </Col>
 
-          <Col md={6} id="selected-hero-chart">
-            <h3 className="chart-header" id="winrates">WIN RATE AGAINST:</h3>
-            <WinratesWithOtherHeroes heroes={state.opponents.slice()} barWidth={100} maxWidth={145} initial={false}/>
+          <Col md={3} id="selected-hero-chart">
+            <h3 className="chart-header">WIN RATE WITH:</h3>
+            <WinratesWithOtherHeroes heroes={state.allies.slice()} barWidth={100} maxWidth={230} initial={false}/>
+          </Col>
+
+          <Col md={3} id="selected-hero-chart">
+            <h3 className="chart-header">WIN RATE AGAINST:</h3>
+            <WinratesWithOtherHeroes heroes={state.opponents.slice()} barWidth={100} maxWidth={230} initial={false}/>
           </Col>
         </Row>
       </Row>

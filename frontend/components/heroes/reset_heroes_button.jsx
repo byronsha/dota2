@@ -8,7 +8,7 @@ var ResetHeroesButton = React.createClass({
 
   render: function () {
     return (
-      <div className="reset-heroes-button"><span onClick={this.resetAllFilters}>RESET</span></div>
+      <li id="reset-heroes-button" onClick={this.resetAllFilters}></li>
     )
   }
 });

@@ -1,37 +1,65 @@
 var React = require('react'),
     HeroList = require('./hero_list.jsx'),
     SelectedHeroes = require('./selected_heroes.jsx'),
-    ResetHeroesButton = require('./reset_heroes_button.jsx'),
     PrimaryStats = require('../../constants/primary_stats.js'),
     Row = require('react-bootstrap').Row;
 
 var HeroSelector = React.createClass({
-  render: function () {
-    var strength = [];
-    var agility = [];
-    var intelligence = [];
+  getInitialState: function () {
+    return {
+      stat: "Strength"
+    }
+  },
+
+  handleClick: function (e) {
+    this.setState({ stat: e.target.innerHTML });
+  },
+
+  renderHeroList: function () {
+    heroes = [];
 
     for (var i = 0; i < this.props.heroes.length; i++) {
-      var hero = this.props.heroes[i];
-      if (PrimaryStats[hero.name] == "Strength") {
-        strength.push(hero);
-      } else if (PrimaryStats[hero.name] == "Agility") {
-        agility.push(hero);
-      } else if (PrimaryStats[hero.name] == "Intelligence") {
-        intelligence.push(hero);
+      if (PrimaryStats[this.props.heroes[i].name] == this.state.stat ) {
+        heroes.push(this.props.heroes[i]);
       }
     };
 
     return (
-      <div className="hero-selector">
-        <Row><h2 className="chart-header">SELECT YOUR HEROES</h2></Row>
-        <SelectedHeroes heroes={this.props.filters.heroes.slice()}/>
-        <ResetHeroesButton/>
-        <HeroList heroes={strength} title="STRENGTH" filters={this.props.filters} loading={this.props.loading}/>
-        <HeroList heroes={agility} title="AGILITY" filters={this.props.filters} loading={this.props.loading}/>
-        <HeroList heroes={intelligence} title="INTELLIGENCE" filters={this.props.filters} loading={this.props.loading}/>
-      </div>
+      <HeroList heroes={heroes} title={this.state.stat} filters={this.props.filters} loading={this.props.loading}/>
     )
+  },
+
+  renderButton: function (stat) {
+    return (
+      <span onClick={this.handleClick} className={this.colors[stat]} id="hero-list-header"><img id="stat-icon" src={this.icons[stat]}></img>{stat}</span>
+    )
+  },
+
+  render: function () {
+    return (
+      <Row className="hero-selector">
+        <h2 className="chart-header">SELECT YOUR HEROES</h2>
+
+        {this.renderButton("Strength")}
+        {this.renderButton("Agility")}
+        {this.renderButton("Intelligence")}
+        {this.renderHeroList()}
+
+        <SelectedHeroes heroes={this.props.filters.heroes.slice()}/>
+      </Row>
+    )
+  },
+
+  icons: {
+    "Strength": "http://images.akamai.steamusercontent.com/ugc/577904070808139756/3576D33C5276E049213C6833FDFF09838ED41A32/",
+    "Agility": "http://images.akamai.steamusercontent.com/ugc/577904070808154460/C57BDD6E75C20265FFA9F196A1299BA18BB7E289/",
+    "Intelligence": "http://www.dotadatabase.net/Content/icon_int.png"
+  },
+
+  colors: {
+    "Strength": "red",
+    "Agility": "green",
+    "Intelligence": ""
   }
 });
 
