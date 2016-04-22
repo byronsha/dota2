@@ -59479,7 +59479,7 @@
 	  },
 
 	  renderButton: function (stat) {
-	    let statClass = this.colors[stat];
+	    var statClass = this.colors[stat];
 
 	    if (this.state.stat == stat) {
 	      statClass += ' selected-stat';
