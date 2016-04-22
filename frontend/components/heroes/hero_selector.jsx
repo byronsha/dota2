@@ -30,14 +30,14 @@ var HeroSelector = React.createClass({
   },
 
   renderButton: function (stat) {
-    let className = this.colors[stat];
+    let statClass = this.colors[stat];
 
     if (this.state.stat == stat) {
-      className += ' selected-stat';
+      statClass += ' selected-stat';
     };
 
     return (
-      <span onClick={this.handleClick.bind(null, stat)} className={className} id="hero-list-header"><img id="stat-icon" src={this.icons[stat]}></img>{stat}</span>
+      <span onClick={this.handleClick.bind(null, stat)} className={statClass} id="hero-list-header"><img id="stat-icon" src={this.icons[stat]}></img>{stat}</span>
     )
   },
 
