@@ -1,6 +1,7 @@
 var React = require('react'),
     Match = require('./match.jsx'),
     OpenMatch = require('./open_match.jsx'),
+    Spinner = require('../heroes/spinner.jsx'),
     Row = require('react-bootstrap').Row;
 
 var MatchList = React.createClass({
@@ -40,13 +41,9 @@ var MatchList = React.createClass({
 
     if (this.props.loading) {
       return (
-        <div className="loading-screen">
-          <video autoPlay loop>
-            <source src="https://gfycat.com/ifr/YoungRelievedAfricancivet" type="video/webm" />
-            <source src="https://giant.gfycat.com/YoungRelievedAfricancivet.mp4" type="video/mp4" />
-          </video>
-          <div className="loader"/>
-        </div>
+        <Row className="matches-loading">
+          <Spinner/>
+        </Row>
       )
     } else {
       return (
@@ -63,3 +60,13 @@ var MatchList = React.createClass({
 });
 
 module.exports = MatchList;
+
+// return (
+//   <div className="loading-screen">
+//     <video autoPlay loop>
+//       <source src="https://gfycat.com/ifr/YoungRelievedAfricancivet" type="video/webm" />
+//       <source src="https://giant.gfycat.com/YoungRelievedAfricancivet.mp4" type="video/mp4" />
+//     </video>
+//     <div className="loader"/>
+//   </div>
+// )

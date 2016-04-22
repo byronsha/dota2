@@ -34417,7 +34417,6 @@
 	    ModeFilter = __webpack_require__(493),
 	    MatchListHeader = __webpack_require__(500),
 	    MatchList = __webpack_require__(495),
-	    Spinner = __webpack_require__(501),
 	    HeroSelector = __webpack_require__(510),
 	    SelectedHero = __webpack_require__(520),
 	    Row = __webpack_require__(251).Row;
@@ -34505,6 +34504,7 @@
 	        )
 	      ),
 	      React.createElement(HeroSelector, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] }),
+	      React.createElement('br', null),
 	      this.renderStatsOrMatches()
 	    );
 	  }
@@ -58645,6 +58645,7 @@
 	var React = __webpack_require__(1),
 	    Match = __webpack_require__(496),
 	    OpenMatch = __webpack_require__(513),
+	    Spinner = __webpack_require__(533),
 	    Row = __webpack_require__(251).Row;
 
 	var MatchList = React.createClass({
@@ -58686,15 +58687,9 @@
 
 	    if (this.props.loading) {
 	      return React.createElement(
-	        'div',
-	        { className: 'loading-screen' },
-	        React.createElement(
-	          'video',
-	          { autoPlay: true, loop: true },
-	          React.createElement('source', { src: 'https://gfycat.com/ifr/YoungRelievedAfricancivet', type: 'video/webm' }),
-	          React.createElement('source', { src: 'https://giant.gfycat.com/YoungRelievedAfricancivet.mp4', type: 'video/mp4' })
-	        ),
-	        React.createElement('div', { className: 'loader' })
+	        Row,
+	        { className: 'matches-loading' },
+	        React.createElement(Spinner, null)
 	      );
 	    } else {
 	      return React.createElement(
@@ -58709,6 +58704,16 @@
 	});
 
 	module.exports = MatchList;
+
+	// return (
+	//   <div className="loading-screen">
+	//     <video autoPlay loop>
+	//       <source src="https://gfycat.com/ifr/YoungRelievedAfricancivet" type="video/webm" />
+	//       <source src="https://giant.gfycat.com/YoungRelievedAfricancivet.mp4" type="video/mp4" />
+	//     </video>
+	//     <div className="loader"/>
+	//   </div>
+	// )
 
 /***/ },
 /* 496 */
@@ -59032,7 +59037,7 @@
 	          Col,
 	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
-	            'h5',
+	            'span',
 	            { className: 'matches-column-header' },
 	            'Match ID'
 	          )
@@ -59041,7 +59046,7 @@
 	          Col,
 	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
-	            'h5',
+	            'span',
 	            { className: 'matches-column-header' },
 	            'Mode'
 	          )
@@ -59050,7 +59055,7 @@
 	          Col,
 	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
-	            'h5',
+	            'span',
 	            { className: 'matches-column-header' },
 	            'Result'
 	          )
@@ -59059,7 +59064,7 @@
 	          Col,
 	          { id: 'match-stats-column', md: 3 },
 	          React.createElement(
-	            'h5',
+	            'span',
 	            { className: 'matches-column-header' },
 	            'Duration'
 	          )
@@ -59072,7 +59077,7 @@
 	          Col,
 	          { id: 'match-stats-column', md: 6 },
 	          React.createElement(
-	            'h5',
+	            'span',
 	            { className: 'matches-column-header' },
 	            'Radiant'
 	          )
@@ -59081,11 +59086,10 @@
 	          Col,
 	          { id: 'match-stats-column', md: 6 },
 	          React.createElement(
-	            'h5',
+	            'span',
 	            { className: 'matches-column-header' },
 	            'Dire'
-	          ),
-	          ' '
+	          )
 	        )
 	      )
 	    );
@@ -59095,42 +59099,7 @@
 	module.exports = MatchListHeader;
 
 /***/ },
-/* 501 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-
-	var Spinner = React.createClass({
-	  displayName: "Spinner",
-
-	  render: function () {
-	    return React.createElement(
-	      "svg",
-	      { width: "1000", height: "1000", viewBox: "0 0 1000 1000" },
-	      React.createElement(
-	        "g",
-	        { transform: "translate(500,300)" },
-	        React.createElement("rect", { className: "rotate-45 rotate-back", x: "-5", y: "-5", width: "10", height: "10", stroke: "black", strokeWidth: "20", fill: "none" }),
-	        React.createElement("rect", { className: "rotate-45 rotate", x: "-50", y: "-50", width: "100", height: "100", stroke: "black", strokeWidth: "20", strokeLinejoin: "bevel", fill: "none" }),
-	        React.createElement(
-	          "g",
-	          { transform: "translate(-50,0) rotate(-45)" },
-	          React.createElement("polyline", { className: "left", points: "40,-40 50,-50 -40,-50 -50,-40 -50,50 -40,40", stroke: "black", strokeWidth: "20", fill: "none" })
-	        ),
-	        React.createElement(
-	          "g",
-	          { transform: "translate(50,0) rotate(135)" },
-	          React.createElement("polyline", { className: "right", points: "40,-40 50,-50 -40,-50 -50,-40 -50,50 -40,40", stroke: "black", strokeWidth: "20", fill: "none" })
-	        ),
-	        React.createElement("text", { y: "-140", textAnchor: "middle", fontWeight: "bold", fontSize: "3em", fontFamily: "sans-serif" })
-	      )
-	    );
-	  }
-	});
-
-	module.exports = Spinner;
-
-/***/ },
+/* 501 */,
 /* 502 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -59493,8 +59462,8 @@
 	    };
 	  },
 
-	  handleClick: function (e) {
-	    this.setState({ stat: e.target.innerHTML });
+	  handleClick: function (stat) {
+	    this.setState({ stat: stat });
 	  },
 
 	  renderHeroList: function () {
@@ -59510,9 +59479,15 @@
 	  },
 
 	  renderButton: function (stat) {
+	    let className = this.colors[stat];
+
+	    if (this.state.stat == stat) {
+	      className += ' selected-stat';
+	    };
+
 	    return React.createElement(
 	      'span',
-	      { onClick: this.handleClick, className: this.colors[stat], id: 'hero-list-header' },
+	      { onClick: this.handleClick.bind(null, stat), className: className, id: 'hero-list-header' },
 	      React.createElement('img', { id: 'stat-icon', src: this.icons[stat] }),
 	      stat
 	    );
@@ -59522,11 +59497,6 @@
 	    return React.createElement(
 	      Row,
 	      { className: 'hero-selector' },
-	      React.createElement(
-	        'h2',
-	        { className: 'chart-header' },
-	        'SELECT YOUR HEROES'
-	      ),
 	      this.renderButton("Strength"),
 	      this.renderButton("Agility"),
 	      this.renderButton("Intelligence"),
@@ -60160,7 +60130,8 @@
 
 	var React = __webpack_require__(1),
 	    HeroStore = __webpack_require__(244),
-	    WinLossBar = __webpack_require__(516);
+	    WinLossBar = __webpack_require__(516),
+	    Spinner = __webpack_require__(533);
 
 	var WinratesWithOtherHeroes = React.createClass({
 	  displayName: 'WinratesWithOtherHeroes',
@@ -60205,22 +60176,7 @@
 	  renderHeroes: function (heroes) {
 	    var that = this;
 	    if (heroes.length == 0) {
-	      return React.createElement(
-	        'div',
-	        { className: 'sk-fading-circle' },
-	        React.createElement('div', { className: 'sk-circle1 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle2 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle3 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle4 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle5 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle6 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle7 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle8 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle9 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle10 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle11 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle12 sk-circle' })
-	      );
+	      return React.createElement(Spinner, null);
 	    } else {
 	      return React.createElement(
 	        'ul',
@@ -60249,7 +60205,8 @@
 
 	var React = __webpack_require__(1),
 	    HeroStore = __webpack_require__(244),
-	    GameCountBar = __webpack_require__(519);
+	    GameCountBar = __webpack_require__(519),
+	    Spinner = __webpack_require__(533);
 
 	var WinratesWithOtherHeroes = React.createClass({
 	  displayName: 'WinratesWithOtherHeroes',
@@ -60310,22 +60267,7 @@
 	  renderHeroes: function (heroes) {
 	    var that = this;
 	    if (heroes.length == 0) {
-	      return React.createElement(
-	        'div',
-	        { className: 'sk-fading-circle' },
-	        React.createElement('div', { className: 'sk-circle1 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle2 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle3 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle4 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle5 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle6 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle7 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle8 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle9 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle10 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle11 sk-circle' }),
-	        React.createElement('div', { className: 'sk-circle12 sk-circle' })
-	      );
+	      return React.createElement(Spinner, null);
 	    } else {
 	      return React.createElement(
 	        'ul',
@@ -60644,6 +60586,37 @@
 	});
 
 	module.exports = ResetHeroesButton;
+
+/***/ },
+/* 533 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var Spinner = React.createClass({
+	  displayName: "Spinner",
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "sk-fading-circle" },
+	      React.createElement("div", { className: "sk-circle1 sk-circle" }),
+	      React.createElement("div", { className: "sk-circle2 sk-circle" }),
+	      React.createElement("div", { className: "sk-circle3 sk-circle" }),
+	      React.createElement("div", { className: "sk-circle4 sk-circle" }),
+	      React.createElement("div", { className: "sk-circle5 sk-circle" }),
+	      React.createElement("div", { className: "sk-circle6 sk-circle" }),
+	      React.createElement("div", { className: "sk-circle7 sk-circle" }),
+	      React.createElement("div", { className: "sk-circle8 sk-circle" }),
+	      React.createElement("div", { className: "sk-circle9 sk-circle" }),
+	      React.createElement("div", { className: "sk-circle10 sk-circle" }),
+	      React.createElement("div", { className: "sk-circle11 sk-circle" }),
+	      React.createElement("div", { className: "sk-circle12 sk-circle" })
+	    );
+	  }
+	});
+
+	module.exports = Spinner;
 
 /***/ }
 /******/ ]);

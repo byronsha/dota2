@@ -11,8 +11,8 @@ var HeroSelector = React.createClass({
     }
   },
 
-  handleClick: function (e) {
-    this.setState({ stat: e.target.innerHTML });
+  handleClick: function (stat) {
+    this.setState({ stat: stat });
   },
 
   renderHeroList: function () {
@@ -30,16 +30,20 @@ var HeroSelector = React.createClass({
   },
 
   renderButton: function (stat) {
+    let className = this.colors[stat];
+
+    if (this.state.stat == stat) {
+      className += ' selected-stat';
+    };
+
     return (
-      <span onClick={this.handleClick} className={this.colors[stat]} id="hero-list-header"><img id="stat-icon" src={this.icons[stat]}></img>{stat}</span>
+      <span onClick={this.handleClick.bind(null, stat)} className={className} id="hero-list-header"><img id="stat-icon" src={this.icons[stat]}></img>{stat}</span>
     )
   },
 
   render: function () {
     return (
       <Row className="hero-selector">
-        <h2 className="chart-header">SELECT YOUR HEROES</h2>
-
         {this.renderButton("Strength")}
         {this.renderButton("Agility")}
         {this.renderButton("Intelligence")}

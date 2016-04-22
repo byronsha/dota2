@@ -7,7 +7,6 @@ var React = require('react'),
     ModeFilter = require('../filters/mode_filter.jsx'),
     MatchListHeader = require('./match_list_header.jsx'),
     MatchList = require('./match_list.jsx'),
-    Spinner = require('./spinner.jsx'),
     HeroSelector = require('../heroes/hero_selector.jsx'),
     SelectedHero = require('../heroes/selected_hero.jsx'),
     Row = require('react-bootstrap').Row;
@@ -83,6 +82,7 @@ var Matches = React.createClass({
         </div>
 
         <HeroSelector heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
+        <br/>
 
         {this.renderStatsOrMatches()}
       </div>
