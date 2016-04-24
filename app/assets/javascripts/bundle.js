@@ -34419,6 +34419,7 @@
 	    MatchList = __webpack_require__(495),
 	    HeroSelector = __webpack_require__(510),
 	    SelectedHero = __webpack_require__(520),
+	    SelectedHeroes = __webpack_require__(531),
 	    Row = __webpack_require__(251).Row;
 	Col = __webpack_require__(251).Col;
 
@@ -34431,7 +34432,7 @@
 	      matches: [],
 	      heroes: [],
 	      filters: FilterStore.all(),
-	      tab: "RECENT MATCHES"
+	      tab: "MATCHES"
 	    };
 	  },
 
@@ -34468,14 +34469,14 @@
 	  },
 
 	  renderStatsOrMatches: function () {
-	    if (this.state.tab == "RECENT MATCHES") {
+	    if (this.state.tab == "MATCHES") {
 	      return React.createElement(
 	        'div',
 	        { className: 'recent-matches' },
 	        React.createElement(MatchListHeader, null),
 	        React.createElement(MatchList, { matches: this.state.matches, filters: this.state.filters, loading: this.state.loading })
 	      );
-	    } else if (this.state.tab == "STATISTICS") {
+	    } else if (this.state.tab == "STATS") {
 	      return React.createElement(
 	        'div',
 	        null,
@@ -34490,21 +34491,22 @@
 	      'div',
 	      null,
 	      React.createElement(
-	        'div',
+	        Row,
 	        { className: 'sections' },
 	        React.createElement(
 	          'span',
-	          { onClick: this.selectTab },
-	          'RECENT MATCHES'
+	          { className: this.state.tab == "MATCHES" ? "selected-tab" : "", onClick: this.selectTab },
+	          'MATCHES'
 	        ),
 	        React.createElement(
 	          'span',
-	          { onClick: this.selectTab },
-	          'STATISTICS'
+	          { className: this.state.tab == "STATS" ? "selected-tab" : "", onClick: this.selectTab },
+	          'STATS'
 	        )
 	      ),
-	      React.createElement(HeroSelector, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] }),
 	      React.createElement('br', null),
+	      React.createElement(HeroSelector, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] }),
+	      React.createElement(SelectedHeroes, { heroes: this.state.filters.heroes.slice() }),
 	      this.renderStatsOrMatches()
 	    );
 	  }
@@ -41335,6 +41337,7 @@
 	  RESET_ALL_FILTERS: "RESET_ALL_FILTERS",
 
 	  INITIAL_STATS_RECEIVED: "INITIAL_STATS_RECEIVED",
+	  HERO_STATS_RECEIVED: "HERO_STATS_RECEIVED",
 
 	  MATCH_DETAILS_RECEIVED: "MATCH_DETAILS_RECEIVED"
 	};
@@ -41473,8 +41476,8 @@
 	  fetchAllItems: function () {
 	    ApiUtil.fetchAllItems(ApiActions.receiveAllItems);
 	  },
-	  fetchHeroStats: function (heroId, callback) {
-	    ApiUtil.fetchHeroStats(heroId, callback);
+	  fetchHeroStats: function (heroId) {
+	    ApiUtil.fetchHeroStats(ApiActions.receiveHeroStats, heroId);
 	  },
 	  fetchInitialStats: function () {
 	    ApiUtil.fetchInitialStats(ApiActions.receiveInitialStats);
@@ -41501,6 +41504,12 @@
 	    Dispatcher.dispatch({
 	      actionType: Constants.ALL_ITEMS_RECEIVED,
 	      items: items
+	    });
+	  },
+	  receiveHeroStats: function (stats) {
+	    Dispatcher.dispatch({
+	      actionType: Constants.HERO_STATS_RECEIVED,
+	      stats: stats
 	    });
 	  },
 	  receiveInitialStats: function (stats) {
@@ -41555,11 +41564,11 @@
 	    });
 	  },
 
-	  fetchHeroStats: function (heroId, callback) {
+	  fetchHeroStats: function (callback, heroId) {
 	    $.ajax({
 	      url: 'api/heroes/' + heroId,
-	      success: function (hero) {
-	        callback(hero);
+	      success: function (stats) {
+	        callback(stats);
 	      }
 	    });
 	  },
@@ -59449,7 +59458,6 @@
 
 	var React = __webpack_require__(1),
 	    HeroList = __webpack_require__(509),
-	    SelectedHeroes = __webpack_require__(531),
 	    PrimaryStats = __webpack_require__(508),
 	    Row = __webpack_require__(251).Row;
 
@@ -59500,8 +59508,7 @@
 	      this.renderButton("Strength"),
 	      this.renderButton("Agility"),
 	      this.renderButton("Intelligence"),
-	      this.renderHeroList(),
-	      React.createElement(SelectedHeroes, { heroes: this.props.filters.heroes.slice() })
+	      this.renderHeroList()
 	    );
 	  },
 
@@ -59580,6 +59587,7 @@
 
 	var React = __webpack_require__(1),
 	    HeroStore = __webpack_require__(244),
+	    StatisticsStore = __webpack_require__(522),
 	    ApiActions = __webpack_require__(246),
 	    TimeUtil = __webpack_require__(497),
 	    GamesWithOtherHeroes = __webpack_require__(518),
@@ -59592,34 +59600,21 @@
 	  displayName: 'SelectedHeroStats',
 
 	  getInitialState: function () {
-	    return {
-	      radiantWins: 0,
-	      direWins: 0,
-	      gamesPlayed: 0,
-	      winrate: 0,
-	      allies: [],
-	      opponents: []
-	    };
+	    return { heroStats: StatisticsStore.heroStats(this.props.hero.id) };
 	  },
 
 	  componentDidMount: function () {
 	    var heroId = this.props.hero.id;
-	    ApiActions.fetchHeroStats(heroId, this.receiveHeroStats);
+	    this.statisticsListener = StatisticsStore.addListener(this._onChange);
+	    ApiActions.fetchHeroStats(heroId);
 	  },
 
-	  componentWillReceiveProps: function (nextProps) {
-	    ApiActions.fetchHeroStats(nextProps.hero.id, this.receiveHeroStats);
+	  componentWillUnmount: function () {
+	    this.statisticsListener.remove();
 	  },
 
-	  receiveHeroStats: function (hero) {
-	    this.setState({
-	      radiantWins: hero.radiant_wins,
-	      direWins: hero.dire_wins,
-	      gamesPlayed: hero.games_played,
-	      winrate: hero.winrate,
-	      allies: hero.allied_win_loss,
-	      opponents: hero.versus_win_loss
-	    });
+	  _onChange: function () {
+	    this.setState({ heroStats: StatisticsStore.heroStats(this.props.hero.id) });
 	  },
 
 	  winOrLoss: function () {
@@ -59647,9 +59642,11 @@
 	  },
 
 	  render: function () {
-	    var state = this.state;
+	    var state = this.state.heroStats;
 	    var url = "http://cdn.dota2.com/apps/dota2/images/items/";
-	    var gamesWon = this.state.radiantWins + this.state.direWins;
+	    var allies = state.allied_win_loss || [];
+	    var opponents = state.versus_win_loss || [];
+	    var gamesWon = state.radiant_wins + state.dire_wins;
 
 	    return React.createElement(
 	      Row,
@@ -59690,13 +59687,13 @@
 	          React.createElement(
 	            'span',
 	            null,
-	            'Losses: ' + (state.gamesPlayed - gamesWon)
+	            'Losses: ' + (state.games_played - gamesWon)
 	          ),
 	          React.createElement('br', null),
 	          React.createElement(
 	            'span',
 	            null,
-	            'Total games: ' + state.gamesPlayed
+	            'Total games: ' + state.games_played
 	          )
 	        ),
 	        React.createElement(Col, { md: 4 })
@@ -59714,7 +59711,7 @@
 	            { className: 'chart-header' },
 	            'GAMES WITH:'
 	          ),
-	          React.createElement(GamesWithOtherHeroes, { heroes: state.allies.slice(), barWidth: 40, maxWidth: 230, initial: false })
+	          React.createElement(GamesWithOtherHeroes, { heroes: allies.slice(), barWidth: 40, maxWidth: 230, initial: false })
 	        ),
 	        React.createElement(
 	          Col,
@@ -59724,7 +59721,7 @@
 	            { className: 'chart-header' },
 	            'GAMES AGAINST:'
 	          ),
-	          React.createElement(GamesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 40, maxWidth: 230, initial: false })
+	          React.createElement(GamesWithOtherHeroes, { heroes: opponents.slice(), barWidth: 40, maxWidth: 230, initial: false })
 	        ),
 	        React.createElement(
 	          Col,
@@ -59734,7 +59731,7 @@
 	            { className: 'chart-header' },
 	            'WIN RATE WITH:'
 	          ),
-	          React.createElement(WinratesWithOtherHeroes, { heroes: state.allies.slice(), barWidth: 100, maxWidth: 230, initial: false })
+	          React.createElement(WinratesWithOtherHeroes, { heroes: allies.slice(), barWidth: 100, maxWidth: 230, initial: false })
 	        ),
 	        React.createElement(
 	          Col,
@@ -59744,7 +59741,7 @@
 	            { className: 'chart-header' },
 	            'WIN RATE AGAINST:'
 	          ),
-	          React.createElement(WinratesWithOtherHeroes, { heroes: state.opponents.slice(), barWidth: 100, maxWidth: 230, initial: false })
+	          React.createElement(WinratesWithOtherHeroes, { heroes: opponents.slice(), barWidth: 100, maxWidth: 230, initial: false })
 	        )
 	      )
 	    );
@@ -59872,7 +59869,6 @@
 	      var radiant = this.orderPlayers(match.players.slice(0, 5));
 	      var dire = this.orderPlayers(match.players.slice(5, 10));
 	      var heroes = this.heroes();
-	      var portraitWidth = window.innerWidth * 0.033;
 
 	      return React.createElement(
 	        Row,
@@ -59896,7 +59892,7 @@
 	                React.createElement(
 	                  'div',
 	                  { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "radiant-highlighted-open" },
-	                  React.createElement('img', { width: portraitWidth, height: portraitWidth, src: url + 'heroes/' + player.hero_image_url + '_vert.jpg' })
+	                  React.createElement('img', { width: '65px', height: '65px', src: url + 'heroes/' + player.hero_image_url + '_vert.jpg' })
 	                )
 	              ),
 	              React.createElement(
@@ -60005,7 +60001,7 @@
 	                React.createElement(
 	                  'div',
 	                  { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "dire-highlighted-open" },
-	                  React.createElement('img', { width: portraitWidth, height: portraitWidth, src: url + 'heroes/' + player.hero_image_url + '_vert.jpg' })
+	                  React.createElement('img', { width: '65px', height: '65px', src: url + 'heroes/' + player.hero_image_url + '_vert.jpg' })
 	                )
 	              )
 	            );
@@ -60440,6 +60436,7 @@
 	    Constants = __webpack_require__(243),
 	    StatisticsStore = new Store(Dispatcher);
 
+	var _heroStats = {};
 	var _statistics = {
 	  "gamesPlayed": [],
 	  "winrates": []
@@ -60448,6 +60445,14 @@
 	var receiveInitialStats = function (stats) {
 	  _statistics["gamesPlayed"] = stats.games_played;
 	  _statistics["winrates"] = stats.winrates;
+	};
+
+	var receiveHeroStats = function (stats) {
+	  _heroStats[stats.id] = stats;
+	};
+
+	StatisticsStore.heroStats = function (id) {
+	  return _heroStats[id] || {};
 	};
 
 	StatisticsStore.gamesPlayed = function () {
@@ -60462,6 +60467,10 @@
 	  switch (payload.actionType) {
 	    case Constants.INITIAL_STATS_RECEIVED:
 	      receiveInitialStats(payload.stats);
+	      StatisticsStore.__emitChange();
+	      break;
+	    case Constants.HERO_STATS_RECEIVED:
+	      receiveHeroStats(payload.stats);
 	      StatisticsStore.__emitChange();
 	      break;
 	  }
@@ -60504,7 +60513,8 @@
 	    HeroStore = __webpack_require__(244),
 	    FilterActions = __webpack_require__(248),
 	    ResetHeroesButton = __webpack_require__(532),
-	    Row = __webpack_require__(251).Row;
+	    Row = __webpack_require__(251).Row,
+	    GfycatNames = __webpack_require__(504);
 
 	var SelectedHeroes = React.createClass({
 	  displayName: 'SelectedHeroes',
@@ -60519,23 +60529,29 @@
 	  },
 
 	  renderHero: function (id, idx) {
-	    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
-
 	    if (id == 0) {
 	      return React.createElement(
-	        'li',
-	        { key: idx },
-	        React.createElement('div', { className: 'empty-hero-slot' })
+	        Col,
+	        { md: 2, className: 'hero-slot', key: idx },
+	        React.createElement('div', { className: 'gfycat-wrapper' })
 	      );
 	    } else {
 	      var hero = HeroStore.findById(id);
 	      return React.createElement(
-	        'li',
-	        { onClick: this.removeHero.bind(null, id), key: idx },
+	        Col,
+	        { md: 2, className: 'hero-slot', key: idx },
 	        React.createElement(
 	          'div',
-	          null,
-	          React.createElement('img', { src: url + hero.image_url + '_lg.png' })
+	          { className: 'gfycat-wrapper' },
+	          React.createElement('iframe', { className: 'gfycat fade-in',
+	            src: "https://gfycat.com/ifr/" + GfycatNames[hero.name],
+	            frameBorder: '0',
+	            scrolling: 'no' }),
+	          React.createElement(
+	            'span',
+	            { className: 'gfycat-hero-name', onClick: this.removeHero.bind(null, id) },
+	            hero.name
+	          )
 	        )
 	      );
 	    }
@@ -60550,16 +60566,12 @@
 	    };
 
 	    return React.createElement(
-	      'div',
+	      Row,
 	      { className: 'selected-heroes' },
-	      React.createElement(
-	        'ul',
-	        { className: 'horizontal' },
-	        heroes.map(function (id, idx) {
-	          return that.renderHero(id, idx);
-	        }),
-	        React.createElement(ResetHeroesButton, null)
-	      )
+	      heroes.map(function (id, idx) {
+	        return that.renderHero(id, idx);
+	      }),
+	      React.createElement(ResetHeroesButton, null)
 	    );
 	  }
 	});
@@ -60571,7 +60583,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    FilterActions = __webpack_require__(248);
+	    FilterActions = __webpack_require__(248),
+	    Col = __webpack_require__(251).Col;
 
 	var ResetHeroesButton = React.createClass({
 	  displayName: 'ResetHeroesButton',
@@ -60581,7 +60594,7 @@
 	  },
 
 	  render: function () {
-	    return React.createElement('li', { id: 'reset-heroes-button', onClick: this.resetAllFilters });
+	    return React.createElement(Col, { md: 1, id: 'reset-heroes-button', onClick: this.resetAllFilters });
 	  }
 	});
 

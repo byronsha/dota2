@@ -1,0 +1,163 @@
+#stat-icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
+}
+
+#hero-list-header {
+  padding: 5px;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 400;
+  margin: 5px;
+  border-top: 1px solid #808080;
+  border-left: 1px solid #808080;
+  border-right: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+  border-radius: 2px;
+
+  -webkit-transition: all .2s ease-out;
+     -moz-transition: all .2s ease-out;
+      -ms-transition: all .2s ease-out;
+       -o-transition: all .2s ease-out;
+          transition: all .2s ease-out;
+}
+
+#hero-list-header:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 7px 3px #fff;
+  -moz-box-shadow: 0 0 7px 3px #fff;
+  box-shadow: 0 0 7px 3px #fff;
+}
+
+.selected-stat {
+  -webkit-box-shadow: 0 0 7px 3px #fff;
+  -moz-box-shadow: 0 0 7px 3px #fff;
+  box-shadow: 0 0 7px 3px #fff;
+}
+
+.hero-list {
+  padding: 8px;
+  height: 168px;
+  margin: 5px;
+
+  margin-top: 15px;
+
+  -webkit-box-shadow: 0 0 7px 3px #fff;
+  -moz-box-shadow: 0 0 7px 3px #fff;
+  box-shadow: 0 0 7px 3px #fff;
+}
+
+.hero-list div {
+  float: left;
+  overflow: hidden;
+  position: relative;
+  margin: 1px;
+
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+
+  -webkit-transition: all .4s ease-out;
+     -moz-transition: all .4s ease-out;
+      -ms-transition: all .4s ease-out;
+       -o-transition: all .4s ease-out;
+          transition: all .4s ease-out;
+}
+
+.hero-list img {
+  width: 79px;
+  height: 47px;
+}
+
+.hero-list div:hover {
+  z-index: 100;
+  transform: scale(2);
+  cursor: pointer;
+}
+
+.hero-slot {
+  position: relative;
+  height: 180px;
+  margin: 10px;
+}
+
+.gfycat-wrapper {
+  z-index: 50000;
+  position: absolute;
+  width: 166px;
+  height: 168px;
+  margin-left: -5px;
+  border: 1px solid #FFD700;
+  background: rgba(0,0,0,0.5);
+  overflow: hidden;
+
+  -webkit-box-shadow: 0 0 7px 3px #FFD700;
+  -moz-box-shadow: 0 0 7px 3px #FFD700;
+  box-shadow: 0 0 7px 3px #FFD700;
+
+  -webkit-transition: all .4s ease-out;
+     -moz-transition: all .4s ease-out;
+      -ms-transition: all .4s ease-out;
+       -o-transition: all .4s ease-out;
+          transition: all .4s ease-out;
+}
+
+.gfycat-wrapper:hover {
+  -webkit-box-shadow: 0 0 15px 6px #FFD700;
+  -moz-box-shadow: 0 0 15px 6px #FFD700;
+  box-shadow: 0 0 15px 6px #FFD700;
+}
+
+.gfycat {
+  transform: scale(1.1);
+  margin-top: 8px;
+  margin-left: -68px;
+}
+
+.gfycat-hero-name {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: uppercase;
+  position: absolute;
+  width: 100%;
+  left: 0px;
+  bottom: 0px;
+  padding-top: 150px;
+  padding-bottom: 5px;
+  text-shadow: 0 0 8px white;
+}
+
+.gfycat-hero-name:hover {
+  cursor: pointer;
+  color: #606060;
+  background: rgba(0,0,0,0.5);
+
+  -webkit-transition: all .4s ease-out;
+     -moz-transition: all .4s ease-out;
+      -ms-transition: all .4s ease-out;
+       -o-transition: all .4s ease-out;
+          transition: all .4s ease-out;
+}
+
+#reset-heroes-button {
+  width: 40px;
+  height: 40px;
+  margin: 10px;
+  background: #FF1177;
+  border: 1px solid #FF1177;
+
+  -webkit-transition: all .4s ease-out;
+     -moz-transition: all .4s ease-out;
+      -ms-transition: all .4s ease-out;
+       -o-transition: all .4s ease-out;
+          transition: all .4s ease-out;
+}
+
+#reset-heroes-button:hover {
+  -webkit-box-shadow: 0 0 7px 3px #FF1177;
+  -moz-box-shadow: 0 0 7px 3px #FF1177;
+  box-shadow: 0 0 7px 3px #FF1177;
+}

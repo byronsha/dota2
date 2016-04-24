@@ -1,6 +1,32 @@
+.sections {
+  margin-top: 10px;
+}
+
 .sections span {
-  font-size: 30px;
+  font-size: 25px;
   padding: 5px;
-  text-shadow: 0 0 6px white;
-  font-weight: 500;
+  border: 1px solid #808080;
+  margin: 5px;
+  text-shadow: 0 0 3px white;
+  font-weight: 400;
+  border-radius: 2px;
+
+  -webkit-transition: all .2s ease-out;
+     -moz-transition: all .2s ease-out;
+      -ms-transition: all .2s ease-out;
+       -o-transition: all .2s ease-out;
+          transition: all .2s ease-out;
+}
+
+.sections span:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 7px 3px #fff;
+  -moz-box-shadow: 0 0 7px 3px #fff;
+  box-shadow: 0 0 7px 3px #fff;
+}
+
+.selected-tab {
+  -webkit-box-shadow: 0 0 7px 3px #fff;
+  -moz-box-shadow: 0 0 7px 3px #fff;
+  box-shadow: 0 0 7px 3px #fff;
 }

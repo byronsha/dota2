@@ -109,7 +109,6 @@ var OpenMatch = React.createClass({
       var radiant = this.orderPlayers(match.players.slice(0,5));
       var dire = this.orderPlayers(match.players.slice(5,10));
       var heroes = this.heroes();
-      var portraitWidth = window.innerWidth * 0.033;
 
       return (
         <Row onClick={this.props.close} className="match-open fade-in" id={match.winner + "-win"}>
@@ -122,7 +121,7 @@ var OpenMatch = React.createClass({
                   <Row key={idx}>
                     <Col className="radiant-portraits" md={3}>
                       <div className={heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "radiant-highlighted-open"}>
-                        <img width={portraitWidth} height={portraitWidth} src={url + 'heroes/' + player.hero_image_url + '_vert.jpg'}></img>
+                        <img width="65px" height="65px" src={url + 'heroes/' + player.hero_image_url + '_vert.jpg'}></img>
                       </div>
                     </Col>
 
@@ -177,7 +176,7 @@ var OpenMatch = React.createClass({
 
                     <Col md={3}>
                       <div className={heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "dire-highlighted-open"}>
-                        <img width={portraitWidth} height={portraitWidth} src={url + 'heroes/' + player.hero_image_url + '_vert.jpg'}></img>
+                        <img width="65px" height="65px" src={url + 'heroes/' + player.hero_image_url + '_vert.jpg'}></img>
                       </div>
                     </Col>
                   </Row>

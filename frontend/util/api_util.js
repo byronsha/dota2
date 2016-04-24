@@ -30,11 +30,11 @@ var ApiUtil = {
     })
   },
 
-  fetchHeroStats: function(heroId, callback) {
+  fetchHeroStats: function(callback, heroId) {
     $.ajax({
       url: 'api/heroes/' + heroId,
-      success: function (hero) {
-        callback(hero);
+      success: function (stats) {
+        callback(stats);
       }
     })
   },

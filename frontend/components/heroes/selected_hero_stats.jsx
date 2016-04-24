@@ -1,5 +1,6 @@
 var React = require('react'),
     HeroStore = require('../../stores/hero_store.js'),
+    StatisticsStore = require('../../stores/statistics_store.js'),
     ApiActions = require('../../actions/api_actions.js'),
     TimeUtil = require('../../util/time_util.js'),
     GamesWithOtherHeroes = require('./games_with_other_heroes.jsx'),
@@ -10,34 +11,21 @@ var React = require('react'),
 
 var SelectedHeroStats = React.createClass({
   getInitialState: function () {
-    return {
-      radiantWins: 0,
-      direWins: 0,
-      gamesPlayed: 0,
-      winrate: 0,
-      allies: [],
-      opponents: []
-    }
+    return { heroStats: StatisticsStore.heroStats(this.props.hero.id) }
   },
 
   componentDidMount: function () {
     var heroId = this.props.hero.id
-    ApiActions.fetchHeroStats(heroId, this.receiveHeroStats);
+    this.statisticsListener = StatisticsStore.addListener(this._onChange);
+    ApiActions.fetchHeroStats(heroId);
   },
 
-  componentWillReceiveProps: function(nextProps) {
-    ApiActions.fetchHeroStats(nextProps.hero.id, this.receiveHeroStats);
+  componentWillUnmount: function () {
+    this.statisticsListener.remove();
   },
 
-  receiveHeroStats: function (hero) {
-    this.setState({
-      radiantWins: hero.radiant_wins,
-      direWins: hero.dire_wins,
-      gamesPlayed: hero.games_played,
-      winrate: hero.winrate,
-      allies: hero.allied_win_loss,
-      opponents: hero.versus_win_loss
-    })
+  _onChange: function () {
+    this.setState({ heroStats: StatisticsStore.heroStats(this.props.hero.id) });
   },
 
   winOrLoss: function () {
@@ -49,9 +37,11 @@ var SelectedHeroStats = React.createClass({
   },
 
   render: function () {
-    var state = this.state;
+    var state = this.state.heroStats;
     var url = "http://cdn.dota2.com/apps/dota2/images/items/";
-    var gamesWon = this.state.radiantWins + this.state.direWins;
+    var allies = state.allied_win_loss || [];
+    var opponents = state.versus_win_loss || [];
+    var gamesWon = state.radiant_wins + state.dire_wins;
 
     return (
       <Row>
@@ -69,8 +59,8 @@ var SelectedHeroStats = React.createClass({
           <Col md={2} className="overall-stats">
             <br/><span>{'Win rate: ' + state.winrate + '%'}</span><br/>
             <span>{'Wins: ' + gamesWon}</span><br/>
-            <span>{'Losses: ' + (state.gamesPlayed - gamesWon)}</span><br/>
-            <span>{'Total games: ' + state.gamesPlayed}</span>
+            <span>{'Losses: ' + (state.games_played - gamesWon)}</span><br/>
+            <span>{'Total games: ' + state.games_played}</span>
           </Col>
           <Col md={4}/>
         </Row>
@@ -80,22 +70,22 @@ var SelectedHeroStats = React.createClass({
         <Row className="selected-hero-stats">
           <Col md={3} id="selected-hero-chart">
             <h3 className="chart-header">GAMES WITH:</h3>
-            <GamesWithOtherHeroes heroes={state.allies.slice()} barWidth={40} maxWidth={230} initial={false}/>
+            <GamesWithOtherHeroes heroes={allies.slice()} barWidth={40} maxWidth={230} initial={false}/>
           </Col>
 
           <Col md={3} id="selected-hero-chart">
             <h3 className="chart-header">GAMES AGAINST:</h3>
-            <GamesWithOtherHeroes heroes={state.opponents.slice()} barWidth={40} maxWidth={230} initial={false}/>
+            <GamesWithOtherHeroes heroes={opponents.slice()} barWidth={40} maxWidth={230} initial={false}/>
           </Col>
 
           <Col md={3} id="selected-hero-chart">
             <h3 className="chart-header">WIN RATE WITH:</h3>
-            <WinratesWithOtherHeroes heroes={state.allies.slice()} barWidth={100} maxWidth={230} initial={false}/>
+            <WinratesWithOtherHeroes heroes={allies.slice()} barWidth={100} maxWidth={230} initial={false}/>
           </Col>
 
           <Col md={3} id="selected-hero-chart">
             <h3 className="chart-header">WIN RATE AGAINST:</h3>
-            <WinratesWithOtherHeroes heroes={state.opponents.slice()} barWidth={100} maxWidth={230} initial={false}/>
+            <WinratesWithOtherHeroes heroes={opponents.slice()} barWidth={100} maxWidth={230} initial={false}/>
           </Col>
         </Row>
       </Row>

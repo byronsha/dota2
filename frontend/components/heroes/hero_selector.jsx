@@ -1,6 +1,5 @@
 var React = require('react'),
     HeroList = require('./hero_list.jsx'),
-    SelectedHeroes = require('./selected_heroes.jsx'),
     PrimaryStats = require('../../constants/primary_stats.js'),
     Row = require('react-bootstrap').Row;
 
@@ -47,9 +46,8 @@ var HeroSelector = React.createClass({
         {this.renderButton("Strength")}
         {this.renderButton("Agility")}
         {this.renderButton("Intelligence")}
-        {this.renderHeroList()}
 
-        <SelectedHeroes heroes={this.props.filters.heroes.slice()}/>
+        {this.renderHeroList()}
       </Row>
     )
   },

@@ -2,7 +2,8 @@ var React = require('react'),
     HeroStore = require('../../stores/hero_store.js'),
     FilterActions = require('../../actions/filter_actions.js'),
     ResetHeroesButton = require('./reset_heroes_button.jsx'),
-    Row = require('react-bootstrap').Row;
+    Row = require('react-bootstrap').Row,
+    GfycatNames = require('../../constants/gfycat_names.js');
 
 var SelectedHeroes = React.createClass({
   removeHero: function (id) {
@@ -15,13 +16,26 @@ var SelectedHeroes = React.createClass({
   },
 
   renderHero: function(id, idx) {
-    var url = "http://cdn.dota2.com/apps/dota2/images/heroes/";
-
     if (id == 0) {
-      return <li key={idx}><div className="empty-hero-slot"></div></li>;
+      return (
+        <Col md={2} className="hero-slot" key={idx}>
+          <div className="gfycat-wrapper"></div>
+        </Col>
+      )
     } else {
       var hero = HeroStore.findById(id);
-      return <li onClick={this.removeHero.bind(null, id)} key={idx}><div><img src={url + hero.image_url + '_lg.png'}></img></div></li>;
+      return (
+        <Col md={2} className="hero-slot" key={idx}>
+          <div className="gfycat-wrapper">
+            <iframe className="gfycat fade-in"
+              src={"https://gfycat.com/ifr/" + GfycatNames[hero.name]}
+              frameBorder="0"
+              scrolling="no">
+            </iframe>
+            <span className="gfycat-hero-name" onClick={this.removeHero.bind(null, id)}>{hero.name}</span>
+          </div>
+        </Col>
+      )
     }
   },
 
@@ -34,16 +48,14 @@ var SelectedHeroes = React.createClass({
     };
 
     return (
-      <div className="selected-heroes">
-        <ul className="horizontal">
-          {
-            heroes.map(function(id, idx) {
-              return that.renderHero(id, idx);
-            })
-          }
-          <ResetHeroesButton/>
-        </ul>
-      </div>
+      <Row className="selected-heroes">
+        {
+          heroes.map(function(id, idx) {
+            return that.renderHero(id, idx);
+          })
+        }
+        <ResetHeroesButton/>
+      </Row>
     )
   }
 });

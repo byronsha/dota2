@@ -14,8 +14,8 @@ var ApiActions = {
   fetchAllItems: function () {
     ApiUtil.fetchAllItems(ApiActions.receiveAllItems);
   },
-  fetchHeroStats: function (heroId, callback) {
-    ApiUtil.fetchHeroStats(heroId, callback);
+  fetchHeroStats: function (heroId) {
+    ApiUtil.fetchHeroStats(ApiActions.receiveHeroStats, heroId);
   },
   fetchInitialStats: function () {
     ApiUtil.fetchInitialStats(ApiActions.receiveInitialStats);
@@ -42,6 +42,12 @@ var ApiActions = {
     Dispatcher.dispatch({
       actionType: Constants.ALL_ITEMS_RECEIVED,
       items: items
+    });
+  },
+  receiveHeroStats: function (stats) {
+    Dispatcher.dispatch({
+      actionType: Constants.HERO_STATS_RECEIVED,
+      stats: stats
     });
   },
   receiveInitialStats: function (stats) {
