@@ -24,7 +24,8 @@
   font-family: "Alegreya Sans";
   font-weight: 300;
   background-color: black;
-  background: url("bluesmoke.jpg") no-repeat center fixed;
+  /*background: url("bluesmoke.jpg") no-repeat center fixed;*/
+  background: url("http://s02.radikal.ru/i175/1210/f5/7ffa25c935bb.jpg") no-repeat center fixed;
   background-size: cover;
   min-height: 100vh;
 }
