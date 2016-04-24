@@ -34507,6 +34507,7 @@
 	      React.createElement('br', null),
 	      React.createElement(HeroSelector, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] }),
 	      React.createElement(SelectedHeroes, { heroes: this.state.filters.heroes.slice() }),
+	      React.createElement('br', null),
 	      this.renderStatsOrMatches()
 	    );
 	  }
@@ -60561,18 +60562,23 @@
 	    var that = this;
 	    var heroes = this.props.heroes;
 
-	    while (heroes.length < 5) {
-	      heroes.push(0);
-	    };
+	    if (heroes.length == 0) {
+	      return React.createElement(Row, null);
+	    } else {
 
-	    return React.createElement(
-	      Row,
-	      { className: 'selected-heroes' },
-	      heroes.map(function (id, idx) {
-	        return that.renderHero(id, idx);
-	      }),
-	      React.createElement(ResetHeroesButton, null)
-	    );
+	      while (heroes.length < 5) {
+	        heroes.push(0);
+	      };
+
+	      return React.createElement(
+	        Row,
+	        { className: 'selected-heroes' },
+	        heroes.map(function (id, idx) {
+	          return that.renderHero(id, idx);
+	        }),
+	        React.createElement(ResetHeroesButton, null)
+	      );
+	    }
 	  }
 	});
 

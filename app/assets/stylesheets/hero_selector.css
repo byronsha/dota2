@@ -25,12 +25,14 @@
 
 #hero-list-header:hover {
   cursor: pointer;
+  background: rgba(255,255,255,0.15);
   -webkit-box-shadow: 0 0 7px 3px #fff;
   -moz-box-shadow: 0 0 7px 3px #fff;
   box-shadow: 0 0 7px 3px #fff;
 }
 
 .selected-stat {
+  background: rgba(255,255,255,0.15);
   -webkit-box-shadow: 0 0 7px 3px #fff;
   -moz-box-shadow: 0 0 7px 3px #fff;
   box-shadow: 0 0 7px 3px #fff;
@@ -40,9 +42,8 @@
   padding: 8px;
   height: 168px;
   margin: 5px;
-
   margin-top: 15px;
-
+  background: rgba(255,255,255,0.15);
   -webkit-box-shadow: 0 0 7px 3px #fff;
   -moz-box-shadow: 0 0 7px 3px #fff;
   box-shadow: 0 0 7px 3px #fff;
@@ -146,7 +147,8 @@
   width: 40px;
   height: 40px;
   margin: 10px;
-  background: #FF1177;
+  /*background: #FF1177;*/
+  background: rgba(255,0,0,0.2);
   border: 1px solid #FF1177;
 
   -webkit-transition: all .4s ease-out;

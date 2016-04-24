@@ -9,12 +9,12 @@
 
 .other-hero-stats {
   padding-top: 18px;
-
-  border-top: 1px solid #606060;
-  border-bottom: 1px solid #606060;
-
   min-height: 700px;
-  background: #404040;
+  border: 1px solid #303030;
+  background: rgba(0,0,0,0.7);
+  -webkit-box-shadow: 0 0 7px 3px black;
+  -moz-box-shadow: 0 0 7px 3px black;
+  box-shadow: 0 0 7px 3px black;
 }
 
 .other-hero-stats img {

@@ -43,20 +43,25 @@ var SelectedHeroes = React.createClass({
     var that = this;
     var heroes = this.props.heroes;
 
-    while (heroes.length < 5) {
-      heroes.push(0)
-    };
+    if (heroes.length == 0) {
+      return <Row></Row>
+    } else {
 
-    return (
-      <Row className="selected-heroes">
-        {
-          heroes.map(function(id, idx) {
-            return that.renderHero(id, idx);
-          })
-        }
-        <ResetHeroesButton/>
-      </Row>
-    )
+      while (heroes.length < 5) {
+        heroes.push(0)
+      };
+
+      return (
+        <Row className="selected-heroes">
+          {
+            heroes.map(function(id, idx) {
+              return that.renderHero(id, idx);
+            })
+          }
+          <ResetHeroesButton/>
+        </Row>
+      )
+    }
   }
 });
 

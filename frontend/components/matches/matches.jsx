@@ -86,6 +86,8 @@ var Matches = React.createClass({
         <HeroSelector heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
         <SelectedHeroes heroes={this.state.filters.heroes.slice()}/>
 
+        <br/>
+
         {this.renderStatsOrMatches()}
       </div>
     )

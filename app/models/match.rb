@@ -146,11 +146,11 @@ class Match < ActiveRecord::Base
             PlayerItem.create(player_id: @new_player.id, item_id: player["item_4"])
             PlayerItem.create(player_id: @new_player.id, item_id: player["item_5"])
 
-            if player["ability_upgrades"]
-              player["ability_upgrades"].each do |ability|
-                PlayerAbility.create(player_id: @new_player.id, ability_id: ability["ability"], time: ability["time"], level: ability["level"])
-              end
-            end
+            # if player["ability_upgrades"]
+            #   player["ability_upgrades"].each do |ability|
+            #     PlayerAbility.create(player_id: @new_player.id, ability_id: ability["ability"], time: ability["time"], level: ability["level"])
+            #   end
+            # end
 
             if player["additional_units"]
               player["additional_units"].each do |unit|

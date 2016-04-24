@@ -20,12 +20,14 @@
 
 .sections span:hover {
   cursor: pointer;
+  background: rgba(255,255,255,0.15);
   -webkit-box-shadow: 0 0 7px 3px #fff;
   -moz-box-shadow: 0 0 7px 3px #fff;
   box-shadow: 0 0 7px 3px #fff;
 }
 
 .selected-tab {
+  background: rgba(255,255,255,0.15);  
   -webkit-box-shadow: 0 0 7px 3px #fff;
   -moz-box-shadow: 0 0 7px 3px #fff;
   box-shadow: 0 0 7px 3px #fff;

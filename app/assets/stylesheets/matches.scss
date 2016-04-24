@@ -52,13 +52,11 @@ ul.dropdown-menu li {
 
 .matches-column-header {
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 600;
   padding: 3px;
-
-  border-top: 1px solid white;
-  border-bottom: 1px solid white;
-
-  background: rgba(255, 255, 255, .2);
+  border-bottom: 1px solid #D0D0D0;
+  color: #D0D0D0;
 }
 
 .unhighlighted {
@@ -109,14 +107,16 @@ ul.dropdown-menu li {
   margin-bottom: 100px;
 
   border-bottom: 2px solid #606060;
-
   background: rgba(255, 255, 255, 0.0);
 }
 
 .match-row {
   font-size: 14px;
-  outline: 1px solid #606060;
-  background: #404040;
+  border: 1px solid #303030;
+  background: rgba(0,0,0,0.7);
+  -webkit-box-shadow: 0 0 7px 3px black;
+  -moz-box-shadow: 0 0 7px 3px black;
+  box-shadow: 0 0 7px 3px black;
   -webkit-transition: all .3s ease-out;
      -moz-transition: all .3s ease-out;
       -ms-transition: all .3s ease-out;
