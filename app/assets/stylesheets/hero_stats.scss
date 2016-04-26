@@ -27,27 +27,23 @@
 }
 
 .chart-header {
-  font-size: 1.3vw;
+  font-size: 22px;
   text-shadow: 0 0 6px white;
 }
 
 #initial-games-played-chart {
   padding-left: 5px;
   padding-right: 5px;
+  padding-top: 35px;
 }
 
 #initial-win-rates-chart {
   padding-left: 5px;
   padding-right: 5px;
-}
-
-#initial-win-rates-chart {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-top: 35px;
 }
 
 .other-hero-stats li {
-  // background: #303030;
   height: 26px;
   border-top: 1px solid #606060;
   border-bottom: 1px solid #606060;
@@ -72,9 +68,7 @@
 }
 
 .selected-hero-column {
-  padding: 5px;
-  padding-bottom: 0px;
-  margin-left: 1px;
+  margin-top: -25px;
 }
 
 .game-count-bar {

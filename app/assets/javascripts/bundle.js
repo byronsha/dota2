@@ -59593,6 +59593,7 @@
 	    TimeUtil = __webpack_require__(497),
 	    GamesWithOtherHeroes = __webpack_require__(518),
 	    WinratesWithOtherHeroes = __webpack_require__(517),
+	    LoadingDots = __webpack_require__(534),
 	    Row = __webpack_require__(251).Row,
 	    Col = __webpack_require__(251).Col,
 	    GfycatNames = __webpack_require__(504);
@@ -59642,12 +59643,56 @@
 	    }
 	  },
 
+	  renderStats: function () {
+	    var state = this.state.heroStats;
+	    var gamesWon = state.radiant_wins + state.dire_wins;
+
+	    if (typeof state.winrate == "undefined") {
+	      return React.createElement(
+	        Col,
+	        { md: 3, className: 'overall-stats' },
+	        React.createElement(LoadingDots, null)
+	      );
+	    } else {
+	      return React.createElement(
+	        Col,
+	        { md: 3, className: 'overall-stats' },
+	        React.createElement(
+	          'span',
+	          null,
+	          state.winrate + '%'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'span',
+	          null,
+	          gamesWon
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'span',
+	          null,
+	          state.games_played - gamesWon
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'span',
+	          null,
+	          state.games_played
+	        )
+	      );
+	    }
+	  },
+
 	  render: function () {
 	    var state = this.state.heroStats;
 	    var url = "http://cdn.dota2.com/apps/dota2/images/items/";
 	    var allies = state.allied_win_loss || [];
 	    var opponents = state.versus_win_loss || [];
 	    var gamesWon = state.radiant_wins + state.dire_wins;
+	    var wikiName = this.props.hero.name;
+
+	    wikiName = wikiName.replace(/\s/, "_");
 
 	    return React.createElement(
 	      Row,
@@ -59658,43 +59703,56 @@
 	        React.createElement(Col, { md: 4 }),
 	        React.createElement(
 	          Col,
-	          { md: 2 },
+	          { md: 4 },
 	          React.createElement(
-	            'h2',
-	            { className: 'section-title' },
-	            this.props.hero.name
-	          ),
-	          React.createElement('iframe', { className: 'gfycat',
-	            src: "https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name],
-	            frameBorder: '0',
-	            scrolling: 'no' })
-	        ),
-	        React.createElement(
-	          Col,
-	          { md: 2, className: 'overall-stats' },
-	          React.createElement('br', null),
-	          React.createElement(
-	            'span',
-	            null,
-	            'Win rate: ' + state.winrate + '%'
+	            Row,
+	            { className: 'selected-hero-name-wrapper' },
+	            React.createElement(
+	              'span',
+	              { id: 'selected-hero-name' },
+	              this.props.hero.name
+	            )
 	          ),
 	          React.createElement('br', null),
 	          React.createElement(
-	            'span',
+	            Row,
 	            null,
-	            'Wins: ' + gamesWon
-	          ),
-	          React.createElement('br', null),
-	          React.createElement(
-	            'span',
-	            null,
-	            'Losses: ' + (state.games_played - gamesWon)
-	          ),
-	          React.createElement('br', null),
-	          React.createElement(
-	            'span',
-	            null,
-	            'Total games: ' + state.games_played
+	            React.createElement(
+	              Col,
+	              { md: 6 },
+	              React.createElement('iframe', { className: 'gfycat',
+	                src: "https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name],
+	                frameBorder: '0',
+	                scrolling: 'no' })
+	            ),
+	            React.createElement(
+	              Col,
+	              { md: 3, className: 'overall-stats' },
+	              React.createElement(
+	                'span',
+	                null,
+	                'WIN RATE'
+	              ),
+	              React.createElement('br', null),
+	              React.createElement(
+	                'span',
+	                null,
+	                'WINS'
+	              ),
+	              React.createElement('br', null),
+	              React.createElement(
+	                'span',
+	                null,
+	                'LOSSES'
+	              ),
+	              React.createElement('br', null),
+	              React.createElement(
+	                'span',
+	                null,
+	                'GAMES'
+	              )
+	            ),
+	            this.renderStats()
 	          )
 	        ),
 	        React.createElement(Col, { md: 4 })
@@ -59744,6 +59802,11 @@
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: opponents.slice(), barWidth: 100, maxWidth: 230, initial: false })
 	        )
+	      ),
+	      React.createElement(
+	        Row,
+	        { className: 'wiki-wrapper' },
+	        React.createElement('iframe', { className: 'wiki', src: "http://www.dota2.com/hero/" + wikiName, frameBorder: '0' })
 	      )
 	    );
 	  }
@@ -59763,6 +59826,7 @@
 	    OpenMatchDetails = __webpack_require__(514),
 	    MatchStore = __webpack_require__(221),
 	    ApiActions = __webpack_require__(246);
+	LoadingDots = __webpack_require__(534);
 
 	var OpenMatch = React.createClass({
 	  displayName: 'OpenMatch',
@@ -59839,13 +59903,7 @@
 	  renderItems: function (items) {
 	    var that = this;
 	    if (items.length == 0) {
-	      return React.createElement(
-	        'div',
-	        { className: 'spinner' },
-	        React.createElement('div', { className: 'bounce1' }),
-	        React.createElement('div', { className: 'bounce2' }),
-	        React.createElement('div', { className: 'bounce3' })
-	      );
+	      return React.createElement(LoadingDots, null);
 	    } else {
 	      return React.createElement(
 	        'ul',
@@ -60636,6 +60694,28 @@
 	});
 
 	module.exports = Spinner;
+
+/***/ },
+/* 534 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var LoadingDots = React.createClass({
+	  displayName: "LoadingDots",
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "spinner" },
+	      React.createElement("div", { className: "bounce1" }),
+	      React.createElement("div", { className: "bounce2" }),
+	      React.createElement("div", { className: "bounce3" })
+	    );
+	  }
+	});
+
+	module.exports = LoadingDots;
 
 /***/ }
 /******/ ]);

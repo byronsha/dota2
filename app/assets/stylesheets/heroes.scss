@@ -20,7 +20,7 @@
 }
 
 .selected-hero-stats span {
-  font-size: .8vw;
+  font-size: 14px;
 }
 
 .selected-hero-stats h2 {
@@ -31,8 +31,13 @@
   margin-top: -20px;
 }
 
+.overall-stats {
+  padding-top: 25px;
+}
+
 .overall-stats span {
-  font-size: .9vw;
+  font-size: 17px;
+  font-weight: 400;
 }
 
 #selected-hero-chart {

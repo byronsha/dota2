@@ -6,6 +6,7 @@ var React = require('react'),
     OpenMatchDetails = require('./open_match_details.jsx'),
     MatchStore = require('../../stores/match_store.js'),
     ApiActions = require('../../actions/api_actions.js');
+    LoadingDots = require('../heroes/loading_dots.jsx');
 
 var OpenMatch = React.createClass({
   getInitialState: function () {
@@ -81,11 +82,7 @@ var OpenMatch = React.createClass({
     var that = this;
     if (items.length == 0) {
       return (
-        <div className="spinner">
-          <div className="bounce1"></div>
-          <div className="bounce2"></div>
-          <div className="bounce3"></div>
-        </div>
+        <LoadingDots/>
       )
     } else {
       return (

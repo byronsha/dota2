@@ -5,6 +5,7 @@ var React = require('react'),
     TimeUtil = require('../../util/time_util.js'),
     GamesWithOtherHeroes = require('./games_with_other_heroes.jsx'),
     WinratesWithOtherHeroes = require('./winrates_with_other_heroes.jsx'),
+    LoadingDots = require('./loading_dots.jsx'),
     Row = require('react-bootstrap').Row,
     Col = require('react-bootstrap').Col,
     GfycatNames = require('../../constants/gfycat_names.js');
@@ -36,32 +37,69 @@ var SelectedHeroStats = React.createClass({
     }
   },
 
+  renderStats: function () {
+    var state = this.state.heroStats;
+    var gamesWon = state.radiant_wins + state.dire_wins;
+
+    if (typeof state.winrate == "undefined") {
+      return (
+        <Col md={3} className="overall-stats">
+          <LoadingDots/>
+        </Col>
+      )
+    } else {
+      return (
+        <Col md={3} className="overall-stats">
+          <span>{state.winrate + '%'}</span><br/>
+          <span>{gamesWon}</span><br/>
+          <span>{state.games_played - gamesWon}</span><br/>
+          <span>{state.games_played}</span>
+        </Col>
+      )
+    }
+  },
+
   render: function () {
     var state = this.state.heroStats;
     var url = "http://cdn.dota2.com/apps/dota2/images/items/";
     var allies = state.allied_win_loss || [];
     var opponents = state.versus_win_loss || [];
     var gamesWon = state.radiant_wins + state.dire_wins;
+    var wikiName = this.props.hero.name;
+
+    wikiName = wikiName.replace(/\s/,"_");
 
     return (
       <Row>
         <Row className="selected-hero-stats">
           <Col md={4}/>
-          <Col md={2}>
-            <h2 className="section-title">{this.props.hero.name}</h2>
-            <iframe className="gfycat"
-              src={"https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name]}
-              frameBorder="0"
-              scrolling="no">
-            </iframe>
+
+          <Col md={4}>
+            <Row className="selected-hero-name-wrapper">
+              <span id="selected-hero-name">{this.props.hero.name}</span>
+            </Row><br/>
+
+            <Row>
+              <Col md={6}>
+                <iframe className="gfycat"
+                  src={"https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name]}
+                  frameBorder="0"
+                  scrolling="no">
+                </iframe>
+              </Col>
+
+              <Col md={3} className="overall-stats">
+                <span>{'WIN RATE'}</span><br/>
+                <span>{'WINS'}</span><br/>
+                <span>{'LOSSES'}</span><br/>
+                <span>{'GAMES'}</span>
+              </Col>
+
+              {this.renderStats()}
+            </Row>
+
           </Col>
 
-          <Col md={2} className="overall-stats">
-            <br/><span>{'Win rate: ' + state.winrate + '%'}</span><br/>
-            <span>{'Wins: ' + gamesWon}</span><br/>
-            <span>{'Losses: ' + (state.games_played - gamesWon)}</span><br/>
-            <span>{'Total games: ' + state.games_played}</span>
-          </Col>
           <Col md={4}/>
         </Row>
 
@@ -87,6 +125,10 @@ var SelectedHeroStats = React.createClass({
             <h3 className="chart-header">WIN RATE AGAINST:</h3>
             <WinratesWithOtherHeroes heroes={opponents.slice()} barWidth={100} maxWidth={230} initial={false}/>
           </Col>
+        </Row>
+
+        <Row className="wiki-wrapper">
+          <iframe className="wiki" src={"http://www.dota2.com/hero/" + wikiName} frameBorder="0"></iframe>
         </Row>
       </Row>
     )
