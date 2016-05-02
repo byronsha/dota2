@@ -50,30 +50,30 @@ var Match = React.createClass({
 
     return (
       <Row className="match-row" onClick={this.changeOpenMatch}>
-        <Col md={5}>
-          <Col id="match-stats-column" md={3}>
+        <Col md={5} sm={5} xs={5}>
+          <Col id="match-stats-column" md={3} sm={3} xs={3}>
             <span className="gold">{match.steam_match_id}</span><br/>
             <span>{TimeUtil.timeAgo(match.start_time)}</span>
           </Col>
 
-          <Col id="match-stats-column" md={3}>
+          <Col id="match-stats-column" md={3} sm={3} xs={3}>
             <span className="blue">{match.mode}</span><br/>
             <span className="grey">{match.match_type === "Public Matchmaking" ? "Normal" : match.match_type}</span>
           </Col>
 
-          <Col id="match-stats-column" md={3}>
+          <Col id="match-stats-column" md={3} sm={3} xs={3}>
             {this.winner()}<br/>
-            <span className="grey">{Clusters[match.cluster]}</span>
+          <span className="grey">{typeof Clusters[match.cluster] == "undefined" ? match.cluster : Clusters[match.cluster]}</span>
           </Col>
 
-          <Col id="match-stats-column" md={3}>
+          <Col id="match-stats-column" md={3} sm={3} xs={3}>
             <span className="grey">{TimeUtil.format(match.duration)}</span>
             <DurationBar duration={match.duration} xScale={this.props.xScale}/>
           </Col>
         </Col>
 
-        <Col md={7}>
-          <Col id="match-stats-column" md={6}>
+        <Col md={7} sm={7}>
+          <Col id="match-stats-column" md={6} sm={6} xs={6}>
             <ul className="horizontal">
               {
                 radiant.map(function(player, idx) {
@@ -87,7 +87,7 @@ var Match = React.createClass({
             </ul>
           </Col>
 
-          <Col id="match-stats-column" md={6}>
+          <Col id="match-stats-column" md={6} sm={6} xs={6}>
             <ul className="horizontal">
               {
                 dire.map(function(player, idx) {

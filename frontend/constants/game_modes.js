@@ -1,5 +1,5 @@
 module.exports = {
-  0: "All",
+  0: "Mode",
   1: "All Pick",
   2: "Captain's Mode",
   3: "Random Draft",

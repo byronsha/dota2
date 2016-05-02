@@ -110,19 +110,19 @@ var OpenMatch = React.createClass({
       return (
         <Row onClick={this.props.close} className="match-open fade-in" id={match.winner + "-win"}>
           <h2 className="section-title">{'MATCH ' + match.steam_match_id}</h2>
-          <Col md={5}>
+          <Col md={5} sm={5}>
             {
               radiant.map(function(player, idx) {
                 var items = that.getPlayerItems(player);
                 return (
                   <Row key={idx}>
-                    <Col className="radiant-portraits" md={3}>
+                    <Col className="radiant-portraits" md={3} sm={3}>
                       <div className={heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "radiant-highlighted-open"}>
                         <img width="65px" height="65px" src={url + 'heroes/' + player.hero_image_url + '_vert.jpg'}></img>
                       </div>
                     </Col>
 
-                    <Col md={6}>
+                    <Col md={6} sm={6}>
                       <div className="pad-top">
                         <div>
                           <span className="radiant-hero-name">{player.hero_name}</span>
@@ -132,7 +132,7 @@ var OpenMatch = React.createClass({
                       </div>
                     </Col>
 
-                    <Col md={3}>
+                    <Col md={3} sm={3}>
                       <div className="pad-top">
                         <span className="green">{player.kills + '/' + player.deaths + '/' + player.assists}</span><br/>
                         <span>{player.last_hits + '/' + player.denies}</span>
@@ -144,24 +144,24 @@ var OpenMatch = React.createClass({
             }
           </Col>
 
-          <Col md={2}>
+          <Col md={2} sm={2}>
             <OpenMatchDetails match={match}/>
           </Col>
 
-          <Col md={5}>
+          <Col md={5} sm={5}>
             {
               dire.map(function(player, idx) {
                 var items = that.getPlayerItems(player);
                 return (
                   <Row key={idx}>
-                    <Col md={3}>
+                    <Col md={3} sm={3}>
                       <div className="float-right pad-top">
                         <span className="red">{player.kills + '/' + player.deaths + '/' + player.assists}</span><br/>
                         <span className="float-right">{player.last_hits + '/' + player.denies}</span>
                       </div>
                     </Col>
 
-                    <Col md={6}>
+                    <Col md={6} sm={6}>
                       <div className="pad-top">
                         <div>
                           <span className="gold">{"Lvl " + player.level}</span>
@@ -171,7 +171,7 @@ var OpenMatch = React.createClass({
                       </div>
                     </Col>
 
-                    <Col md={3}>
+                    <Col md={3} sm={3}>
                       <div className={heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "dire-highlighted-open"}>
                         <img width="65px" height="65px" src={url + 'heroes/' + player.hero_image_url + '_vert.jpg'}></img>
                       </div>

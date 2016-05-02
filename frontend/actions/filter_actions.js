@@ -8,6 +8,12 @@ var FilterActions = {
       filterParams: filterParams
     });
   },
+  setRegionFilter: function (filterParams) {
+    Dispatcher.dispatch({
+      actionType: Constants.SET_REGION_FILTER,
+      filterParams: filterParams
+    });
+  },
   setHeroFilter: function (filterParams) {
     Dispatcher.dispatch({
       actionType: Constants.SET_HERO_FILTER,

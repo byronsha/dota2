@@ -3,6 +3,7 @@ class Match < ActiveRecord::Base
 
   def self.find_by_filters(filters)
     mode = filters["mode"] == "0" ? nil : filters["mode"].to_i
+    region = filters["region"] == "0" ? nil : filters["region"]
 
     hero_ids = filters["heroes"].map(&:to_i)
     radiant_ids = filters["radiant"].map(&:to_i)
@@ -12,6 +13,11 @@ class Match < ActiveRecord::Base
 
     if mode
       match = match.where('mode_id = ?', mode)
+    end
+
+
+    if region
+      match = match.where('cluster IN (?)', region)
     end
 
     if !hero_ids.empty?
@@ -81,7 +87,7 @@ class Match < ActiveRecord::Base
   def self.fetch_from_api
     api = Dota.api
 
-    matches = api.matches(mode_id: 1, skill_level: 3, min_players: 10, limit: 150)
+    matches = api.matches(mode_id: 1, skill_level: 3, min_players: 10, limit: 300)
     @match_ids = []
     @match_details = []
 
@@ -104,7 +110,7 @@ class Match < ActiveRecord::Base
             mode: Dota::API::Match::MODES[match_detail["game_mode"]],
             mode_id: match_detail["game_mode"],
             sequence: match_detail["match_seq_num"],
-            season: "6.86",
+            season: "6.87",
             cluster: match_detail["cluster"],
             starts_at: match_detail["start_time"],
             first_blood: match_detail["first_blood_time"],

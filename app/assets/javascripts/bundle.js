@@ -24742,7 +24742,7 @@
 	      React.createElement(Navbar, null),
 	      React.createElement(
 	        'div',
-	        { className: 'container', id: 'app' },
+	        { id: 'app' },
 	        this.props.children
 	      )
 	    );
@@ -34414,7 +34414,6 @@
 	    FilterStore = __webpack_require__(245),
 	    ApiActions = __webpack_require__(246),
 	    FilterActions = __webpack_require__(248),
-	    ModeFilter = __webpack_require__(493),
 	    MatchListHeader = __webpack_require__(500),
 	    MatchList = __webpack_require__(495),
 	    HeroSelector = __webpack_require__(510),
@@ -34473,7 +34472,7 @@
 	      return React.createElement(
 	        'div',
 	        { className: 'recent-matches' },
-	        React.createElement(MatchListHeader, null),
+	        React.createElement(MatchListHeader, { filters: this.state.filters }),
 	        React.createElement(MatchList, { matches: this.state.matches, filters: this.state.filters, loading: this.state.loading })
 	      );
 	    } else if (this.state.tab == "STATS") {
@@ -34489,7 +34488,7 @@
 	    var hero = HeroStore.findById(this.state.filters.heroes[this.state.filters.heroes.length - 1]);
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'container', id: 'matches-main' },
 	      React.createElement(
 	        Row,
 	        { className: 'sections' },
@@ -41332,7 +41331,8 @@
 	  ALL_ITEMS_RECEIVED: "ALL_ITEMS_RECEIVED",
 	  ALL_ABILITIES_RECEIVED: "ALL_ABILITIES_RECEIVED",
 
-	  SET_GAME_FILTER: "SET_MODE_FILTER",
+	  SET_MODE_FILTER: "SET_MODE_FILTER",
+	  SET_REGION_FILTER: "SET_REGION_FILTER",
 	  SET_HERO_FILTER: "SET_HERO_FILTER",
 	  REMOVE_HERO_FILTER: "REMOVE_HERO_FILTER",
 	  RESET_ALL_FILTERS: "RESET_ALL_FILTERS",
@@ -41400,6 +41400,7 @@
 
 	var _filters = {
 	  "mode": "0",
+	  "region": "0",
 	  "heroes": [],
 	  "radiant": [],
 	  "dire": []
@@ -41408,6 +41409,7 @@
 	var resetAllFilters = function () {
 	  _filters = {
 	    "mode": "0",
+	    "region": "0",
 	    "heroes": [],
 	    "radiant": [],
 	    "dire": []
@@ -41415,6 +41417,10 @@
 	};
 
 	var receiveModeFilter = function (filterParams) {
+	  _filters[filterParams.filter] = filterParams.value;
+	};
+
+	var receiveRegionFilter = function (filterParams) {
 	  _filters[filterParams.filter] = filterParams.value;
 	};
 
@@ -41442,6 +41448,10 @@
 	      break;
 	    case Constants.SET_MODE_FILTER:
 	      receiveModeFilter(payload.filterParams);
+	      FilterStore.__emitChange();
+	      break;
+	    case Constants.SET_REGION_FILTER:
+	      receiveRegionFilter(payload.filterParams);
 	      FilterStore.__emitChange();
 	      break;
 	    case Constants.SET_HERO_FILTER:
@@ -41606,6 +41616,12 @@
 	  setModeFilter: function (filterParams) {
 	    Dispatcher.dispatch({
 	      actionType: Constants.SET_MODE_FILTER,
+	      filterParams: filterParams
+	    });
+	  },
+	  setRegionFilter: function (filterParams) {
+	    Dispatcher.dispatch({
+	      actionType: Constants.SET_REGION_FILTER,
 	      filterParams: filterParams
 	    });
 	  },
@@ -58604,7 +58620,7 @@
 
 	    return React.createElement(
 	      DropdownButton,
-	      { onSelect: this.selectMode, bsStyle: 'danger', title: GameModes[this.props.mode], id: 'input-dropdown-addon' },
+	      { onSelect: this.selectMode, title: GameModes[this.props.mode], id: 'mode-filter' },
 	      Object.keys(GameModes).map(function (modeId, idx) {
 	        return React.createElement(
 	          MenuItem,
@@ -58623,7 +58639,7 @@
 /***/ function(module, exports) {
 
 	module.exports = {
-	  0: "All",
+	  0: "Mode",
 	  1: "All Pick",
 	  2: "Captain's Mode",
 	  3: "Random Draft",
@@ -58790,10 +58806,10 @@
 	      { className: 'match-row', onClick: this.changeOpenMatch },
 	      React.createElement(
 	        Col,
-	        { md: 5 },
+	        { md: 5, sm: 5, xs: 5 },
 	        React.createElement(
 	          Col,
-	          { id: 'match-stats-column', md: 3 },
+	          { id: 'match-stats-column', md: 3, sm: 3, xs: 3 },
 	          React.createElement(
 	            'span',
 	            { className: 'gold' },
@@ -58808,7 +58824,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { id: 'match-stats-column', md: 3 },
+	          { id: 'match-stats-column', md: 3, sm: 3, xs: 3 },
 	          React.createElement(
 	            'span',
 	            { className: 'blue' },
@@ -58823,18 +58839,18 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { id: 'match-stats-column', md: 3 },
+	          { id: 'match-stats-column', md: 3, sm: 3, xs: 3 },
 	          this.winner(),
 	          React.createElement('br', null),
 	          React.createElement(
 	            'span',
 	            { className: 'grey' },
-	            Clusters[match.cluster]
+	            typeof Clusters[match.cluster] == "undefined" ? match.cluster : Clusters[match.cluster]
 	          )
 	        ),
 	        React.createElement(
 	          Col,
-	          { id: 'match-stats-column', md: 3 },
+	          { id: 'match-stats-column', md: 3, sm: 3, xs: 3 },
 	          React.createElement(
 	            'span',
 	            { className: 'grey' },
@@ -58845,10 +58861,10 @@
 	      ),
 	      React.createElement(
 	        Col,
-	        { md: 7 },
+	        { md: 7, sm: 7 },
 	        React.createElement(
 	          Col,
-	          { id: 'match-stats-column', md: 6 },
+	          { id: 'match-stats-column', md: 6, sm: 6, xs: 6 },
 	          React.createElement(
 	            'ul',
 	            { className: 'horizontal' },
@@ -58863,7 +58879,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { id: 'match-stats-column', md: 6 },
+	          { id: 'match-stats-column', md: 6, sm: 6, xs: 6 },
 	          React.createElement(
 	            'ul',
 	            { className: 'horizontal' },
@@ -58954,8 +58970,10 @@
 /***/ function(module, exports) {
 
 	module.exports = {
+	  0: "Region",
 	  111: "US West",
 	  112: "US West",
+	  113: "US West",
 	  114: "US West",
 	  121: "US East",
 	  122: "US East",
@@ -58967,7 +58985,11 @@
 	  134: "Europe West",
 	  135: "Europe West",
 	  136: "Europe West",
+	  137: "Europe West",
+	  138: "Europe West",
+	  141: "South Korea",
 	  142: "South Korea",
+	  144: "South Korea",
 	  143: "South Korea",
 	  145: "South Korea",
 	  151: "SE Asia",
@@ -58977,28 +58999,40 @@
 	  155: "SE Asia",
 	  156: "SE Asia",
 	  161: "China",
+	  162: "China",
 	  163: "China",
 	  171: "Australia",
+	  172: "Australia",
+	  173: "Australia",
 	  181: "Russia",
 	  182: "Russia",
 	  183: "Russia",
 	  184: "Russia",
+	  185: "Russia",
+	  186: "Russia",
 	  187: "Russia",
+	  188: "Russia",
 	  191: "Europe East",
 	  192: "Europe East",
+	  193: "Europe East",
+	  194: "Europe East",
 	  200: "South America",
+	  201: "South America",
+	  202: "South America",
+	  203: "South America",
 	  204: "South America",
 	  211: "South Africa",
 	  212: "South Africa",
 	  213: "South Africa",
-	  221: "China ",
+	  221: "China",
 	  222: "China",
 	  223: "China",
 	  224: "China",
 	  225: "China",
 	  226: "China",
 	  227: "China",
-	  231: "China"
+	  231: "China",
+	  251: "China"
 	};
 
 /***/ },
@@ -59030,6 +59064,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
+	    ModeFilter = __webpack_require__(493),
+	    RegionFilter = __webpack_require__(535),
 	    Row = __webpack_require__(251).Row,
 	    Col = __webpack_require__(251).Col;
 
@@ -59042,10 +59078,10 @@
 	      { className: 'list-header' },
 	      React.createElement(
 	        Col,
-	        { md: 5 },
+	        { md: 5, sm: 5 },
 	        React.createElement(
 	          Col,
-	          { id: 'match-stats-column', md: 3 },
+	          { id: 'match-stats-column', md: 3, sm: 3 },
 	          React.createElement(
 	            'span',
 	            { className: 'matches-column-header' },
@@ -59054,25 +59090,17 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { id: 'match-stats-column', md: 3 },
-	          React.createElement(
-	            'span',
-	            { className: 'matches-column-header' },
-	            'Mode'
-	          )
+	          { id: 'match-stats-column', md: 3, sm: 3 },
+	          React.createElement(ModeFilter, { mode: this.props.filters["mode"] })
 	        ),
 	        React.createElement(
 	          Col,
-	          { id: 'match-stats-column', md: 3 },
-	          React.createElement(
-	            'span',
-	            { className: 'matches-column-header' },
-	            'Result'
-	          )
+	          { id: 'match-stats-column', md: 3, sm: 3 },
+	          React.createElement(RegionFilter, { region: this.props.filters["region"] })
 	        ),
 	        React.createElement(
 	          Col,
-	          { id: 'match-stats-column', md: 3 },
+	          { id: 'match-stats-column', md: 3, sm: 3 },
 	          React.createElement(
 	            'span',
 	            { className: 'matches-column-header' },
@@ -59082,10 +59110,10 @@
 	      ),
 	      React.createElement(
 	        Col,
-	        { md: 7 },
+	        { md: 7, sm: 7 },
 	        React.createElement(
 	          Col,
-	          { id: 'match-stats-column', md: 6 },
+	          { id: 'match-stats-column', md: 6, sm: 6 },
 	          React.createElement(
 	            'span',
 	            { className: 'matches-column-header' },
@@ -59094,7 +59122,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { id: 'match-stats-column', md: 6 },
+	          { id: 'match-stats-column', md: 6, sm: 6 },
 	          React.createElement(
 	            'span',
 	            { className: 'matches-column-header' },
@@ -59107,6 +59135,8 @@
 	});
 
 	module.exports = MatchListHeader;
+
+	// <Col id="match-stats-column" md={3} sm={3}><span className="matches-column-header">Mode</span></Col>
 
 /***/ },
 /* 501 */,
@@ -59650,13 +59680,14 @@
 	    if (typeof state.winrate == "undefined") {
 	      return React.createElement(
 	        Col,
-	        { md: 3, className: 'overall-stats' },
+	        { md: 3, sm: 3, xs: 3, className: 'overall-stats' },
+	        React.createElement('br', null),
 	        React.createElement(LoadingDots, null)
 	      );
 	    } else {
 	      return React.createElement(
 	        Col,
-	        { md: 3, className: 'overall-stats' },
+	        { md: 3, sm: 3, xs: 3, className: 'overall-stats' },
 	        React.createElement(
 	          'span',
 	          null,
@@ -59700,10 +59731,10 @@
 	      React.createElement(
 	        Row,
 	        { className: 'selected-hero-stats' },
-	        React.createElement(Col, { md: 4 }),
+	        React.createElement(Col, { md: 4, sm: 4, xs: 4 }),
 	        React.createElement(
 	          Col,
-	          { md: 4 },
+	          { md: 4, sm: 4, xs: 4 },
 	          React.createElement(
 	            Row,
 	            { className: 'selected-hero-name-wrapper' },
@@ -59719,7 +59750,7 @@
 	            null,
 	            React.createElement(
 	              Col,
-	              { md: 6 },
+	              { md: 6, sm: 6, xs: 6 },
 	              React.createElement('iframe', { className: 'gfycat',
 	                src: "https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name],
 	                frameBorder: '0',
@@ -59727,7 +59758,7 @@
 	            ),
 	            React.createElement(
 	              Col,
-	              { md: 3, className: 'overall-stats' },
+	              { md: 3, sm: 3, xs: 3, className: 'overall-stats' },
 	              React.createElement(
 	                'span',
 	                null,
@@ -59755,7 +59786,7 @@
 	            this.renderStats()
 	          )
 	        ),
-	        React.createElement(Col, { md: 4 })
+	        React.createElement(Col, { md: 4, sm: 4, xs: 4 })
 	      ),
 	      React.createElement('br', null),
 	      React.createElement('br', null),
@@ -59764,7 +59795,7 @@
 	        { className: 'selected-hero-stats' },
 	        React.createElement(
 	          Col,
-	          { md: 3, id: 'selected-hero-chart' },
+	          { md: 3, sm: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
 	            { className: 'chart-header' },
@@ -59774,7 +59805,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 3, id: 'selected-hero-chart' },
+	          { md: 3, sm: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
 	            { className: 'chart-header' },
@@ -59784,7 +59815,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 3, id: 'selected-hero-chart' },
+	          { md: 3, sm: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
 	            { className: 'chart-header' },
@@ -59794,7 +59825,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 3, id: 'selected-hero-chart' },
+	          { md: 3, sm: 6, id: 'selected-hero-chart' },
 	          React.createElement(
 	            'h3',
 	            { className: 'chart-header' },
@@ -59805,8 +59836,12 @@
 	      ),
 	      React.createElement(
 	        Row,
-	        { className: 'wiki-wrapper' },
-	        React.createElement('iframe', { className: 'wiki', src: "http://www.dota2.com/hero/" + wikiName, frameBorder: '0' })
+	        null,
+	        React.createElement(
+	          'div',
+	          { className: 'wiki-wrapper' },
+	          React.createElement('iframe', { className: 'wiki', src: "http://www.dota2.com/hero/" + wikiName, frameBorder: '0' })
+	        )
 	      )
 	    );
 	  }
@@ -59939,7 +59974,7 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 5 },
+	          { md: 5, sm: 5 },
 	          radiant.map(function (player, idx) {
 	            var items = that.getPlayerItems(player);
 	            return React.createElement(
@@ -59947,7 +59982,7 @@
 	              { key: idx },
 	              React.createElement(
 	                Col,
-	                { className: 'radiant-portraits', md: 3 },
+	                { className: 'radiant-portraits', md: 3, sm: 3 },
 	                React.createElement(
 	                  'div',
 	                  { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "radiant-highlighted-open" },
@@ -59956,7 +59991,7 @@
 	              ),
 	              React.createElement(
 	                Col,
-	                { md: 6 },
+	                { md: 6, sm: 6 },
 	                React.createElement(
 	                  'div',
 	                  { className: 'pad-top' },
@@ -59979,7 +60014,7 @@
 	              ),
 	              React.createElement(
 	                Col,
-	                { md: 3 },
+	                { md: 3, sm: 3 },
 	                React.createElement(
 	                  'div',
 	                  { className: 'pad-top' },
@@ -60001,12 +60036,12 @@
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 2 },
+	          { md: 2, sm: 2 },
 	          React.createElement(OpenMatchDetails, { match: match })
 	        ),
 	        React.createElement(
 	          Col,
-	          { md: 5 },
+	          { md: 5, sm: 5 },
 	          dire.map(function (player, idx) {
 	            var items = that.getPlayerItems(player);
 	            return React.createElement(
@@ -60014,7 +60049,7 @@
 	              { key: idx },
 	              React.createElement(
 	                Col,
-	                { md: 3 },
+	                { md: 3, sm: 3 },
 	                React.createElement(
 	                  'div',
 	                  { className: 'float-right pad-top' },
@@ -60033,7 +60068,7 @@
 	              ),
 	              React.createElement(
 	                Col,
-	                { md: 6 },
+	                { md: 6, sm: 6 },
 	                React.createElement(
 	                  'div',
 	                  { className: 'pad-top' },
@@ -60056,7 +60091,7 @@
 	              ),
 	              React.createElement(
 	                Col,
-	                { md: 3 },
+	                { md: 3, sm: 3 },
 	                React.createElement(
 	                  'div',
 	                  { className: heroes.indexOf(player.hero_id) === -1 ? "unhighlighted" : "dire-highlighted-open" },
@@ -60591,14 +60626,14 @@
 	    if (id == 0) {
 	      return React.createElement(
 	        Col,
-	        { md: 2, className: 'hero-slot', key: idx },
+	        { md: 2, sm: 2, xs: 2, className: 'hero-slot', key: idx },
 	        React.createElement('div', { className: 'gfycat-wrapper' })
 	      );
 	    } else {
 	      var hero = HeroStore.findById(id);
 	      return React.createElement(
 	        Col,
-	        { md: 2, className: 'hero-slot', key: idx },
+	        { md: 2, sm: 2, xs: 2, className: 'hero-slot', key: idx },
 	        React.createElement(
 	          'div',
 	          { className: 'gfycat-wrapper' },
@@ -60716,6 +60751,65 @@
 	});
 
 	module.exports = LoadingDots;
+
+/***/ },
+/* 535 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    FilterStore = __webpack_require__(245),
+	    FilterActions = __webpack_require__(248),
+	    GameModes = __webpack_require__(494),
+	    Clusters = __webpack_require__(498),
+	    Regions = __webpack_require__(536),
+	    DropdownButton = __webpack_require__(251).DropdownButton,
+	    MenuItem = __webpack_require__(251).MenuItem;
+
+	var RegionFilter = React.createClass({
+	  displayName: 'RegionFilter',
+
+	  selectRegion: function (e, region) {
+	    var filterParams = { filter: "region", value: region };
+	    FilterActions.setRegionFilter(filterParams);
+	  },
+
+	  render: function () {
+	    var that = this;
+
+	    return React.createElement(
+	      DropdownButton,
+	      { onSelect: this.selectRegion, title: Clusters[this.props.region[0]], id: 'mode-filter' },
+	      Object.keys(Regions).map(function (region, idx) {
+	        return React.createElement(
+	          MenuItem,
+	          { key: idx, eventKey: Regions[region] },
+	          region
+	        );
+	      })
+	    );
+	  }
+	});
+
+	module.exports = RegionFilter;
+
+/***/ },
+/* 536 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  "Region": [0],
+	  "US West": [111, 112, 113, 114],
+	  "US East": [121, 122, 123, 124],
+	  "Europe West": [131, 132, 133, 134, 135, 136, 137, 138],
+	  "South Korea": [141, 142, 143, 144, 145],
+	  "SE Asia": [151, 152, 153, 154, 155, 156],
+	  "China": [161, 162, 163, 221, 222, 223, 224, 225, 226, 227, 231, 251],
+	  "Australia": [171, 172, 173],
+	  "Russia": [181, 182, 183, 184, 185, 186, 187, 188],
+	  "Europe East": [191, 192, 193, 194],
+	  "South America": [200, 201, 202, 203, 204],
+	  "South Africa": [211, 212, 213]
+	};
 
 /***/ }
 /******/ ]);

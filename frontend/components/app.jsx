@@ -7,7 +7,7 @@ var App = React.createClass({
     return (
       <div>
         <Navbar/>
-        <div className="container" id="app">
+        <div id="app">
           {this.props.children}
         </div>
       </div>

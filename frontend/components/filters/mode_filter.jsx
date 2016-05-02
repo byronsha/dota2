@@ -15,7 +15,7 @@ var ModeFilter = React.createClass({
     var that = this;
 
     return (
-      <DropdownButton onSelect={this.selectMode} bsStyle="danger" title={GameModes[this.props.mode]} id="input-dropdown-addon">
+      <DropdownButton onSelect={this.selectMode} title={GameModes[this.props.mode]} id="mode-filter">
           {
             Object.keys(GameModes).map(function (modeId, idx) {
               return (<MenuItem key={idx} eventKey={modeId}>{GameModes[modeId]}</MenuItem>)

@@ -18,14 +18,14 @@ var SelectedHeroes = React.createClass({
   renderHero: function(id, idx) {
     if (id == 0) {
       return (
-        <Col md={2} className="hero-slot" key={idx}>
+        <Col md={2} sm={2} xs={2} className="hero-slot" key={idx}>
           <div className="gfycat-wrapper"></div>
         </Col>
       )
     } else {
       var hero = HeroStore.findById(id);
       return (
-        <Col md={2} className="hero-slot" key={idx}>
+        <Col md={2} sm={2} xs={2} className="hero-slot" key={idx}>
           <div className="gfycat-wrapper">
             <iframe className="gfycat fade-in"
               src={"https://gfycat.com/ifr/" + GfycatNames[hero.name]}

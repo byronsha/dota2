@@ -43,13 +43,14 @@ var SelectedHeroStats = React.createClass({
 
     if (typeof state.winrate == "undefined") {
       return (
-        <Col md={3} className="overall-stats">
+        <Col md={3} sm={3} xs={3} className="overall-stats">
+          <br/>
           <LoadingDots/>
         </Col>
       )
     } else {
       return (
-        <Col md={3} className="overall-stats">
+        <Col md={3} sm={3} xs={3} className="overall-stats">
           <span>{state.winrate + '%'}</span><br/>
           <span>{gamesWon}</span><br/>
           <span>{state.games_played - gamesWon}</span><br/>
@@ -72,15 +73,15 @@ var SelectedHeroStats = React.createClass({
     return (
       <Row>
         <Row className="selected-hero-stats">
-          <Col md={4}/>
+          <Col md={4} sm={4} xs={4}/>
 
-          <Col md={4}>
+          <Col md={4} sm={4} xs={4}>
             <Row className="selected-hero-name-wrapper">
               <span id="selected-hero-name">{this.props.hero.name}</span>
             </Row><br/>
 
             <Row>
-              <Col md={6}>
+              <Col md={6} sm={6} xs={6}>
                 <iframe className="gfycat"
                   src={"https://gfycat.com/ifr/" + GfycatNames[this.props.hero.name]}
                   frameBorder="0"
@@ -88,7 +89,7 @@ var SelectedHeroStats = React.createClass({
                 </iframe>
               </Col>
 
-              <Col md={3} className="overall-stats">
+              <Col md={3} sm={3} xs={3} className="overall-stats">
                 <span>{'WIN RATE'}</span><br/>
                 <span>{'WINS'}</span><br/>
                 <span>{'LOSSES'}</span><br/>
@@ -100,35 +101,37 @@ var SelectedHeroStats = React.createClass({
 
           </Col>
 
-          <Col md={4}/>
+          <Col md={4} sm={4} xs={4}/>
         </Row>
 
         <br/><br/>
 
         <Row className="selected-hero-stats">
-          <Col md={3} id="selected-hero-chart">
+          <Col md={3} sm={6} id="selected-hero-chart">
             <h3 className="chart-header">GAMES WITH:</h3>
             <GamesWithOtherHeroes heroes={allies.slice()} barWidth={40} maxWidth={230} initial={false}/>
           </Col>
 
-          <Col md={3} id="selected-hero-chart">
+          <Col md={3} sm={6} id="selected-hero-chart">
             <h3 className="chart-header">GAMES AGAINST:</h3>
             <GamesWithOtherHeroes heroes={opponents.slice()} barWidth={40} maxWidth={230} initial={false}/>
           </Col>
 
-          <Col md={3} id="selected-hero-chart">
+          <Col md={3} sm={6} id="selected-hero-chart">
             <h3 className="chart-header">WIN RATE WITH:</h3>
             <WinratesWithOtherHeroes heroes={allies.slice()} barWidth={100} maxWidth={230} initial={false}/>
           </Col>
 
-          <Col md={3} id="selected-hero-chart">
+          <Col md={3} sm={6} id="selected-hero-chart">
             <h3 className="chart-header">WIN RATE AGAINST:</h3>
             <WinratesWithOtherHeroes heroes={opponents.slice()} barWidth={100} maxWidth={230} initial={false}/>
           </Col>
         </Row>
 
-        <Row className="wiki-wrapper">
-          <iframe className="wiki" src={"http://www.dota2.com/hero/" + wikiName} frameBorder="0"></iframe>
+        <Row>
+          <div className="wiki-wrapper">
+            <iframe className="wiki" src={"http://www.dota2.com/hero/" + wikiName} frameBorder="0"></iframe>
+          </div>
         </Row>
       </Row>
     )
