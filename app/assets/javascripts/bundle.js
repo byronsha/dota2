@@ -59801,7 +59801,7 @@
 	            { className: 'chart-header' },
 	            'GAMES WITH:'
 	          ),
-	          React.createElement(GamesWithOtherHeroes, { heroes: allies.slice(), barWidth: 40, maxWidth: 230, initial: false })
+	          React.createElement(GamesWithOtherHeroes, { heroes: allies.slice(), barWidth: 40, maxWidth: 225, initial: false })
 	        ),
 	        React.createElement(
 	          Col,
@@ -59811,7 +59811,7 @@
 	            { className: 'chart-header' },
 	            'GAMES AGAINST:'
 	          ),
-	          React.createElement(GamesWithOtherHeroes, { heroes: opponents.slice(), barWidth: 40, maxWidth: 230, initial: false })
+	          React.createElement(GamesWithOtherHeroes, { heroes: opponents.slice(), barWidth: 40, maxWidth: 225, initial: false })
 	        ),
 	        React.createElement(
 	          Col,
@@ -59821,7 +59821,7 @@
 	            { className: 'chart-header' },
 	            'WIN RATE WITH:'
 	          ),
-	          React.createElement(WinratesWithOtherHeroes, { heroes: allies.slice(), barWidth: 100, maxWidth: 230, initial: false })
+	          React.createElement(WinratesWithOtherHeroes, { heroes: allies.slice(), barWidth: 100, maxWidth: 225, initial: false })
 	        ),
 	        React.createElement(
 	          Col,
@@ -59831,7 +59831,7 @@
 	            { className: 'chart-header' },
 	            'WIN RATE AGAINST:'
 	          ),
-	          React.createElement(WinratesWithOtherHeroes, { heroes: opponents.slice(), barWidth: 100, maxWidth: 230, initial: false })
+	          React.createElement(WinratesWithOtherHeroes, { heroes: opponents.slice(), barWidth: 100, maxWidth: 225, initial: false })
 	        )
 	      ),
 	      React.createElement(
@@ -60502,7 +60502,7 @@
 	            { className: 'chart-header' },
 	            'GAMES PICKED:'
 	          ),
-	          React.createElement(GamesWithOtherHeroes, { heroes: this.state.gamesPlayed.slice(), barWidth: 100, maxWidth: 520, initial: true })
+	          React.createElement(GamesWithOtherHeroes, { heroes: this.state.gamesPlayed.slice(), barWidth: 100, maxWidth: 515, initial: true })
 	        ),
 	        React.createElement(
 	          Col,
@@ -60512,7 +60512,7 @@
 	            { className: 'chart-header', id: 'winrates' },
 	            'WIN RATE:'
 	          ),
-	          React.createElement(WinratesWithOtherHeroes, { heroes: this.state.winrates.slice(), barWidth: 100, maxWidth: 520, initial: true })
+	          React.createElement(WinratesWithOtherHeroes, { heroes: this.state.winrates.slice(), barWidth: 100, maxWidth: 515, initial: true })
 	        )
 	      )
 	    );

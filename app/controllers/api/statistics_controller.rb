@@ -30,8 +30,10 @@ class Api::StatisticsController < ApplicationController
       SELECT h.name, COUNT(*) as games
       FROM players p
       JOIN heros h ON p.hero_id = h.id
+      JOIN matches m on p.match_id = m.id
+      WHERE m.season = ?
       GROUP BY p.hero_id, h.name
-      ORDER BY games DESC"
+      ORDER BY games DESC", "6.87"
     ])
 
     heroes_hash = {}
@@ -48,8 +50,9 @@ class Api::StatisticsController < ApplicationController
       JOIN heros h ON p.hero_id = h.id
       JOIN matches m ON p.match_id = m.id
       WHERE p.team = m.winner
+        AND m.season = ?
       GROUP BY p.hero_id, h.name
-      ORDER BY wins DESC"
+      ORDER BY wins DESC", "6.87"
     ])
 
     heroes_hash = {}
