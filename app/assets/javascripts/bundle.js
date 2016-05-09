@@ -60776,7 +60776,7 @@
 /***/ function(module, exports) {
 
 	module.exports = {
-	  "Region": [0],
+	  "Region": "0",
 	  "US West": [111, 112, 113, 114],
 	  "US East": [121, 122, 123, 124],
 	  "Europe West": [131, 132, 133, 134, 135, 136, 137, 138],
