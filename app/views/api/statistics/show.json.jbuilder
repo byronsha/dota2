@@ -1,0 +1,8 @@
+json.id @statistics["id"]
+json.name @statistics["name"]
+json.radiant_wins @statistics["radiant_wins"]
+json.dire_wins @statistics["dire_wins"]
+json.games_played @statistics["games_played"]
+json.winrate @statistics["winrate"]
+json.allied_win_loss @statistics["allied_win_loss"]
+json.versus_win_loss @statistics["versus_win_loss"]

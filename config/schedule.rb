@@ -19,6 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 7.minutes do
+every 5.minutes do
   runner "Match.fetch_from_api", :environment => 'development'
 end

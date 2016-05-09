@@ -14,11 +14,11 @@ var ApiActions = {
   fetchAllItems: function () {
     ApiUtil.fetchAllItems(ApiActions.receiveAllItems);
   },
-  fetchHeroStats: function (heroId) {
-    ApiUtil.fetchHeroStats(ApiActions.receiveHeroStats, heroId);
+  fetchHeroStats: function (heroId, patch) {
+    ApiUtil.fetchHeroStats(ApiActions.receiveHeroStats, heroId, patch);
   },
-  fetchInitialStats: function () {
-    ApiUtil.fetchInitialStats(ApiActions.receiveInitialStats);
+  fetchInitialStats: function (patch) {
+    ApiUtil.fetchInitialStats(ApiActions.receiveInitialStats, patch);
   },
   fetchMatchDetails: function(matchId) {
     ApiUtil.fetchMatchDetails(ApiActions.receiveMatchDetails, matchId);

@@ -3,7 +3,7 @@ var React = require('react'),
     SelectedHeroStats = require('../heroes/selected_hero_stats.jsx'),
     InitialStats = require('../heroes/initial_stats.jsx');
 
-var SelectedHero = React.createClass({
+var Statistics = React.createClass({
   getHeroPlayer: function () {
     if (this.props.match) {
       var id = this.props.filters.heroes[this.props.filters.heroes.length - 1];
@@ -17,24 +17,24 @@ var SelectedHero = React.createClass({
     }
   },
 
-  renderSelectedHeroStats: function () {
+  renderStats: function () {
     var player = this.getHeroPlayer();
 
     if (typeof player == "undefined") {
-      return <InitialStats/>;
+      return <InitialStats patch={this.props.filters.patch}/>;
     } else {
       var hero = HeroStore.findById(player.hero_id);
-      return <SelectedHeroStats hero={hero} player={player} match={this.props.match}/>;
+      return <SelectedHeroStats hero={hero} player={player} match={this.props.match} patch={this.props.filters.patch}/>;
     }
   },
 
   render: function () {
     return (
       <div className="selected-hero-column">
-        {this.renderSelectedHeroStats()}
+        {this.renderStats()}
       </div>
     )
   }
 });
 
-module.exports = SelectedHero;
+module.exports = Statistics;

@@ -5,16 +5,16 @@
 }
 
 #hero-list-header {
-  padding: 5px;
+  padding: 5px 15px;
   text-transform: uppercase;
   font-size: 20px;
   font-weight: 400;
-  margin: 5px;
+  /*margin: 5px;*/
   border-top: 1px solid #808080;
   border-left: 1px solid #808080;
   border-right: 1px solid #808080;
   border-bottom: 1px solid #808080;
-  border-radius: 2px;
+  /*border-radius: 2px;*/
 
   -webkit-transition: all .2s ease-out;
      -moz-transition: all .2s ease-out;
@@ -42,7 +42,7 @@
   padding: 8px;
   height: 168px;
   margin: 5px;
-  margin-top: 15px;
+  margin-top: 25px;
   background: rgba(255,255,255,0.15);
   -webkit-box-shadow: 0 0 7px 3px #fff;
   -moz-box-shadow: 0 0 7px 3px #fff;

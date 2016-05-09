@@ -30,18 +30,20 @@ var ApiUtil = {
     })
   },
 
-  fetchHeroStats: function(callback, heroId) {
+  fetchHeroStats: function(callback, heroId, patch) {
     $.ajax({
-      url: 'api/heroes/' + heroId,
+      data: { patch: patch },
+      url: 'api/statistics/' + heroId,
       success: function (stats) {
         callback(stats);
       }
     })
   },
 
-  fetchInitialStats: function(callback) {
+  fetchInitialStats: function(callback, patch) {
     $.ajax({
       url: 'api/statistics/',
+      data: { patch: patch },
       success: function (stats) {
         callback(stats);
       }

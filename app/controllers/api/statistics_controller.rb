@@ -1,40 +1,65 @@
 class Api::StatisticsController < ApplicationController
   def index
     @statistics = {}
+    patch = params[:patch]
 
-    heroes = hero_games.keys
+    hero_games_hash = hero_games(patch)
+    heroes = hero_games_hash.keys
     @statistics["games_played"] = []
     heroes.each do |hero|
       @statistics["games_played"] << {
         hero: hero,
-        games: hero_games[hero]
+        games: hero_games_hash[hero]
       }
     end
 
-    heroes = hero_wins.keys
+    hero_wins_hash = hero_wins(patch)
+    heroes = hero_wins_hash.keys
     @statistics["winrates"] = []
     heroes.each do |hero|
       @statistics["winrates"] << {
         hero: hero,
-        wins: hero_wins[hero],
-        losses: hero_games[hero] - hero_wins[hero],
-        winrate: (hero_wins[hero].to_f / hero_games[hero].to_f * 100).round(2)
+        wins: hero_wins_hash[hero],
+        losses: hero_games_hash[hero] - hero_wins_hash[hero],
+        winrate: (hero_wins_hash[hero].to_f / hero_games_hash[hero].to_f * 100).round(2)
       }
     end
 
     @statistics["winrates"] = @statistics["winrates"].sort_by { |hero| hero[:winrate] }.reverse
   end
 
-  def hero_games
-    heroes = Player.find_by_sql(["
+  def show
+    @hero = Hero.find(params[:id])
+    @statistics = {}
+
+    @statistics["id"] = params[:id].to_i
+    @statistics["name"] = @hero.name
+    @statistics["radiant_wins"] = @hero.radiant_wins(params[:patch])
+    @statistics["dire_wins"] = @hero.dire_wins(params[:patch])
+    @statistics["games_played"] = @hero.games_played(params[:patch])
+    @statistics["winrate"] = @hero.winrate(params[:patch])
+    @statistics["allied_win_loss"] = @hero.allied_win_loss(params[:patch])
+    @statistics["versus_win_loss"] = @hero.versus_win_loss(params[:patch])
+  end
+
+  def hero_games(patch)
+    query = "
       SELECT h.name, COUNT(*) as games
       FROM players p
       JOIN heros h ON p.hero_id = h.id
       JOIN matches m on p.match_id = m.id
-      WHERE m.season = ?
+    "
+
+    if patch != "All time"
+      query += " WHERE m.season = \'" + patch + "\'"
+    end
+
+    query += "
       GROUP BY p.hero_id, h.name
-      ORDER BY games DESC", "6.87"
-    ])
+      ORDER BY games DESC
+    "
+
+    heroes = Player.find_by_sql([query])
 
     heroes_hash = {}
     heroes.each do |hero|
@@ -43,17 +68,25 @@ class Api::StatisticsController < ApplicationController
     heroes_hash
   end
 
-  def hero_wins
-    heroes = Player.find_by_sql(["
+  def hero_wins(patch)
+    query = "
       SELECT h.name, COUNT(*) as wins
       FROM players p
       JOIN heros h ON p.hero_id = h.id
       JOIN matches m ON p.match_id = m.id
       WHERE p.team = m.winner
-        AND m.season = ?
+    "
+
+    if patch != "All time"
+      query += " AND m.season = \'" + patch + "\'"
+    end
+
+    query += "
       GROUP BY p.hero_id, h.name
-      ORDER BY wins DESC", "6.87"
-    ])
+      ORDER BY wins DESC
+    "
+
+    heroes = Player.find_by_sql([query])
 
     heroes_hash = {}
     heroes.each do |hero|

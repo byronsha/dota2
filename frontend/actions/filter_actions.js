@@ -14,6 +14,12 @@ var FilterActions = {
       filterParams: filterParams
     });
   },
+  setPatchFilter: function (filterParams) {
+    Dispatcher.dispatch({
+      actionType: Constants.SET_PATCH_FILTER,
+      filterParams: filterParams
+    });
+  },
   setHeroFilter: function (filterParams) {
     Dispatcher.dispatch({
       actionType: Constants.SET_HERO_FILTER,

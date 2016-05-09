@@ -58,7 +58,7 @@ var Match = React.createClass({
 
           <Col id="match-stats-column" md={3} sm={3} xs={3}>
             <span className="blue">{match.mode}</span><br/>
-            <span className="grey">{match.match_type === "Public Matchmaking" ? "Normal" : match.match_type}</span>
+            <span className="grey">{match.match_type === "Public Matchmaking" ? "Normal" : match.match_type} {match.season}</span>
           </Col>
 
           <Col id="match-stats-column" md={3} sm={3} xs={3}>

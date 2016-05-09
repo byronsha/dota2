@@ -1,6 +1,7 @@
 var React = require('react'),
     HeroStore = require('../../stores/hero_store.js'),
     StatisticsStore = require('../../stores/statistics_store.js'),
+    FilterStore = require('../../stores/filter_store.js'),
     ApiActions = require('../../actions/api_actions.js'),
     TimeUtil = require('../../util/time_util.js'),
     GamesWithOtherHeroes = require('./games_with_other_heroes.jsx'),
@@ -12,13 +13,18 @@ var React = require('react'),
 
 var SelectedHeroStats = React.createClass({
   getInitialState: function () {
-    return { heroStats: StatisticsStore.heroStats(this.props.hero.id) }
+    return { heroStats: {} }
   },
 
   componentDidMount: function () {
     var heroId = this.props.hero.id
     this.statisticsListener = StatisticsStore.addListener(this._onChange);
-    ApiActions.fetchHeroStats(heroId);
+    ApiActions.fetchHeroStats(heroId, this.props.patch);
+  },
+
+  componentWillReceiveProps: function (nextProps) {
+    this.setState({ heroStats: {} });
+    ApiActions.fetchHeroStats(nextProps.hero.id, nextProps.patch);
   },
 
   componentWillUnmount: function () {
@@ -128,14 +134,15 @@ var SelectedHeroStats = React.createClass({
           </Col>
         </Row>
 
-        <Row>
-          <div className="wiki-wrapper">
-            <iframe className="wiki" src={"http://www.dota2.com/hero/" + wikiName} frameBorder="0"></iframe>
-          </div>
-        </Row>
       </Row>
     )
   }
 });
 
 module.exports = SelectedHeroStats;
+
+// <Row>
+//   <div className="wiki-wrapper">
+//     <iframe className="wiki" src={"http://www.dota2.com/hero/" + wikiName} frameBorder="0"></iframe>
+//   </div>
+// </Row>

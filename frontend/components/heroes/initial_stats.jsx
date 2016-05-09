@@ -16,7 +16,12 @@ var InitialStats = React.createClass({
 
   componentDidMount: function () {
     this.statisticsListener = StatisticsStore.addListener(this._onChange);
-    ApiActions.fetchInitialStats();
+    ApiActions.fetchInitialStats(this.props.patch);
+  },
+
+  componentWillReceiveProps: function (nextProps) {
+    this.setState({ gamesPlayed: [], winrates: [] });
+    ApiActions.fetchInitialStats(nextProps.patch);
   },
 
   _onChange: function () {

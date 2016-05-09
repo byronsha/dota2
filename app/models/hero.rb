@@ -6,37 +6,44 @@ class Hero < ActiveRecord::Base
     Ability.where("full_name LIKE ?", "#{name}%")
   end
 
-  def winrate
-    ((radiant_wins + dire_wins).to_f / games_played.to_f * 100).round(2)
+  def winrate(patch)
+    ((radiant_wins(patch) + dire_wins(patch)).to_f / games_played(patch).to_f * 100).round(2)
   end
 
-  def radiant_wins
-    wins_on_team("radiant")
+  def radiant_wins(patch)
+    wins_on_team("radiant", patch)
   end
 
-  def dire_wins
-    wins_on_team("dire")
+  def dire_wins(patch)
+    wins_on_team("dire", patch)
   end
 
-  def wins_on_team(team)
-    wins = Player.find_by_sql(["
+  def wins_on_team(team, patch)
+    query = "
       SELECT p.id
       FROM players p
       JOIN matches m
       ON p.match_id = m.id
       WHERE p.team = ?
       AND p.hero_id = ?
-      AND m.winner = ?",
-      team, self.id, team
-    ]).count
+      AND m.winner = ?
+    "
+
+    if patch != "All time"
+      query += " AND m.season = ?"
+      wins = Player.find_by_sql([query, team, self.id, team, patch]).count
+    else
+      wins = Player.find_by_sql([query, team, self.id, team]).count
+    end
+    wins
   end
 
-  def games_played
-    Match.has_hero(self.id).count
+  def games_played(patch)
+    Match.where("season = ?", patch).has_hero(self.id).count
   end
 
-  def allied_wins
-    wins = Player.find_by_sql(["
+  def allied_wins(patch)
+    query = "
       SELECT h2.name, COUNT(*) as wins
       FROM players p1
       JOIN players p2 ON p1.match_id = p2.match_id
@@ -47,10 +54,18 @@ class Hero < ActiveRecord::Base
         AND p1.team = p2.team
         AND p1.id <> p2.id
         AND m.winner = p1.team
+    "
+
+    if patch != "All time"
+      query += " AND m.season = \'" + patch + "\'"
+    end
+
+    query += "
       GROUP BY h1.name, h2.name
-      ORDER BY wins DESC",
-      self.id
-    ])
+      ORDER BY wins DESC
+    "
+
+    wins = Player.find_by_sql([query, self.id])
 
     wins_hash = {}
     wins.each do |win|
@@ -59,8 +74,8 @@ class Hero < ActiveRecord::Base
     wins_hash
   end
 
-  def allied_losses
-    losses = Player.find_by_sql(["
+  def allied_losses(patch)
+    query = "
       SELECT h2.name, COUNT(*) as losses
       FROM players p1
       JOIN players p2 ON p1.match_id = p2.match_id
@@ -71,10 +86,18 @@ class Hero < ActiveRecord::Base
         AND p1.team = p2.team
         AND p1.id <> p2.id
         AND m.winner <> p1.team
+    "
+
+    if patch != "All time"
+      query += " AND m.season = \'" + patch + "\'"
+    end
+
+    query += "
       GROUP BY h1.name, h2.name
-      ORDER BY losses DESC",
-      self.id
-    ])
+      ORDER BY losses DESC
+    "
+
+    losses = Player.find_by_sql([query, self.id])
 
     losses_hash = {}
     losses.each do |loss|
@@ -83,9 +106,9 @@ class Hero < ActiveRecord::Base
     losses_hash
   end
 
-  def allied_win_loss
-    wins = allied_wins
-    losses = allied_losses
+  def allied_win_loss(patch)
+    wins = allied_wins(patch)
+    losses = allied_losses(patch)
     heroes = wins.keys & losses.keys
     win_loss = []
 
@@ -104,8 +127,8 @@ class Hero < ActiveRecord::Base
     win_loss.sort_by { |ally| ally[:winrate] }.reverse
   end
 
-  def versus_wins
-    wins = Player.find_by_sql(["
+  def versus_wins(patch)
+    query = "
       SELECT h2.name, COUNT(*) as wins
       FROM players p1
       JOIN players p2 ON p1.match_id = p2.match_id
@@ -116,10 +139,18 @@ class Hero < ActiveRecord::Base
         AND p1.team <> p2.team
         AND p1.id <> p2.id
         AND m.winner = p1.team
+    "
+
+    if patch != "All time"
+      query += " AND m.season = \'" + patch + "\'"
+    end
+
+    query += "
       GROUP BY h1.name, h2.name
-      ORDER BY wins DESC",
-      self.id
-    ])
+      ORDER BY wins DESC
+    "
+
+    wins = Player.find_by_sql([query, self.id])
 
     wins_hash = {}
     wins.each do |win|
@@ -128,8 +159,8 @@ class Hero < ActiveRecord::Base
     wins_hash
   end
 
-  def versus_losses
-    losses = Player.find_by_sql(["
+  def versus_losses(patch)
+    query = "
       SELECT h2.name, COUNT(*) as losses
       FROM players p1
       JOIN players p2 ON p1.match_id = p2.match_id
@@ -140,10 +171,18 @@ class Hero < ActiveRecord::Base
         AND p1.team <> p2.team
         AND p1.id <> p2.id
         AND m.winner = p2.team
+    "
+
+    if patch != "All time"
+      query += " AND m.season = \'" + patch + "\'"
+    end
+
+    query += "
       GROUP BY h1.name, h2.name
-      ORDER BY losses DESC",
-      self.id
-    ])
+      ORDER BY losses DESC
+    "
+
+    losses = Player.find_by_sql([query, self.id])
 
     losses_hash = {}
     losses.each do |loss|
@@ -152,9 +191,9 @@ class Hero < ActiveRecord::Base
     losses_hash
   end
 
-  def versus_win_loss
-    wins = versus_wins
-    losses = versus_losses
+  def versus_win_loss(patch)
+    wins = versus_wins(patch)
+    losses = versus_losses(patch)
     heroes = wins.keys & losses.keys
     win_loss = []
 

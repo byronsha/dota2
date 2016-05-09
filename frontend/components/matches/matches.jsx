@@ -7,8 +7,9 @@ var React = require('react'),
     MatchListHeader = require('./match_list_header.jsx'),
     MatchList = require('./match_list.jsx'),
     HeroSelector = require('../heroes/hero_selector.jsx'),
-    SelectedHero = require('../heroes/selected_hero.jsx'),
+    Statistics = require('../heroes/statistics.jsx'),
     SelectedHeroes = require('../heroes/selected_heroes.jsx'),
+    PatchFilter = require('../filters/patch_filter.jsx'),
     Row = require('react-bootstrap').Row;
     Col = require('react-bootstrap').Col;
 
@@ -66,26 +67,28 @@ var Matches = React.createClass({
     } else if (this.state.tab == "STATS") {
       return (
         <div>
-          <SelectedHero heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
+          <Statistics heroes={this.state.heroes} filters={this.state.filters} match={this.state.matches[0]}/>
         </div>
       )
     }
   },
 
   render: function () {
-    var hero = HeroStore.findById(this.state.filters.heroes[this.state.filters.heroes.length - 1]);
+    var filters = this.state.filters;
+    var hero = HeroStore.findById(filters.heroes[filters.heroes.length - 1]);
+
     return (
       <div className="container" id="matches-main">
-        <Row className="sections">
+        <Row id="tab-selector">
           <span className={this.state.tab == "MATCHES" ? "selected-tab" : ""} onClick={this.selectTab}>MATCHES</span>
           <span className={this.state.tab == "STATS" ? "selected-tab" : ""} onClick={this.selectTab}>STATS</span>
-        </Row>
-        <br/>
+        </Row><br/>
 
-        <HeroSelector heroes={this.state.heroes} filters={this.state.filters} loading={this.state.loading} match={this.state.matches[0]}/>
-        <SelectedHeroes heroes={this.state.filters.heroes.slice()}/>
+        <PatchFilter patch={filters.patch}/>
 
-        <br/>
+        <HeroSelector heroes={this.state.heroes} filters={filters} loading={this.state.loading} match={this.state.matches[0]}/>
+
+        <SelectedHeroes heroes={filters.heroes.slice()}/><br/>
 
         {this.renderStatsOrMatches()}
       </div>

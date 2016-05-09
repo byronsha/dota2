@@ -6,6 +6,7 @@ var Store = require('flux/utils').Store,
 var _filters = {
   "mode": "0",
   "region": "0",
+  "patch": "All time",
   "heroes": [],
   "radiant": [],
   "dire": []
@@ -15,17 +16,14 @@ var resetAllFilters = function () {
   _filters = {
     "mode": "0",
     "region": "0",
+    "patch": "All time",
     "heroes": [],
     "radiant": [],
     "dire": []
   }
 };
 
-var receiveModeFilter = function (filterParams) {
-  _filters[filterParams.filter] = filterParams.value;
-};
-
-var receiveRegionFilter = function (filterParams) {
+var receiveFilter = function (filterParams) {
   _filters[filterParams.filter] = filterParams.value;
 };
 
@@ -52,11 +50,15 @@ FilterStore.__onDispatch = function (payload) {
       FilterStore.__emitChange();
       break;
     case Constants.SET_MODE_FILTER:
-      receiveModeFilter(payload.filterParams);
+      receiveFilter(payload.filterParams);
       FilterStore.__emitChange();
       break;
     case Constants.SET_REGION_FILTER:
-      receiveRegionFilter(payload.filterParams);
+      receiveFilter(payload.filterParams);
+      FilterStore.__emitChange();
+      break;
+    case Constants.SET_PATCH_FILTER:
+      receiveFilter(payload.filterParams);
       FilterStore.__emitChange();
       break;
     case Constants.SET_HERO_FILTER:

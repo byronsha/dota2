@@ -34417,8 +34417,9 @@
 	    MatchListHeader = __webpack_require__(500),
 	    MatchList = __webpack_require__(495),
 	    HeroSelector = __webpack_require__(510),
-	    SelectedHero = __webpack_require__(520),
+	    Statistics = __webpack_require__(538),
 	    SelectedHeroes = __webpack_require__(531),
+	    PatchFilter = __webpack_require__(537),
 	    Row = __webpack_require__(251).Row;
 	Col = __webpack_require__(251).Col;
 
@@ -34479,19 +34480,21 @@
 	      return React.createElement(
 	        'div',
 	        null,
-	        React.createElement(SelectedHero, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] })
+	        React.createElement(Statistics, { heroes: this.state.heroes, filters: this.state.filters, match: this.state.matches[0] })
 	      );
 	    }
 	  },
 
 	  render: function () {
-	    var hero = HeroStore.findById(this.state.filters.heroes[this.state.filters.heroes.length - 1]);
+	    var filters = this.state.filters;
+	    var hero = HeroStore.findById(filters.heroes[filters.heroes.length - 1]);
+
 	    return React.createElement(
 	      'div',
 	      { className: 'container', id: 'matches-main' },
 	      React.createElement(
 	        Row,
-	        { className: 'sections' },
+	        { id: 'tab-selector' },
 	        React.createElement(
 	          'span',
 	          { className: this.state.tab == "MATCHES" ? "selected-tab" : "", onClick: this.selectTab },
@@ -34504,8 +34507,9 @@
 	        )
 	      ),
 	      React.createElement('br', null),
-	      React.createElement(HeroSelector, { heroes: this.state.heroes, filters: this.state.filters, loading: this.state.loading, match: this.state.matches[0] }),
-	      React.createElement(SelectedHeroes, { heroes: this.state.filters.heroes.slice() }),
+	      React.createElement(PatchFilter, { patch: filters.patch }),
+	      React.createElement(HeroSelector, { heroes: this.state.heroes, filters: filters, loading: this.state.loading, match: this.state.matches[0] }),
+	      React.createElement(SelectedHeroes, { heroes: filters.heroes.slice() }),
 	      React.createElement('br', null),
 	      this.renderStatsOrMatches()
 	    );
@@ -41333,6 +41337,7 @@
 
 	  SET_MODE_FILTER: "SET_MODE_FILTER",
 	  SET_REGION_FILTER: "SET_REGION_FILTER",
+	  SET_PATCH_FILTER: "SET_PATCH_FILTER",
 	  SET_HERO_FILTER: "SET_HERO_FILTER",
 	  REMOVE_HERO_FILTER: "REMOVE_HERO_FILTER",
 	  RESET_ALL_FILTERS: "RESET_ALL_FILTERS",
@@ -41401,6 +41406,7 @@
 	var _filters = {
 	  "mode": "0",
 	  "region": "0",
+	  "patch": "All time",
 	  "heroes": [],
 	  "radiant": [],
 	  "dire": []
@@ -41410,17 +41416,14 @@
 	  _filters = {
 	    "mode": "0",
 	    "region": "0",
+	    "patch": "All time",
 	    "heroes": [],
 	    "radiant": [],
 	    "dire": []
 	  };
 	};
 
-	var receiveModeFilter = function (filterParams) {
-	  _filters[filterParams.filter] = filterParams.value;
-	};
-
-	var receiveRegionFilter = function (filterParams) {
+	var receiveFilter = function (filterParams) {
 	  _filters[filterParams.filter] = filterParams.value;
 	};
 
@@ -41447,11 +41450,15 @@
 	      FilterStore.__emitChange();
 	      break;
 	    case Constants.SET_MODE_FILTER:
-	      receiveModeFilter(payload.filterParams);
+	      receiveFilter(payload.filterParams);
 	      FilterStore.__emitChange();
 	      break;
 	    case Constants.SET_REGION_FILTER:
-	      receiveRegionFilter(payload.filterParams);
+	      receiveFilter(payload.filterParams);
+	      FilterStore.__emitChange();
+	      break;
+	    case Constants.SET_PATCH_FILTER:
+	      receiveFilter(payload.filterParams);
 	      FilterStore.__emitChange();
 	      break;
 	    case Constants.SET_HERO_FILTER:
@@ -41487,11 +41494,11 @@
 	  fetchAllItems: function () {
 	    ApiUtil.fetchAllItems(ApiActions.receiveAllItems);
 	  },
-	  fetchHeroStats: function (heroId) {
-	    ApiUtil.fetchHeroStats(ApiActions.receiveHeroStats, heroId);
+	  fetchHeroStats: function (heroId, patch) {
+	    ApiUtil.fetchHeroStats(ApiActions.receiveHeroStats, heroId, patch);
 	  },
-	  fetchInitialStats: function () {
-	    ApiUtil.fetchInitialStats(ApiActions.receiveInitialStats);
+	  fetchInitialStats: function (patch) {
+	    ApiUtil.fetchInitialStats(ApiActions.receiveInitialStats, patch);
 	  },
 	  fetchMatchDetails: function (matchId) {
 	    ApiUtil.fetchMatchDetails(ApiActions.receiveMatchDetails, matchId);
@@ -41575,18 +41582,20 @@
 	    });
 	  },
 
-	  fetchHeroStats: function (callback, heroId) {
+	  fetchHeroStats: function (callback, heroId, patch) {
 	    $.ajax({
-	      url: 'api/heroes/' + heroId,
+	      data: { patch: patch },
+	      url: 'api/statistics/' + heroId,
 	      success: function (stats) {
 	        callback(stats);
 	      }
 	    });
 	  },
 
-	  fetchInitialStats: function (callback) {
+	  fetchInitialStats: function (callback, patch) {
 	    $.ajax({
 	      url: 'api/statistics/',
+	      data: { patch: patch },
 	      success: function (stats) {
 	        callback(stats);
 	      }
@@ -41622,6 +41631,12 @@
 	  setRegionFilter: function (filterParams) {
 	    Dispatcher.dispatch({
 	      actionType: Constants.SET_REGION_FILTER,
+	      filterParams: filterParams
+	    });
+	  },
+	  setPatchFilter: function (filterParams) {
+	    Dispatcher.dispatch({
+	      actionType: Constants.SET_PATCH_FILTER,
 	      filterParams: filterParams
 	    });
 	  },
@@ -58834,7 +58849,9 @@
 	          React.createElement(
 	            'span',
 	            { className: 'grey' },
-	            match.match_type === "Public Matchmaking" ? "Normal" : match.match_type
+	            match.match_type === "Public Matchmaking" ? "Normal" : match.match_type,
+	            ' ',
+	            match.season
 	          )
 	        ),
 	        React.createElement(
@@ -59619,6 +59636,7 @@
 	var React = __webpack_require__(1),
 	    HeroStore = __webpack_require__(244),
 	    StatisticsStore = __webpack_require__(522),
+	    FilterStore = __webpack_require__(245),
 	    ApiActions = __webpack_require__(246),
 	    TimeUtil = __webpack_require__(497),
 	    GamesWithOtherHeroes = __webpack_require__(518),
@@ -59632,13 +59650,18 @@
 	  displayName: 'SelectedHeroStats',
 
 	  getInitialState: function () {
-	    return { heroStats: StatisticsStore.heroStats(this.props.hero.id) };
+	    return { heroStats: {} };
 	  },
 
 	  componentDidMount: function () {
 	    var heroId = this.props.hero.id;
 	    this.statisticsListener = StatisticsStore.addListener(this._onChange);
-	    ApiActions.fetchHeroStats(heroId);
+	    ApiActions.fetchHeroStats(heroId, this.props.patch);
+	  },
+
+	  componentWillReceiveProps: function (nextProps) {
+	    this.setState({ heroStats: {} });
+	    ApiActions.fetchHeroStats(nextProps.hero.id, nextProps.patch);
 	  },
 
 	  componentWillUnmount: function () {
@@ -59833,21 +59856,18 @@
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: opponents.slice(), barWidth: 100, maxWidth: 225, initial: false })
 	        )
-	      ),
-	      React.createElement(
-	        Row,
-	        null,
-	        React.createElement(
-	          'div',
-	          { className: 'wiki-wrapper' },
-	          React.createElement('iframe', { className: 'wiki', src: "http://www.dota2.com/hero/" + wikiName, frameBorder: '0' })
-	        )
 	      )
 	    );
 	  }
 	});
 
 	module.exports = SelectedHeroStats;
+
+	// <Row>
+	//   <div className="wiki-wrapper">
+	//     <iframe className="wiki" src={"http://www.dota2.com/hero/" + wikiName} frameBorder="0"></iframe>
+	//   </div>
+	// </Row>
 
 /***/ },
 /* 513 */
@@ -60407,53 +60427,7 @@
 	module.exports = GameCountBar;
 
 /***/ },
-/* 520 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    HeroStore = __webpack_require__(244),
-	    SelectedHeroStats = __webpack_require__(512),
-	    InitialStats = __webpack_require__(521);
-
-	var SelectedHero = React.createClass({
-	  displayName: 'SelectedHero',
-
-	  getHeroPlayer: function () {
-	    if (this.props.match) {
-	      var id = this.props.filters.heroes[this.props.filters.heroes.length - 1];
-	      var players = this.props.match.players;
-
-	      for (var i = 0; i < players.length; i++) {
-	        if (players[i].hero_id == id) {
-	          return players[i];
-	        }
-	      }
-	    }
-	  },
-
-	  renderSelectedHeroStats: function () {
-	    var player = this.getHeroPlayer();
-
-	    if (typeof player == "undefined") {
-	      return React.createElement(InitialStats, null);
-	    } else {
-	      var hero = HeroStore.findById(player.hero_id);
-	      return React.createElement(SelectedHeroStats, { hero: hero, player: player, match: this.props.match });
-	    }
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'selected-hero-column' },
-	      this.renderSelectedHeroStats()
-	    );
-	  }
-	});
-
-	module.exports = SelectedHero;
-
-/***/ },
+/* 520 */,
 /* 521 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -60477,7 +60451,12 @@
 
 	  componentDidMount: function () {
 	    this.statisticsListener = StatisticsStore.addListener(this._onChange);
-	    ApiActions.fetchInitialStats();
+	    ApiActions.fetchInitialStats(this.props.patch);
+	  },
+
+	  componentWillReceiveProps: function (nextProps) {
+	    this.setState({ gamesPlayed: [], winrates: [] });
+	    ApiActions.fetchInitialStats(nextProps.patch);
 	  },
 
 	  _onChange: function () {
@@ -60810,6 +60789,97 @@
 	  "South America": [200, 201, 202, 203, 204],
 	  "South Africa": [211, 212, 213]
 	};
+
+/***/ },
+/* 537 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    FilterStore = __webpack_require__(245),
+	    FilterActions = __webpack_require__(248),
+	    Row = __webpack_require__(251).Row;
+
+	var PatchFilter = React.createClass({
+	  displayName: 'PatchFilter',
+
+	  selectPatch: function (e) {
+	    var filterParams = { filter: "patch", value: e.target.innerHTML };
+	    FilterActions.setPatchFilter(filterParams);
+	  },
+
+	  render: function () {
+	    var patch = this.props.patch;
+
+	    return React.createElement(
+	      Row,
+	      { id: 'patch-filter' },
+	      React.createElement(
+	        'span',
+	        { className: patch == "All time" ? "selected-patch" : "", onClick: this.selectPatch },
+	        'All time'
+	      ),
+	      React.createElement(
+	        'span',
+	        { className: patch == "6.87" ? "selected-patch" : "", onClick: this.selectPatch },
+	        '6.87'
+	      ),
+	      React.createElement(
+	        'span',
+	        { className: patch == "6.86" ? "selected-patch" : "", onClick: this.selectPatch },
+	        '6.86'
+	      )
+	    );
+	  }
+	});
+
+	module.exports = PatchFilter;
+
+/***/ },
+/* 538 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    HeroStore = __webpack_require__(244),
+	    SelectedHeroStats = __webpack_require__(512),
+	    InitialStats = __webpack_require__(521);
+
+	var Statistics = React.createClass({
+	  displayName: 'Statistics',
+
+	  getHeroPlayer: function () {
+	    if (this.props.match) {
+	      var id = this.props.filters.heroes[this.props.filters.heroes.length - 1];
+	      var players = this.props.match.players;
+
+	      for (var i = 0; i < players.length; i++) {
+	        if (players[i].hero_id == id) {
+	          return players[i];
+	        }
+	      }
+	    }
+	  },
+
+	  renderStats: function () {
+	    var player = this.getHeroPlayer();
+
+	    if (typeof player == "undefined") {
+	      return React.createElement(InitialStats, { patch: this.props.filters.patch });
+	    } else {
+	      var hero = HeroStore.findById(player.hero_id);
+	      return React.createElement(SelectedHeroStats, { hero: hero, player: player, match: this.props.match, patch: this.props.filters.patch });
+	    }
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'selected-hero-column' },
+	      this.renderStats()
+	    );
+	  }
+	});
+
+	module.exports = Statistics;
 
 /***/ }
 /******/ ]);
