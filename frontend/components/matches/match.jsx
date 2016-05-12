@@ -58,16 +58,16 @@ var Match = React.createClass({
 
           <Col id="match-stats-column" md={3} sm={3} xs={3}>
             <span className="blue">{match.mode}</span><br/>
-            <span className="grey">{match.match_type === "Public Matchmaking" ? "Normal" : match.match_type} {match.season}</span>
+            <span>{match.match_type === "Public Matchmaking" ? "Normal" : match.match_type} {match.season}</span>
           </Col>
 
           <Col id="match-stats-column" md={3} sm={3} xs={3}>
             {this.winner()}<br/>
-          <span className="grey">{typeof Clusters[match.cluster] == "undefined" ? match.cluster : Clusters[match.cluster]}</span>
+          <span>{typeof Clusters[match.cluster] == "undefined" ? match.cluster : Clusters[match.cluster]}</span>
           </Col>
 
           <Col id="match-stats-column" md={3} sm={3} xs={3}>
-            <span className="grey">{TimeUtil.format(match.duration)}</span>
+            <span>{TimeUtil.format(match.duration)}</span>
             <DurationBar duration={match.duration} xScale={this.props.xScale}/>
           </Col>
         </Col>

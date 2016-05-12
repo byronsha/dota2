@@ -19,13 +19,19 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway:400,300,100,200,500,600,700");
 @import url("https://fonts.googleapis.com/css?family=Alegreya+Sans:400,300,100,500,700");
 
+html {
+  background: black;
+}
+
 #root {
   color: white;
   font-family: "Alegreya Sans";
   font-weight: 300;
   background-color: black;
   /*background: url("bluesmoke.jpg") no-repeat center fixed;*/
-  background: url("http://s02.radikal.ru/i175/1210/f5/7ffa25c935bb.jpg") no-repeat center fixed;
+  /*background: url("http://s02.radikal.ru/i175/1210/f5/7ffa25c935bb.jpg") no-repeat center fixed;*/
+
+  background: url("http://img6.mmo.mmo4arab.com/photo/2012/04/12/dash_board_bg01885ya0yn85.jpg") no-repeat center fixed;
   background-size: cover;
   min-height: 100vh;
 }

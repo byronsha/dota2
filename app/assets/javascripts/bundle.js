@@ -34492,24 +34492,31 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'container', id: 'matches-main' },
-	      React.createElement(
-	        Row,
-	        { id: 'tab-selector' },
-	        React.createElement(
-	          'span',
-	          { className: this.state.tab == "MATCHES" ? "selected-tab" : "", onClick: this.selectTab },
-	          'MATCHES'
-	        ),
-	        React.createElement(
-	          'span',
-	          { className: this.state.tab == "STATS" ? "selected-tab" : "", onClick: this.selectTab },
-	          'STATS'
-	        )
-	      ),
 	      React.createElement('br', null),
-	      React.createElement(PatchFilter, { patch: filters.patch }),
+	      React.createElement('br', null),
 	      React.createElement(HeroSelector, { heroes: this.state.heroes, filters: filters, loading: this.state.loading, match: this.state.matches[0] }),
 	      React.createElement(SelectedHeroes, { heroes: filters.heroes.slice() }),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'span',
+	          { id: 'tab-selector' },
+	          React.createElement(
+	            'span',
+	            { className: this.state.tab == "MATCHES" ? "selected-tab" : "", onClick: this.selectTab },
+	            'MATCHES'
+	          ),
+	          React.createElement(
+	            'span',
+	            { className: this.state.tab == "STATS" ? "selected-tab" : "", onClick: this.selectTab },
+	            'STATS'
+	          )
+	        ),
+	        React.createElement(PatchFilter, { patch: filters.patch })
+	      ),
 	      React.createElement('br', null),
 	      this.renderStatsOrMatches()
 	    );
@@ -41406,7 +41413,7 @@
 	var _filters = {
 	  "mode": "0",
 	  "region": "0",
-	  "patch": "All time",
+	  "patch": "6.87",
 	  "heroes": [],
 	  "radiant": [],
 	  "dire": []
@@ -41416,7 +41423,7 @@
 	  _filters = {
 	    "mode": "0",
 	    "region": "0",
-	    "patch": "All time",
+	    "patch": "6.87",
 	    "heroes": [],
 	    "radiant": [],
 	    "dire": []
@@ -58848,7 +58855,7 @@
 	          React.createElement('br', null),
 	          React.createElement(
 	            'span',
-	            { className: 'grey' },
+	            null,
 	            match.match_type === "Public Matchmaking" ? "Normal" : match.match_type,
 	            ' ',
 	            match.season
@@ -58861,7 +58868,7 @@
 	          React.createElement('br', null),
 	          React.createElement(
 	            'span',
-	            { className: 'grey' },
+	            null,
 	            typeof Clusters[match.cluster] == "undefined" ? match.cluster : Clusters[match.cluster]
 	          )
 	        ),
@@ -58870,7 +58877,7 @@
 	          { id: 'match-stats-column', md: 3, sm: 3, xs: 3 },
 	          React.createElement(
 	            'span',
-	            { className: 'grey' },
+	            null,
 	            TimeUtil.format(match.duration)
 	          ),
 	          React.createElement(DurationBar, { duration: match.duration, xScale: this.props.xScale })
@@ -60811,13 +60818,8 @@
 	    var patch = this.props.patch;
 
 	    return React.createElement(
-	      Row,
+	      'span',
 	      { id: 'patch-filter' },
-	      React.createElement(
-	        'span',
-	        { className: patch == "All time" ? "selected-patch" : "", onClick: this.selectPatch },
-	        'All time'
-	      ),
 	      React.createElement(
 	        'span',
 	        { className: patch == "6.87" ? "selected-patch" : "", onClick: this.selectPatch },
@@ -60827,6 +60829,11 @@
 	        'span',
 	        { className: patch == "6.86" ? "selected-patch" : "", onClick: this.selectPatch },
 	        '6.86'
+	      ),
+	      React.createElement(
+	        'span',
+	        { className: patch == "All time" ? "selected-patch" : "", onClick: this.selectPatch },
+	        'All'
 	      )
 	    );
 	  }

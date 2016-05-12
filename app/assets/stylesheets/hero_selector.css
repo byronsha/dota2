@@ -10,11 +10,9 @@
   font-size: 20px;
   font-weight: 400;
   /*margin: 5px;*/
-  border-top: 1px solid #808080;
-  border-left: 1px solid #808080;
-  border-right: 1px solid #808080;
-  border-bottom: 1px solid #808080;
-  /*border-radius: 2px;*/
+  border-top: 1px solid #999;
+  border-left: 1px solid #999;
+  border-right: 1px solid #999;
 
   -webkit-transition: all .2s ease-out;
      -moz-transition: all .2s ease-out;
@@ -23,30 +21,39 @@
           transition: all .2s ease-out;
 }
 
+.stat-text {
+  padding-bottom: 4px;
+  border-bottom: 1px solid black;
+}
+
 #hero-list-header:hover {
   cursor: pointer;
-  background: rgba(255,255,255,0.15);
+  background: #999;
+  /*background: rgba(255,255,255,0.15);
   -webkit-box-shadow: 0 0 7px 3px #fff;
   -moz-box-shadow: 0 0 7px 3px #fff;
-  box-shadow: 0 0 7px 3px #fff;
+  box-shadow: 0 0 7px 3px #fff;*/
 }
 
 .selected-stat {
-  background: rgba(255,255,255,0.15);
-  -webkit-box-shadow: 0 0 7px 3px #fff;
+  background: #999;
+  /*background: rgba(255,255,255,0.15);*/
+  /*-webkit-box-shadow: 0 0 7px 3px #fff;
   -moz-box-shadow: 0 0 7px 3px #fff;
-  box-shadow: 0 0 7px 3px #fff;
+  box-shadow: 0 0 7px 3px #fff;*/
 }
 
 .hero-list {
   padding: 8px;
   height: 168px;
-  margin: 5px;
-  margin-top: 25px;
-  background: rgba(255,255,255,0.15);
-  -webkit-box-shadow: 0 0 7px 3px #fff;
+  /*margin: 5px;*/
+  margin-top: 3px;
+  /*background: rgba(255,255,255,0.25);*/
+  background: #999;
+  border: 1px solid #999;
+  /*-webkit-box-shadow: 0 0 7px 3px #fff;
   -moz-box-shadow: 0 0 7px 3px #fff;
-  box-shadow: 0 0 7px 3px #fff;
+  box-shadow: 0 0 7px 3px #fff;*/
 }
 
 .hero-list div {
@@ -55,10 +62,10 @@
   position: relative;
   margin: 1px;
 
-  border-top: 1px solid white;
+  /*border-top: 1px solid white;
   border-left: 1px solid white;
   border-right: 1px solid black;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid black;*/
 
   -webkit-transition: all .4s ease-out;
      -moz-transition: all .4s ease-out;
@@ -68,8 +75,8 @@
 }
 
 .hero-list img {
-  width: 77px;
-  height: 46px;
+  width: 80px;
+  height: 48px;
 }
 
 .hero-list div:hover {

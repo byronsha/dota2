@@ -8,7 +8,7 @@
   height: 4.5vh;
   left: 0px;
   display: inline;
-  background: url("http://res.cloudinary.com/dwx2ctajn/image/upload/v1460604534/radiant_f5sr2s.jpg");
+  // background: url("http://res.cloudinary.com/dwx2ctajn/image/upload/v1460604534/radiant_f5sr2s.jpg");
   background-size: contain;
 }
 .navbar-background-right {
@@ -17,13 +17,14 @@
   height: 4.5vh;
   right: 0px;
   display: inline;
-  background: url("http://res.cloudinary.com/dwx2ctajn/image/upload/v1460604526/dire_i15sh7.jpg");
+  // background: url("http://res.cloudinary.com/dwx2ctajn/image/upload/v1460604526/dire_i15sh7.jpg");
   background-size: contain;
 }
 
 nav {
   height: 4.5vh;
   text-align: center;
+  background: transparent;
 }
 nav ul {
   display: inline;

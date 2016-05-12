@@ -6,7 +6,7 @@ var Store = require('flux/utils').Store,
 var _filters = {
   "mode": "0",
   "region": "0",
-  "patch": "All time",
+  "patch": "6.87",
   "heroes": [],
   "radiant": [],
   "dire": []
@@ -16,7 +16,7 @@ var resetAllFilters = function () {
   _filters = {
     "mode": "0",
     "region": "0",
-    "patch": "All time",
+    "patch": "6.87",
     "heroes": [],
     "radiant": [],
     "dire": []

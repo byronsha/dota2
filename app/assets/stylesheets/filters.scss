@@ -11,6 +11,7 @@
 }
 
 #patch-filter {
+  margin-left: 20px;
   margin-bottom: 15px;
 }
 
@@ -20,11 +21,7 @@
   font-size: 20px;
   font-weight: 400;
   // margin: 5px;
-  border-top: 1px solid #808080;
-  border-left: 1px solid #808080;
-  border-right: 1px solid #808080;
-  border-bottom: 1px solid #808080;
-  // border-radius: 2px;
+  border: 1px solid #999;
 
   -webkit-transition: all .2s ease-out;
      -moz-transition: all .2s ease-out;
@@ -35,17 +32,19 @@
 
 #patch-filter span:hover {
   cursor: pointer;
-  background: rgba(255,255,255,0.15);
-  -webkit-box-shadow: 0 0 7px 3px #fff;
-  -moz-box-shadow: 0 0 7px 3px #fff;
-  box-shadow: 0 0 7px 3px #fff;
+  background: #999;
+  // background: rgba(255,255,255,0.15);
+  // -webkit-box-shadow: 0 0 7px 3px #fff;
+  // -moz-box-shadow: 0 0 7px 3px #fff;
+  // box-shadow: 0 0 7px 3px #fff;
 }
 
 .selected-patch {
-  background: rgba(255,255,255,0.15);
-  -webkit-box-shadow: 0 0 7px 3px #fff;
-  -moz-box-shadow: 0 0 7px 3px #fff;
-  box-shadow: 0 0 7px 3px #fff;
+  background: #999;
+  // background: rgba(255,255,255,0.15);
+  // -webkit-box-shadow: 0 0 7px 3px #fff;
+  // -moz-box-shadow: 0 0 7px 3px #fff;
+  // box-shadow: 0 0 7px 3px #fff;
 }
 
 #tab-selector {
@@ -56,7 +55,7 @@
 #tab-selector span {
   font-size: 20px;
   padding: 5px 15px;
-  border: 1px solid #808080;
+  border: 1px solid #999;
   // margin: 5px;
   // text-shadow: 0 0 3px white;
   font-weight: 400;
@@ -71,15 +70,17 @@
 
 #tab-selector span:hover {
   cursor: pointer;
-  background: rgba(255,255,255,0.15);
-  -webkit-box-shadow: 0 0 7px 3px #fff;
-  -moz-box-shadow: 0 0 7px 3px #fff;
-  box-shadow: 0 0 7px 3px #fff;
+  background: #999;
+  // background: rgba(255,255,255,0.15);
+  // -webkit-box-shadow: 0 0 7px 3px #fff;
+  // -moz-box-shadow: 0 0 7px 3px #fff;
+  // box-shadow: 0 0 7px 3px #fff;
 }
 
 .selected-tab {
-  background: rgba(255,255,255,0.15);
-  -webkit-box-shadow: 0 0 7px 3px #fff;
-  -moz-box-shadow: 0 0 7px 3px #fff;
-  box-shadow: 0 0 7px 3px #fff;
+  background: #999;
+  // background: rgba(255,255,255,0.15);
+  // -webkit-box-shadow: 0 0 7px 3px #fff;
+  // -moz-box-shadow: 0 0 7px 3px #fff;
+  // box-shadow: 0 0 7px 3px #fff;
 }

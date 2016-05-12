@@ -79,16 +79,19 @@ var Matches = React.createClass({
 
     return (
       <div className="container" id="matches-main">
-        <Row id="tab-selector">
-          <span className={this.state.tab == "MATCHES" ? "selected-tab" : ""} onClick={this.selectTab}>MATCHES</span>
-          <span className={this.state.tab == "STATS" ? "selected-tab" : ""} onClick={this.selectTab}>STATS</span>
-        </Row><br/>
-
-        <PatchFilter patch={filters.patch}/>
-
+        <br/><br/>
         <HeroSelector heroes={this.state.heroes} filters={filters} loading={this.state.loading} match={this.state.matches[0]}/>
 
-        <SelectedHeroes heroes={filters.heroes.slice()}/><br/>
+        <SelectedHeroes heroes={filters.heroes.slice()}/><br/><br/>
+
+        <div>
+          <span id="tab-selector">
+            <span className={this.state.tab == "MATCHES" ? "selected-tab" : ""} onClick={this.selectTab}>MATCHES</span>
+            <span className={this.state.tab == "STATS" ? "selected-tab" : ""} onClick={this.selectTab}>STATS</span>
+          </span>
+
+          <PatchFilter patch={filters.patch}/>
+        </div><br/>
 
         {this.renderStatsOrMatches()}
       </div>
