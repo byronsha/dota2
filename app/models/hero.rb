@@ -29,7 +29,7 @@ class Hero < ActiveRecord::Base
       AND m.winner = ?
     "
 
-    if patch != "All time"
+    if patch != "All"
       query += " AND m.season = ?"
       wins = Player.find_by_sql([query, team, self.id, team, patch]).count
     else
@@ -56,7 +56,7 @@ class Hero < ActiveRecord::Base
         AND m.winner = p1.team
     "
 
-    if patch != "All time"
+    if patch != "All"
       query += " AND m.season = \'" + patch + "\'"
     end
 
@@ -88,7 +88,7 @@ class Hero < ActiveRecord::Base
         AND m.winner <> p1.team
     "
 
-    if patch != "All time"
+    if patch != "All"
       query += " AND m.season = \'" + patch + "\'"
     end
 
@@ -141,7 +141,7 @@ class Hero < ActiveRecord::Base
         AND m.winner = p1.team
     "
 
-    if patch != "All time"
+    if patch != "All"
       query += " AND m.season = \'" + patch + "\'"
     end
 
@@ -173,7 +173,7 @@ class Hero < ActiveRecord::Base
         AND m.winner = p2.team
     "
 
-    if patch != "All time"
+    if patch != "All"
       query += " AND m.season = \'" + patch + "\'"
     end
 

@@ -60832,7 +60832,7 @@
 	      ),
 	      React.createElement(
 	        'span',
-	        { className: patch == "All time" ? "selected-patch" : "", onClick: this.selectPatch },
+	        { className: patch == "All" ? "selected-patch" : "", onClick: this.selectPatch },
 	        'All'
 	      )
 	    );

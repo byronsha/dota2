@@ -4,7 +4,7 @@ class Match < ActiveRecord::Base
   def self.find_by_filters(filters)
     mode = filters["mode"] == "0" ? nil : filters["mode"].to_i
     region = filters["region"] == "0" ? nil : filters["region"]
-    patch = filters["patch"] == "All time" ? nil : filters["patch"]
+    patch = filters["patch"] == "All" ? nil : filters["patch"]
 
     hero_ids = filters["heroes"].map(&:to_i)
     radiant_ids = filters["radiant"].map(&:to_i)

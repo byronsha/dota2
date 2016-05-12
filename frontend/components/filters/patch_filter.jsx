@@ -16,7 +16,7 @@ var PatchFilter = React.createClass({
       <span id="patch-filter">
         <span className={patch == "6.87" ? "selected-patch" : ""} onClick={this.selectPatch}>6.87</span>
         <span className={patch == "6.86" ? "selected-patch" : ""} onClick={this.selectPatch}>6.86</span>
-        <span className={patch == "All time" ? "selected-patch" : ""} onClick={this.selectPatch}>All</span>
+        <span className={patch == "All" ? "selected-patch" : ""} onClick={this.selectPatch}>All</span>
       </span>
     )
   }

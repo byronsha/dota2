@@ -50,7 +50,7 @@ class Api::StatisticsController < ApplicationController
       JOIN matches m on p.match_id = m.id
     "
 
-    if patch != "All time"
+    if patch != "All"
       query += " WHERE m.season = \'" + patch + "\'"
     end
 
@@ -77,7 +77,7 @@ class Api::StatisticsController < ApplicationController
       WHERE p.team = m.winner
     "
 
-    if patch != "All time"
+    if patch != "All"
       query += " AND m.season = \'" + patch + "\'"
     end
 
