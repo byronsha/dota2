@@ -7,7 +7,8 @@ var React = require('react'),
     App = require('./components/app.jsx'),
     Home = require('./components/home/home.jsx'),
     Matches = require('./components/matches/matches.jsx'),
-    Heroes = require('./components/heroes/heroes.jsx');
+    Heroes = require('./components/heroes/heroes.jsx'),
+    http = require("http");
 
 var routes = (
   <Route path="/" component={App}>
@@ -22,3 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <Router history={browserHistory}>{routes}</Router>, document.getElementById('root')
   );
 });
+
+setInterval(function() {
+  http.get("http://www.dota2allstars.com");
+}, 1800000); // every 30 minutes (1800000)

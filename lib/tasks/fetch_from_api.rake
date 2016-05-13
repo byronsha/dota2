@@ -1,7 +1,7 @@
 task :fetch_from_api do
   api = Dota.api
 
-  matches = api.matches(mode_id: 1, skill_level: 3, min_players: 10, limit: 250)
+  matches = api.matches(mode_id: 1, skill_level: 3, min_players: 10, limit: 300)
   @match_ids = []
   @match_details = []
 
@@ -24,7 +24,7 @@ task :fetch_from_api do
           mode: Dota::API::Match::MODES[match_detail["game_mode"]],
           mode_id: match_detail["game_mode"],
           sequence: match_detail["match_seq_num"],
-          season: "6.86",
+          season: "6.87",
           cluster: match_detail["cluster"],
           starts_at: match_detail["start_time"],
           first_blood: match_detail["first_blood_time"],
@@ -66,11 +66,11 @@ task :fetch_from_api do
           PlayerItem.create(player_id: @new_player.id, item_id: player["item_4"])
           PlayerItem.create(player_id: @new_player.id, item_id: player["item_5"])
 
-          if player["ability_upgrades"]
-            player["ability_upgrades"].each do |ability|
-              PlayerAbility.create(player_id: @new_player.id, ability_id: ability["ability"], time: ability["time"], level: ability["level"])
-            end
-          end
+          # if player["ability_upgrades"]
+          #   player["ability_upgrades"].each do |ability|
+          #     PlayerAbility.create(player_id: @new_player.id, ability_id: ability["ability"], time: ability["time"], level: ability["level"])
+          #   end
+          # end
 
           if player["additional_units"]
             player["additional_units"].each do |unit|
