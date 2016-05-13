@@ -34497,7 +34497,6 @@
 	      React.createElement(HeroSelector, { heroes: this.state.heroes, filters: filters, loading: this.state.loading, match: this.state.matches[0] }),
 	      React.createElement(SelectedHeroes, { heroes: filters.heroes.slice() }),
 	      React.createElement('br', null),
-	      React.createElement('br', null),
 	      React.createElement(
 	        'div',
 	        null,
@@ -58742,7 +58741,7 @@
 	    } else {
 	      return React.createElement(
 	        Row,
-	        { className: 'match-list' },
+	        { className: 'match-list fade-in' },
 	        this.props.matches.map(function (match, idx) {
 	          return that.renderMatch(match, idx);
 	        })
@@ -59590,8 +59589,8 @@
 	    FilterActions = __webpack_require__(248),
 	    Row = __webpack_require__(251).Row;
 
-	var HeroList = React.createClass({
-	  displayName: 'HeroList',
+	var Hero = React.createClass({
+	  displayName: 'Hero',
 
 	  selectHero: function () {
 	    var filterParams = {
@@ -59634,7 +59633,7 @@
 	  }
 	});
 
-	module.exports = HeroList;
+	module.exports = Hero;
 
 /***/ },
 /* 512 */
@@ -59829,7 +59828,7 @@
 	          React.createElement(
 	            'h3',
 	            { className: 'chart-header' },
-	            'GAMES WITH:'
+	            'GAMES WITH'
 	          ),
 	          React.createElement(GamesWithOtherHeroes, { heroes: allies.slice(), barWidth: 40, maxWidth: 225, initial: false })
 	        ),
@@ -59839,7 +59838,7 @@
 	          React.createElement(
 	            'h3',
 	            { className: 'chart-header' },
-	            'GAMES AGAINST:'
+	            'GAMES AGAINST'
 	          ),
 	          React.createElement(GamesWithOtherHeroes, { heroes: opponents.slice(), barWidth: 40, maxWidth: 225, initial: false })
 	        ),
@@ -59849,7 +59848,7 @@
 	          React.createElement(
 	            'h3',
 	            { className: 'chart-header' },
-	            'WIN RATE WITH:'
+	            'WIN RATE WITH'
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: allies.slice(), barWidth: 100, maxWidth: 225, initial: false })
 	        ),
@@ -59859,7 +59858,7 @@
 	          React.createElement(
 	            'h3',
 	            { className: 'chart-header' },
-	            'WIN RATE AGAINST:'
+	            'WIN RATE AGAINST'
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: opponents.slice(), barWidth: 100, maxWidth: 225, initial: false })
 	        )
@@ -60248,7 +60247,8 @@
 	var React = __webpack_require__(1),
 	    HeroStore = __webpack_require__(244),
 	    WinLossBar = __webpack_require__(516),
-	    Spinner = __webpack_require__(533);
+	    Spinner = __webpack_require__(533),
+	    Row = __webpack_require__(251).Row;
 
 	var WinratesWithOtherHeroes = React.createClass({
 	  displayName: 'WinratesWithOtherHeroes',
@@ -60293,7 +60293,11 @@
 	  renderHeroes: function (heroes) {
 	    var that = this;
 	    if (heroes.length == 0) {
-	      return React.createElement(Spinner, null);
+	      return React.createElement(
+	        Row,
+	        { className: 'hero-stats-loading' },
+	        React.createElement(Spinner, null)
+	      );
 	    } else {
 	      return React.createElement(
 	        'ul',
@@ -60323,10 +60327,11 @@
 	var React = __webpack_require__(1),
 	    HeroStore = __webpack_require__(244),
 	    GameCountBar = __webpack_require__(519),
-	    Spinner = __webpack_require__(533);
+	    Spinner = __webpack_require__(533),
+	    Row = __webpack_require__(251).Row;
 
-	var WinratesWithOtherHeroes = React.createClass({
-	  displayName: 'WinratesWithOtherHeroes',
+	var GamesWithOtherHeroes = React.createClass({
+	  displayName: 'GamesWithOtherHeroes',
 
 	  getXScale: function (props) {
 	    heroes = props.heroes;
@@ -60384,7 +60389,11 @@
 	  renderHeroes: function (heroes) {
 	    var that = this;
 	    if (heroes.length == 0) {
-	      return React.createElement(Spinner, null);
+	      return React.createElement(
+	        Row,
+	        { className: 'hero-stats-loading' },
+	        React.createElement(Spinner, null)
+	      );
 	    } else {
 	      return React.createElement(
 	        'ul',
@@ -60407,7 +60416,7 @@
 	  }
 	});
 
-	module.exports = WinratesWithOtherHeroes;
+	module.exports = GamesWithOtherHeroes;
 
 /***/ },
 /* 519 */
@@ -60466,6 +60475,10 @@
 	    ApiActions.fetchInitialStats(nextProps.patch);
 	  },
 
+	  componentWillUnmount: function () {
+	    this.statisticsListener.remove();
+	  },
+
 	  _onChange: function () {
 	    this.setState({
 	      gamesPlayed: StatisticsStore.gamesPlayed(),
@@ -60486,7 +60499,7 @@
 	          React.createElement(
 	            'h2',
 	            { className: 'chart-header' },
-	            'GAMES PICKED:'
+	            'GAMES PICKED'
 	          ),
 	          React.createElement(GamesWithOtherHeroes, { heroes: this.state.gamesPlayed.slice(), barWidth: 100, maxWidth: 515, initial: true })
 	        ),
@@ -60496,7 +60509,7 @@
 	          React.createElement(
 	            'h2',
 	            { className: 'chart-header', id: 'winrates' },
-	            'WIN RATE:'
+	            'WIN RATE'
 	          ),
 	          React.createElement(WinratesWithOtherHeroes, { heroes: this.state.winrates.slice(), barWidth: 100, maxWidth: 515, initial: true })
 	        )

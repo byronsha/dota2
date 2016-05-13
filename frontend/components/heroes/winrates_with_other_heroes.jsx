@@ -1,7 +1,8 @@
 var React = require('react'),
     HeroStore = require('../../stores/hero_store.js'),
     WinLossBar = require('./win_loss_bar.jsx'),
-    Spinner = require('./spinner.jsx');
+    Spinner = require('./spinner.jsx'),
+    Row = require('react-bootstrap').Row;
 
 var WinratesWithOtherHeroes = React.createClass({
   getXScale: function(props) {
@@ -36,7 +37,11 @@ var WinratesWithOtherHeroes = React.createClass({
   renderHeroes: function (heroes) {
     var that = this;
     if (heroes.length == 0) {
-      return <Spinner/>
+      return (
+        <Row className="hero-stats-loading">
+          <Spinner/>
+        </Row>
+      )
     } else {
       return (
         <ul className="fade-in">

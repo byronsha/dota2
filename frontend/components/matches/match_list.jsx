@@ -47,7 +47,7 @@ var MatchList = React.createClass({
       )
     } else {
       return (
-        <Row className="match-list">
+        <Row className="match-list fade-in">
           {
             this.props.matches.map(function(match, idx) {
               return that.renderMatch(match, idx)

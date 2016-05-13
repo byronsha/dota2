@@ -2,7 +2,7 @@ var React = require('react'),
     FilterActions = require('../../actions/filter_actions.js'),
     Row = require('react-bootstrap').Row;
 
-var HeroList = React.createClass({
+var Hero = React.createClass({
   selectHero: function () {
     var filterParams = {
       filter: "heroes",
@@ -44,4 +44,4 @@ var HeroList = React.createClass({
   }
 });
 
-module.exports = HeroList;
+module.exports = Hero;

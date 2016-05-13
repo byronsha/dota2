@@ -24,6 +24,10 @@ var InitialStats = React.createClass({
     ApiActions.fetchInitialStats(nextProps.patch);
   },
 
+  componentWillUnmount: function () {
+    this.statisticsListener.remove();
+  },
+
   _onChange: function () {
     this.setState({
       gamesPlayed: StatisticsStore.gamesPlayed(),
@@ -36,12 +40,12 @@ var InitialStats = React.createClass({
       <Row id="initial-stats-wrapper">
         <Row className="selected-hero-stats">
           <Col md={6} id="initial-games-played-chart">
-            <h2 className="chart-header">GAMES PICKED:</h2>
+            <h2 className="chart-header">GAMES PICKED</h2>
             <GamesWithOtherHeroes heroes={this.state.gamesPlayed.slice()} barWidth={100} maxWidth={515} initial={true}/>
           </Col>
 
           <Col md={6} id="initial-win-rates-chart">
-            <h2 className="chart-header" id="winrates">WIN RATE:</h2>
+            <h2 className="chart-header" id="winrates">WIN RATE</h2>
             <WinratesWithOtherHeroes heroes={this.state.winrates.slice()} barWidth={100} maxWidth={515} initial={true}/>
           </Col>
         </Row>

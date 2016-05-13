@@ -82,7 +82,7 @@ var Matches = React.createClass({
         <br/><br/>
         <HeroSelector heroes={this.state.heroes} filters={filters} loading={this.state.loading} match={this.state.matches[0]}/>
 
-        <SelectedHeroes heroes={filters.heroes.slice()}/><br/><br/>
+        <SelectedHeroes heroes={filters.heroes.slice()}/><br/>
 
         <div>
           <span id="tab-selector">

@@ -8,56 +8,72 @@
 }
 
 .other-hero-stats {
-  padding-top: 18px;
+  padding-top: 20px;
   margin-bottom: 100px;
   height: 800px;
   overflow-y: scroll;
   overflow-x: hidden;
-  border: 1px solid #303030;
-  background: rgba(0,0,0,0.7);
+  // border: 1px solid #303030;
+  // background: rgba(0,0,0,0.7);
+  // background: rgba(80, 175, 249, 0.3);
 
-  -webkit-box-shadow: 0 0 7px 3px black;
-  -moz-box-shadow: 0 0 7px 3px black;
-  box-shadow: 0 0 7px 3px black;
+  // -webkit-box-shadow: 0 0 7px 3px black;
+  // -moz-box-shadow: 0 0 7px 3px black;
+  // box-shadow: 0 0 7px 3px black;
 }
 
 .other-hero-stats img {
   transform: translateY(18px);
 
-  border-top: 1px solid white;
-  border-left: 1px solid white;
-  border-right: 1px solid black;
-  border-bottom: 1px solid black;
+  // border-top: 1px solid white;
+  // border-left: 1px solid white;
+  // border-right: 1px solid black;
+  // border-bottom: 1px solid black;
+}
+
+.hero-stats-loading {
+  margin-top: -20px;
+  margin-bottom: 100px;
+  min-height: 800px;
+
+  background: rgba(80, 175, 249, 0.3);
 }
 
 .chart-header {
   font-size: 22px;
-  text-shadow: 0 0 6px white;
+  padding-left: 10px;
+  // text-shadow: 0 0 6px white;
 }
 
 #initial-games-played-chart {
-  padding-left: 5px;
+  padding-left: 0px;
   padding-right: 5px;
   padding-top: 35px;
 }
 
 #initial-win-rates-chart {
   padding-left: 5px;
-  padding-right: 5px;
+  padding-right: 0px;
   padding-top: 35px;
 }
 
 .other-hero-stats li {
   height: 26px;
-  border-top: 1px solid #606060;
-  border-bottom: 1px solid #606060;
+  // border-top: 1px solid #606060;
+  // border-bottom: 1px solid #606060;
+  background: rgba(80, 175, 249, 0.3);
   transform: translateY(-19px);
+  margin-bottom: 1px;
 
   -webkit-transition: all .2s ease-out;
      -moz-transition: all .2s ease-out;
       -ms-transition: all .2s ease-out;
        -o-transition: all .2s ease-out;
           transition: all .2s ease-out;
+}
+
+.other-hero-stats li:nth-child(0) {
+  border-top: 1px solid #606060;
 }
 
 .other-hero-stats li:hover {
@@ -77,8 +93,8 @@
 
 .game-count-bar {
   fill: #FFD700;
-  stroke-width: 1px;
-  stroke: black;
+  // stroke-width: 1px;
+  // stroke: black;
 }
 
 .game-count-text {
