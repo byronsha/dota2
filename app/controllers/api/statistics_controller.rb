@@ -32,6 +32,8 @@ class Api::StatisticsController < ApplicationController
     @hero = Hero.find(params[:id])
     @statistics = {}
 
+    params[:patch] = "6.87"
+
     @statistics["id"] = params[:id].to_i
     @statistics["name"] = @hero.name
     @statistics["radiant_wins"] = @hero.radiant_wins(params[:patch])

@@ -39,7 +39,13 @@ class Hero < ActiveRecord::Base
   end
 
   def games_played(patch)
-    Match.where("season = ?", patch).has_hero(self.id).count
+    Player.find_by_sql(["
+      SELECT m.id
+      FROM players p
+      JOIN matches m ON p.match_id = m.id
+      WHERE p.hero_id = ?
+        AND m.season = ?", self.id, patch
+    ]).count
   end
 
   def allied_wins(patch)

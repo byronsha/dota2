@@ -44,8 +44,8 @@
 }
 
 .hero-list {
-  padding: 8px;
-  height: 168px;
+  padding: 5px;
+  height: 167px;
   /*margin: 5px;*/
   margin-top: 3px;
   /*background: rgba(255,255,255,0.25);*/
@@ -60,7 +60,7 @@
   float: left;
   overflow: hidden;
   position: relative;
-  margin: 1px;
+  margin: 2px;
 
   /*border-top: 1px solid white;
   border-left: 1px solid white;
@@ -75,7 +75,7 @@
 }
 
 .hero-list img {
-  width: 80px;
+  width: 78.7px;
   height: 48px;
 }
 

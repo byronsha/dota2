@@ -26,10 +26,10 @@
 }
 
 .match-open img {
-  border-top: 1px solid black;
-  border-left: 1px solid black;
-  border-right: 1px solid #808080;
-  border-bottom: 1px solid #808080;
+  // border-top: 1px solid black;
+  // border-left: 1px solid black;
+  // border-right: 1px solid #808080;
+  // border-bottom: 1px solid #808080;
 }
 
 .radiant-portraits div {
@@ -71,11 +71,13 @@
   font-weight: 600;
   float: right;
   text-transform: uppercase;
-  color: #FF1177;
+  // color: #FF1177;
+  color: #ff2b00;
 }
 
 .radiant-hero-name {
   font-weight: 600;
   text-transform: uppercase;
-  color: #B6FF00;
+  // color: #B6FF00;
+  color: #00ff00;
 }
